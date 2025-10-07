@@ -1,0 +1,23 @@
+import { StaticImageData } from "next/image";
+
+export interface Iproduct {
+    _id: string;
+    name: string;
+    description: string;
+    price: number;
+    category: {
+        name: string;
+        img: string;
+    };
+    quantity: number;
+    variantImages: {
+        red: string[];
+        blue: string[];
+    };
+    variantColors: string[];
+}
+
+export interface IBanner {
+    _id: string;
+    img: string | StaticImageData;
+}

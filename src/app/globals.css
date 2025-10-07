@@ -14,9 +14,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-primary: #E91E63;/* Vibrant Pink — Main Brand Color */
+    --color-primary-dark: #C2185B;/* Dark Pink — Hover / Active State */
+    --color-primary-light: #F8BBD0;   /* Soft Pink — Highlights / Light BG */
+    --color-accent: #D4AF37;/* Gold — Luxury Accent */
+    --color-bg: #FAFAFA;    /* Light Gray — Background */
+    --color-text: #1F2937;  /* Dark Gray — Main Text */
+    --color-text-light: #6B7280;      /* Medium Gray — Secondary Text */
   }
+  
+
 }
 
 body {
