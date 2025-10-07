@@ -1,11 +1,13 @@
 import React from 'react'
-import ProductCard from './components/products/ProductCard'
-import { productData } from './constants/exmpleData'
+import NewArrivalsProducts from './components/sections/NewArrivalsProducts'
+import BannerCarousel from './components/sections/BannerCarousel'
 
 function page() {
   return (
-    <div>
-      {productData.map((item) => <ProductCard key={item._id} item={item} />)}
+    <div
+     className='container mx-auto'>
+      <BannerCarousel />
+      <NewArrivalsProducts />
     </div>
   )
 }

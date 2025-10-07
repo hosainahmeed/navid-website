@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 import PrimaryButton from '../buttons/PrimaryButton'
-import SecondaryButton from '../buttons/SecondaryButton'
 import { AddToCartIcon, ViewDetailIcons } from '@/app/constants/icon.index'
 
 function ProductCardClientSide() {
@@ -11,8 +10,14 @@ function ProductCardClientSide() {
                 title="Add to Cart"
                 onClick={() => { }}
                 icon={<AddToCartIcon className="w-5 h-5" fill="white" />}
+                className='shadow'
+                />
+            <PrimaryButton
+                title="View Details"
+                onClick={() => { }}
+                icon={<ViewDetailIcons className='w-5 h-5' fill='white' />}
+                className='shadow'
             />
-            <SecondaryButton icon={<ViewDetailIcons className='w-5 h-5' fill='var(--color-primary-dark)' />} title="View Details" onClick={() => { }} />
         </div>
     )
 }

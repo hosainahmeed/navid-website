@@ -61,7 +61,7 @@ export default function BannerCarousel() {
 
     return (
         <section className="min-h-screen flex items-center justify-center">
-            <div className="w-full max-w-6xl mx-auto text-white">
+            <div className="w-full mx-auto text-white">
                 <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center">
 
                     <button
