@@ -3,6 +3,8 @@ import { useState, useRef, type MouseEvent } from "react"
 import Image from "next/image"
 import cn from "@/app/utils/cn"
 import { imageUrl } from "@/app/utils/imagePreview"
+import { Button } from "@/components/ui/button"
+import { DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
 interface ImageGalleryProps {
     images: string[]
@@ -15,7 +17,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
     const [magnifierPosition, setMagnifierPosition] = useState({ x: 0, y: 0 })
     const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 })
     const imageRef = useRef<HTMLDivElement>(null)
-
+    console.log(images)
     const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
         if (!imageRef.current) return
 
@@ -25,6 +27,10 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
 
         setMagnifierPosition({ x: e.clientX - left, y: e.clientY - top })
         setImagePosition({ x, y })
+    }
+
+    const handleShowAllImage = (images: string[]) => {
+        console.log(images)
     }
 
     return (
@@ -65,7 +71,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
             {/* Thumbnail Images */}
             {images.length > 1 && (
                 <div className="grid grid-cols-4 gap-3 sm:gap-4">
-                    {images.map((image, index) => (
+                    {images.slice(0, 3).map((image, index) => (
                         <button
                             key={index}
                             onClick={() => setSelectedImage(index)}
@@ -82,8 +88,22 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                             />
                         </button>
                     ))}
+
+                    <div className="relative flex-col aspect-square overflow-hidden rounded-md bg-muted transition-all flex items-center justify-center text-3xl">
+                        + {images.length - 3}
+                        <DialogTrigger asChild>
+                            <Button
+                                onClick={() => handleShowAllImage(images)}
+                                size="sm">View All</Button>
+                        </DialogTrigger>
+                    </div>
                 </div>
             )}
+
+            <DialogTrigger>Open</DialogTrigger>
+            <DialogContent>
+                <h1>hosain</h1>
+            </DialogContent>
         </div>
     )
 }
