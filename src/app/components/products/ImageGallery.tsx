@@ -4,7 +4,7 @@ import Image from "next/image"
 import cn from "@/app/utils/cn"
 import { imageUrl } from "@/app/utils/imagePreview"
 import { Button } from "@/components/ui/button"
-import { DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
 
 interface ImageGalleryProps {
     images: string[]
@@ -91,19 +91,39 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
 
                     <div className="relative flex-col aspect-square overflow-hidden rounded-md bg-muted transition-all flex items-center justify-center text-3xl">
                         + {images.length - 3}
-                        <DialogTrigger asChild>
-                            <Button
-                                onClick={() => handleShowAllImage(images)}
-                                size="sm">View All</Button>
-                        </DialogTrigger>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button
+                                    onClick={() => handleShowAllImage(images)}
+                                    size="sm">View All</Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>All Image</DialogHeader>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {images.map((image, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setSelectedImage(index)}
+                                            className={cn(
+                                                "relative aspect-square overflow-hidden rounded-md bg-muted transition-all",
+                                                selectedImage === index ? "ring-2 ring-primary ring-offset-2" : "opacity-70 hover:opacity-100",
+                                            )}
+                                        >
+                                            <Image
+                                                src={imageUrl({ image })}
+                                                alt={`${productName} view ${index + 1}`}
+                                                fill
+                                                className="object-cover"
+                                            />
+                                        </button>
+                                    ))}
+                                </div>
+                            </DialogContent>
+                        </Dialog>
                     </div>
                 </div>
             )}
 
-            <DialogTrigger>Open</DialogTrigger>
-            <DialogContent>
-                <h1>hosain</h1>
-            </DialogContent>
         </div>
     )
 }
