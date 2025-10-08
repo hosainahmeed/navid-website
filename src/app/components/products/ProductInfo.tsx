@@ -7,6 +7,7 @@ import { Minus, Plus, ShoppingCart, Heart } from "lucide-react"
 import { Product } from "@/app/types/product"
 import { VariantSelector } from "./VariantSelector"
 import { useCart } from "@/app/context/CartContext"
+import { useRouter } from "next/navigation"
 
 interface ProductInfoProps {
     product: Product
@@ -17,6 +18,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
     const [selectedColor, setSelectedColor] = useState(product.variantColors[0])
     const [selectedSize, setSelectedSize] = useState(product.variantImages[product.variantColors[0]].size[0])
     const { addToCart } = useCart()
+    const router = useRouter()
 
     const hasDiscount = product.previous_price > product.price
     const discountPercentage = hasDiscount
@@ -35,15 +37,19 @@ export function ProductInfo({ product }: ProductInfoProps) {
     const currentVariant = product.variantImages[selectedColor]
     const availableSizes = currentVariant?.size || []
 
+    const handleNavigate = (route: string) => {
+        router.push(route)
+    }
+
     return (
         <div className="flex flex-col gap-6">
             {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span>Home</span>
+            <div className="flex bg-gray-200 p-1 rounded items-center gap-2 text-sm text-muted-foreground">
+                <span onClick={() => handleNavigate("/")} className="hover:bg-gray-400 p-1 rounded cursor-pointer">Home</span>
                 <span>/</span>
-                <span>{product.category.name}</span>
+                <span onClick={() => handleNavigate(product?.category?.name)} className="hover:bg-gray-400 p-1 rounded cursor-pointer">{product.category.name}</span>
                 <span>/</span>
-                <span className="text-foreground">{product.name}</span>
+                <span onClick={() => handleNavigate('/product/' + product._id)} className="hover:bg-gray-400 p-1 rounded cursor-pointer text-foreground">{product.name}</span>
             </div>
 
             {/* Product Title */}
