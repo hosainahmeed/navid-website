@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import cn from '@/app/utils/cn';
@@ -58,6 +58,13 @@ export default function BannerCarousel() {
 
         }),
     };
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            handleNext();
+        }, 5000);
+        return () => clearInterval(timer);
+    }, []);
 
     return (
         <section className="h-fit py-12 flex items-center justify-center">

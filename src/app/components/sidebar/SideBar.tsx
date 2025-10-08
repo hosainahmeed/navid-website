@@ -61,15 +61,15 @@ function SideBar() {
                                 damping: 20,
                                 mass: 0.8
                             }}
-                            className='fixed left-0 h-[calc(100vh-4rem)]  rounded-tr-2xl rounded-br-2xl top-1/2 -translate-y-1/2 w-80 bg-white shadow-2xl'
+                            className='fixed left-0 h-[calc(100vh-4rem)]  rounded-tr-full overflow-hidden flex items-start justify-center flex-col rounded-br-full top-1/2 -translate-y-1/2 w-80 bg-white shadow-2xl'
                         >
                             {/* Close Button */}
-                            <div className='p-6 border-b border-gray-300'>
+                            <div className='p-6'>
                                 <button
                                     onClick={() => setIsMenuOpen(false)}
-                                    className='w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors'
+                                    className='w-10 h-10 rounded-full bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/70 cursor-pointer flex items-center justify-center transition-colors'
                                 >
-                                    <IoMdClose className='text-xl' />
+                                    <IoMdClose className='text-xl text-white' />
                                 </button>
                             </div>
 
@@ -88,12 +88,12 @@ function SideBar() {
                                         >
                                             <Link
                                                 href={item?.route}
-                                                className='flex items-center gap-4 p-4 rounded-lg hover:bg-gray-100 transition-colors group'
+                                                className='flex items-center gruop gap-4 p-4 rounded-lg hover:bg-gray-100 transition-colors group'
                                             >
-                                                <span className='text-2xl group-hover:scale-110 transition-transform'>
+                                                <span className='text-2xl group-hover:scale-110 text-black transition-transform'>
                                                     {item.icon}
                                                 </span>
-                                                <span className='text-gray-700 font-medium'>
+                                                <span className='text-gray-700 group-hover:text-black font-medium'>
                                                     {item.label}
                                                 </span>
                                             </Link>
