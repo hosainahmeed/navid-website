@@ -5,7 +5,7 @@ import BannerCarousel from './components/sections/BannerCarousel'
 function page() {
   return (
     <div
-     className='container mx-auto'>
+      className='container mx-auto'>
       <BannerCarousel />
       <NewArrivalsProducts />
     </div>

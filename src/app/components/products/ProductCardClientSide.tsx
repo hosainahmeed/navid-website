@@ -2,8 +2,10 @@
 import React from 'react'
 import PrimaryButton from '../buttons/PrimaryButton'
 import { AddToCartIcon, ViewDetailIcons } from '@/app/constants/icon.index'
+import { useRouter } from 'next/navigation'
 
-function ProductCardClientSide() {
+function ProductCardClientSide({ id }: { id: string }) {
+    const router = useRouter()
     return (
         <div className='flex items-center mt-3 justify-between gap-2'>
             <PrimaryButton
@@ -11,10 +13,10 @@ function ProductCardClientSide() {
                 onClick={() => { }}
                 icon={<AddToCartIcon className="w-5 h-5" fill="white" />}
                 className='shadow'
-                />
+            />
             <PrimaryButton
                 title="View Details"
-                onClick={() => { }}
+                onClick={() => router.push(`/product/${id}`)}
                 icon={<ViewDetailIcons className='w-5 h-5' fill='white' />}
                 className='shadow'
             />

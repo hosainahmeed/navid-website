@@ -1,0 +1,91 @@
+"use client"
+
+import { useState } from "react"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Check } from "lucide-react"
+
+interface VariantSelectorProps {
+    colors: string[]
+    sizes: string[]
+    onVariantChange?: (color: string, size: string) => void
+}
+
+export function VariantSelector({ colors, sizes, onVariantChange }: VariantSelectorProps) {
+    const [selectedColor, setSelectedColor] = useState(colors[0])
+    const [selectedSize, setSelectedSize] = useState(sizes[0])
+
+    const handleColorChange = (color: string) => {
+        setSelectedColor(color)
+        onVariantChange?.(color, selectedSize)
+    }
+
+    const handleSizeChange = (size: string) => {
+        setSelectedSize(size)
+        onVariantChange?.(selectedColor, size)
+    }
+
+    const getColorClass = (color: string) => {
+        const colorMap: Record<string, string> = {
+            black: "bg-black",
+            white: "bg-white",
+            gray: "bg-gray-400",
+            blue: "bg-blue-500",
+            red: "bg-red-500",
+            green: "bg-green-500",
+            yellow: "bg-yellow-400",
+            pink: "bg-pink-400",
+        }
+        return colorMap[color.toLowerCase()] || "bg-gray-400"
+    }
+
+    return (
+        <div className="space-y-6">
+            {/* Color Selection */}
+            <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-medium text-foreground">Color</h3>
+                    <span className="text-sm text-muted-foreground capitalize">{selectedColor}</span>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                    {colors.map((color) => (
+                        <button
+                            key={color}
+                            onClick={() => handleColorChange(color)}
+                            className={cn(
+                                "relative h-10 w-10 rounded-full border-2 transition-all",
+                                selectedColor === color
+                                    ? "border-primary ring-2 ring-primary ring-offset-2"
+                                    : "border-border hover:border-primary/50",
+                            )}
+                            aria-label={`Select ${color} color`}
+                        >
+                            <span className={cn("absolute inset-1 rounded-full", getColorClass(color))} />
+                            {selectedColor === color && (
+                                <Check className="absolute inset-0 m-auto h-5 w-5 text-white drop-shadow-md" />
+                            )}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Size Selection */}
+            <div className="space-y-3">
+                <h3 className="text-sm font-medium text-foreground">Size</h3>
+                <div className="flex flex-wrap gap-2">
+                    {sizes.map((size) => (
+                        <Button
+                            key={size}
+                            variant={selectedSize === size ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => handleSizeChange(size)}
+                            className="min-w-[4rem]"
+                        >
+                            {size}
+                        </Button>
+                    ))}
+                </div>
+            </div>
+        </div>
+    )
+}
