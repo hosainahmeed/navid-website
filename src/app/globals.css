@@ -45,9 +45,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-primary: #ae12e2;
+    /* --color-primary: #ae12e2; */
+    --color-primary: #1F2937;
     /* Vibrant Pink — Main Brand Color */
-    --color-primary-dark: #C2185B;
+    --color-primary-dark: #1F2937;
+    /* --color-primary-dark: #C2185B; */
     /* Dark Pink — Hover / Active State */
     --color-primary-light: #F8BBD0;
     /* Soft Pink — Highlights / Light BG */

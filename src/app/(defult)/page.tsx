@@ -1,6 +1,6 @@
 import React from 'react'
-import NewArrivalsProducts from './components/sections/NewArrivalsProducts'
-import BannerCarousel from './components/sections/BannerCarousel'
+import NewArrivalsProducts from '../components/sections/NewArrivalsProducts'
+import BannerCarousel from '../components/sections/BannerCarousel'
 
 function page() {
   return (

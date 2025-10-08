@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Minus, Plus, ShoppingCart, Heart } from "lucide-react"
 import { Product } from "@/app/types/product"
 import { VariantSelector } from "./VariantSelector"
+import { useCart } from "@/app/context/CartContext"
 
 interface ProductInfoProps {
     product: Product
@@ -15,6 +16,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
     const [quantity, setQuantity] = useState(1)
     const [selectedColor, setSelectedColor] = useState(product.variantColors[0])
     const [selectedSize, setSelectedSize] = useState(product.variantImages[product.variantColors[0]].size[0])
+    const { addToCart } = useCart()
 
     const hasDiscount = product.previous_price > product.price
     const discountPercentage = hasDiscount
@@ -111,7 +113,9 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
             {/* Action Buttons */}
             <div className="flex flex-col gap-3 sm:flex-row">
-                <Button size="lg" className="flex-1 gap-2" disabled={product.quantity === 0}>
+                <Button
+                    onClick={() => addToCart(product._id, quantity)}
+                    size="lg" className="flex-1 gap-2" disabled={product.quantity === 0}>
                     <ShoppingCart className="h-5 w-5" />
                     Add to Cart
                 </Button>

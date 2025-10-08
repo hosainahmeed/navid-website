@@ -62,8 +62,7 @@ export default function BannerCarousel() {
     return (
         <section className="h-fit py-12 flex items-center justify-center">
             <div className="w-full mx-auto text-white">
-                <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center">
-
+                <div className="relative w-full h-[calc(100vh-25rem)] flex items-center justify-center">
                     <button
                         onClick={handlePrev}
                         aria-label="Previous slide"
@@ -115,8 +114,8 @@ export default function BannerCarousel() {
                             }}
                             aria-label={`Go to slide ${i + 1}`}
                             className={cn(`transition-all duration-300  rounded-full`, i === index
-                                ? 'w-8 sm:w-10 h-2 bg-pink-500'
-                                : 'w-2 h-2 bg-pink-200 hover:bg-pink-500 cursor-poniter'
+                                ? 'w-8 sm:w-10 h-2 bg-black'
+                                : 'w-2 h-2 bg-pink-200 hover:bg-black cursor-poniter'
                             )}
                         />
                     ))}
