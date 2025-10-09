@@ -5,6 +5,7 @@ import Header from "./components/shared/Header";
 import SideBar from "./components/sidebar/SideBar";
 import Footer from "./components/shared/Footer";
 import { CartProvider } from "./context/CartContext";
+import NextTopLoader from "nextjs-toploader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <CartProvider>
+          <NextTopLoader
+            color="#111"
+          />
           <Header />
           <SideBar />
           {children}

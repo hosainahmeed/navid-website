@@ -41,7 +41,7 @@ function SectionHeader(
                             router.push(routes)
                         }
                     }}
-                    className={cn("mt-6 flex items-center gap-2 cursor-pointer", buttonClassName)}>{icon && icon}{buttonText}</Button>
+                    className={cn("mt-6 flex w-fit items-center gap-2 cursor-pointer", buttonClassName)}>{icon && icon}{buttonText}</Button>
             )}
         </div>
     )

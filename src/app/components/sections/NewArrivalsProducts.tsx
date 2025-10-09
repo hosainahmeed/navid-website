@@ -14,6 +14,7 @@ function NewArrivalsProducts() {
                 buttonText='Explore All Products'
                 icon={<ArrowRightIcon className="w-6 h-6" />}
                 buttonClassName='bg-[var(--color-primary)] text-white'
+                routes='/shop'
             />
             <div
                 className='max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4'>

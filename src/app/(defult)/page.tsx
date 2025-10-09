@@ -6,7 +6,7 @@ import Category from '../components/sections/Category'
 function page() {
   return (
     <div
-      className='max-w-7xl mx-auto'>
+      className='max-w-7xl px-1 mx-auto'>
       <BannerCarousel />
       <Category />
       <NewArrivalsProducts />
