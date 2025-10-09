@@ -2,8 +2,8 @@ import React from 'react'
 
 function Footer() {
     return (
-        <footer className="mt-16 border-t border-border bg-muted/30">
-            <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        <footer className="mt-16 border-t min-h-[200px] border-border bg-muted/30">
+            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
                     <div className="space-y-3">
                         <h3 className="text-sm font-semibold text-foreground">Shop</h3>

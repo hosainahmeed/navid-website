@@ -83,7 +83,7 @@ const CartPage = () => {
   const shippingCharge = total_price < 50 ? 0 : 15;
 
   return (
-    <div className="container mx-auto grid md:grid-cols-3 gap-6 py-10">
+    <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-6 py-10">
       <div className="md:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
         <h1 className="text-3xl font-bold mb-6 uppercase text-gray-900">
           Shopping Cart

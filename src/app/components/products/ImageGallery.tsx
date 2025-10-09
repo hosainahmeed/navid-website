@@ -89,7 +89,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                         </button>
                     ))}
 
-                    <div className="relative flex-col aspect-square overflow-hidden rounded-md bg-muted transition-all flex items-center justify-center text-3xl">
+                    {images.length > 3 && <div className="relative flex-col aspect-square overflow-hidden rounded-md bg-muted transition-all flex items-center justify-center text-3xl">
                         + {images.length - 3}
                         <Dialog>
                             <DialogTrigger asChild>
@@ -120,7 +120,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                                 </div>
                             </DialogContent>
                         </Dialog>
-                    </div>
+                    </div>}
                 </div>
             )}
 

@@ -3,19 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import cn from '@/app/utils/cn';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
+import { IMAGE } from '@/app/constants/Image.index';
 
 interface IBanner {
     _id: string;
-    img: string;
+    img: string | StaticImageData;
 }
 
 const BannerData: IBanner[] = [
-    { _id: "1", img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=600&fit=crop' },
-    { _id: "2", img: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&h=600&fit=crop' },
-    { _id: "3", img: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1200&h=600&fit=crop' },
-    { _id: "4", img: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&h=600&fit=crop' },
-    { _id: "5", img: 'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=1200&h=600&fit=crop' },
+    { _id: "1", img: IMAGE.closeUpHookahVaping3 },
+    { _id: "2", img: IMAGE.closeUpHookahVaping4 },
+    { _id: "3", img: IMAGE.closeUpHookahVaping5 }
 ];
 
 const THUMBNAIL_LIMIT = 4;
@@ -67,7 +66,7 @@ export default function BannerCarousel() {
     }, []);
 
     return (
-        <section className="h-fit py-12 flex items-center justify-center">
+        <section className="h-fit  mx-auto py-12 flex items-center justify-center">
             <div className="w-full mx-auto text-white">
                 <div className="relative w-full h-[calc(100vh-25rem)] flex items-center justify-center">
                     <button
@@ -77,9 +76,9 @@ export default function BannerCarousel() {
                     >
                         <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
-                    <div className="relative w-full h-full overflow-hidden rounded-2xl sm:rounded-3xl z-10">
+                    <div className="relative w-full h-full bg-gray-200/40 overflow-hidden rounded-2xl sm:rounded-3xl z-10">
                         <AnimatePresence initial={false} custom={direction} mode="wait">
-                            <motion.img
+                            <motion.div
                                 key={BannerData[index]._id}
                                 custom={direction}
                                 variants={slideVariants}
@@ -89,17 +88,22 @@ export default function BannerCarousel() {
                                 transition={{
                                     x: { type: 'spring', stiffness: 300, damping: 30 },
                                     opacity: { duration: 0.3 },
-
                                 }}
                                 drag="x"
                                 dragConstraints={{ left: 0, right: 0 }}
                                 dragElastic={0.2}
                                 onDragEnd={handleDragEnd}
-                                src={BannerData[index].img}
-                                alt={`Slide ${index + 1}`}
-                                className="absolute inset-0 w-full h-full object-cover select-none cursor-grab active:cursor-grabbing"
-                                draggable={false}
-                            />
+                                className="absolute inset-0"
+                            >
+                                <Image
+                                    src={BannerData[index].img}
+                                    alt={`Slide ${index + 1}`}
+                                    fill
+                                    className="object-fill select-none"
+                                    draggable={false}
+                                    priority
+                                />
+                            </motion.div>
                         </AnimatePresence>
                     </div>
                     <button

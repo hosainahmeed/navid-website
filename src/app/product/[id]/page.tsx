@@ -10,7 +10,7 @@ export default function ProductPage() {
         <div className="min-h-screen bg-background">
 
             {/* Main Content */}
-            <main className="container mx-auto px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+            <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
                 {/* Product Details Section */}
                 <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
                     {/* Image Gallery */}

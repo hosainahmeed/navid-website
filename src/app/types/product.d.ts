@@ -1,26 +1,25 @@
 import { StaticImageData } from "next/image";
 
+export interface IVariant {
+    img: string[];
+    size: string[];
+    quantity: number;
+}
+
 export interface Iproduct {
     _id: string;
     name: string;
+    wholesaleAvailable: boolean;
+    previous_price: number;
     description: string;
     price: number;
-    wholesaleAvailable: boolean;
-    previous_price: number,
     category: {
         name: string;
         img: string;
     };
     quantity: number;
     variantImages: {
-        red?: string[];
-        blue?: string[];
-        black?: string[];
-        white?: string[];
-        green?: string[];
-        silver?: string[];
-        brown?: string[];
-        purple?: string[];
+        [key: string]: IVariant;
     };
     variantColors: string[];
 }
@@ -29,11 +28,12 @@ export interface IBanner {
     _id: string;
     img: string | StaticImageData;
 }
+
 //form others
 export interface Category {
     _id?: string
     name: string
-    img: string
+    img: string | StaticImageData
 }
 
 export interface VariantImage {

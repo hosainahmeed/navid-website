@@ -1,24 +1,51 @@
 import React from 'react'
-import { IMAGE } from '@/app/constants/Image.index'
 import Image from 'next/image'
 import ProductCardClientSide from './ProductCardClientSide';
 import { Iproduct } from '@/app/types/product';
 import { CardContent } from '@/components/ui/card';
+import { imageUrl } from '@/app/utils/imagePreview';
 
 function ProductCard({ item }: { item: Iproduct }) {
-    const hasDiscount = item?.previous_price > item?.price
+    const hasDiscount = item?.previous_price > item?.price;
+
+    // Safe way to get the first available image
+    const getFirstImage = () => {
+        if (!item?.variantImages) return '';
+
+        const variantColors = Object.keys(item.variantImages);
+        if (variantColors.length === 0) return '';
+
+        const firstColor = variantColors[0];
+        const firstVariant = item.variantImages[firstColor];
+
+        if (firstVariant?.img && firstVariant.img.length > 0) {
+            return firstVariant.img[0];
+        }
+
+        return '';
+    };
+
+    const productImage = getFirstImage();
 
     return (
-        <div
-            className="w-full shadow inset-0 z-0 border bg-[#FFFFFF] border-gray-300 rounded transition-transform duration-300 group p-3">
+        <div className="w-full shadow inset-0 z-0 border bg-[#FFFFFF] border-gray-300 rounded transition-transform duration-300 group p-3">
             <figure className="overflow-hidden shadow rounded-lg relative mb-1">
-                <Image
-                    src='https://images.unsplash.com/photo-1505740106531-4243f3831c78?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                    width={400}
-                    height={400}
-                    alt=""
-                    className="object-cover w-full h-full object-center aspect-square bg-gray-400" />
-                <span className="absolute top-2 left-2 px-3 py-1 line-clamp-1 bg-gray-950/20 backdrop-blur-sm text-xs rounded-full text-gray-50">{item?.category?.name}</span>
+                {productImage ? (
+                    <Image
+                        src={imageUrl({ image: productImage })}
+                        width={400}
+                        height={400}
+                        alt={item?.name}
+                        className="object-cover w-full h-full object-center aspect-square bg-gray-400"
+                    />
+                ) : (
+                    <div className="w-full h-full aspect-square bg-gray-300 flex items-center justify-center">
+                        <span className="text-gray-500">No Image</span>
+                    </div>
+                )}
+                <span className="absolute top-2 left-2 px-3 py-1 line-clamp-1 bg-gray-950/20 backdrop-blur-sm text-xs rounded-full text-gray-50">
+                    {item?.category?.name}
+                </span>
             </figure>
             <CardContent className="p-4">
                 <div className="space-y-2">

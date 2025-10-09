@@ -1,12 +1,14 @@
 import React from 'react'
 import NewArrivalsProducts from '../components/sections/NewArrivalsProducts'
 import BannerCarousel from '../components/sections/BannerCarousel'
+import Category from '../components/sections/Category'
 
 function page() {
   return (
     <div
-      className='container mx-auto'>
+      className='max-w-7xl mx-auto'>
       <BannerCarousel />
+      <Category />
       <NewArrivalsProducts />
     </div>
   )

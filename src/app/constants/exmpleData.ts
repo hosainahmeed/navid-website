@@ -2,142 +2,230 @@ import { IBanner, Iproduct } from "../types/product";
 import { IMAGE } from "./Image.index";
 
 export const productData: Iproduct[] = [
+    // Hookahs
     {
-        _id: "1a2b3c4d5e6f7g8h9i0j",
-        name: "Wireless Bluetooth Headphones",
+        _id: "2b3c4d5e6f7g8h9i0j1k",
+        name: "Premium Stainless Steel Hookah",
         wholesaleAvailable: true,
-        description: "High-quality wireless headphones with noise-cancellation and long battery life.",
-        price: 55,
+        previous_price: 120,
+        description: "Professional-grade stainless steel hookah with modern design and smooth smoking experience.",
+        price: 99,
         category: {
-            name: "Electronics",
-            img: "uploads/img/1739953905021-headphones.png"
+            name: "Hookahs",
+            img: "uploads/img/1739953905022-hookah.png"
         },
-        quantity: 50,
+        quantity: 25,
         variantImages: {
-            black: ["uploads/variants_black/1739955981736-headphones_black.png"],
-            white: ["uploads/variants_white/1739955981737-headphones_white.png"]
+            silver: {
+                img: ["https://images.unsplash.com/photo-1630175772812-3368aad7982d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            },
+            gold: {
+                img: ["uploads/variants_gold/1739955981739-hookah_gold.png"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            },
+            black: {
+                img: ["uploads/variants_black/1739955981740-hookah_black.png"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            }
         },
-        variantColors: ["black", "white"]
+        variantColors: ["silver", "gold", "black"]
     },
     {
-        _id: "2b3c4d5e6f7g8h9i0j1a",
-        name: "Smart LED TV 42 Inch",
+        _id: "3c4d5e6f7g8h9i0j1k2l",
+        name: "Traditional Brass Hookah",
         wholesaleAvailable: false,
-        description: "42 inch Full HD smart LED TV with multiple connectivity options.",
-        price: 320,
+        previous_price: 85,
+        description: "Classic brass hookah with intricate designs, perfect for traditional smoking sessions.",
+        price: 75,
         category: {
-            name: "Electronics",
-            img: "uploads/img/1739953905022-tv.png"
+            name: "Hookahs",
+            img: "uploads/img/1739953905023-brass-hookah.png"
         },
         quantity: 15,
         variantImages: {
-            black: ["uploads/variants_black/1739955981738-tv_black.png"]
+            brass: {
+                img: ["https://images.unsplash.com/photo-1662805522314-d316b95046b1?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            }
         },
-        variantColors: ["black"]
+        variantColors: ["brass"]
     },
+    // Shisha
     {
-        _id: "3c4d5e6f7g8h9i0j1a2b",
-        name: "Cotton Casual Shirt",
+        _id: "4d5e6f7g8h9i0j1k2l3m",
+        name: "Double Apple Shisha Tobacco",
         wholesaleAvailable: true,
-        description: "Comfortable cotton casual shirt suitable for everyday wear.",
-        price: 25,
+        previous_price: 25,
+        description: "Premium double apple flavored shisha tobacco with rich flavor and thick smoke.",
+        price: 20,
         category: {
-            name: "Clothing",
-            img: "uploads/img/1739953905023-shirt.png"
-        },
-        quantity: 80,
-        variantImages: {
-            red: ["uploads/variants_red/1739955981739-shirt_red.png"],
-            blue: ["uploads/variants_blue/1739955981740-shirt_blue.png"],
-            green: ["uploads/variants_green/1739955981741-shirt_green.png"]
-        },
-        variantColors: ["red", "blue", "green"]
-    },
-    {
-        _id: "4d5e6f7g8h9i0j1a2b3c",
-        name: "Running Shoes",
-        wholesaleAvailable: false,
-        description: "Lightweight running shoes with breathable fabric and strong grip.",
-        price: 60,
-        category: {
-            name: "Footwear",
-            img: "uploads/img/1739953905024-shoes.png"
-        },
-        quantity: 40,
-        variantImages: {
-            black: ["uploads/variants_black/1739955981742-shoes_black.png"],
-            white: ["uploads/variants_white/1739955981743-shoes_white.png"]
-        },
-        variantColors: ["black", "white"]
-    },
-    {
-        _id: "5e6f7g8h9i0j1a2b3c4d",
-        name: "Stainless Steel Water Bottle",
-        wholesaleAvailable: true,
-        description: "500ml insulated stainless steel bottle keeps drinks cold or hot.",
-        price: 18,
-        category: {
-            name: "Kitchen",
-            img: "uploads/img/1739953905025-bottle.png"
+            name: "Shisha",
+            img: "uploads/img/1739953905024-double-apple.png"
         },
         quantity: 100,
         variantImages: {
-            silver: ["uploads/variants_silver/1739955981744-bottle_silver.png"],
-            blue: ["uploads/variants_blue/1739955981745-bottle_blue.png"]
+            red: {
+                img: ["https://images.unsplash.com/photo-1685345729575-7f059204c0cd?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            }
         },
-        variantColors: ["silver", "blue"]
+        variantColors: ["red"]
     },
     {
-        _id: "6f7g8h9i0j1a2b3c4d5e",
-        name: "Gaming Mouse",
+        _id: "5e6f7g8h9i0j1k2l3m4n",
+        name: "Mixed Fruit Shisha Pack",
         wholesaleAvailable: true,
-        description: "Ergonomic gaming mouse with RGB lights and high-precision sensor.",
-        price: 45,
+        previous_price: 45,
+        description: "Assorted fruit flavors including mint, grape, and watermelon. 250g each.",
+        price: 38,
         category: {
-            name: "Electronics",
-            img: "uploads/img/1739953905026-mouse.png"
+            name: "Shisha",
+            img: "uploads/img/1739953905025-mixed-fruit.png"
         },
-        quantity: 60,
+        quantity: 75,
         variantImages: {
-            black: ["uploads/variants_black/1739955981746-mouse_black.png"],
-            red: ["uploads/variants_red/1739955981747-mouse_red.png"]
+            mixed: {
+                img: ["https://images.unsplash.com/photo-1651565109530-9821776eff7d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            }
         },
-        variantColors: ["black", "red"]
+        variantColors: ["mixed"]
+    },
+    // Charcoals
+    {
+        _id: "6f7g8h9i0j1k2l3m4n5o",
+        name: "Natural Coconut Charcoals",
+        wholesaleAvailable: true,
+        previous_price: 18,
+        description: "100% natural coconut shell charcoals, long-lasting and odor-free.",
+        price: 15,
+        category: {
+            name: "Charcoals",
+            img: "uploads/img/1739953905026-coconut-charcoal.png"
+        },
+        quantity: 200,
+        variantImages: {
+            natural: {
+                img: ["https://images.unsplash.com/photo-1715173677037-90248041e659?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            }
+        },
+        variantColors: ["natural"]
     },
     {
-        _id: "7g8h9i0j1a2b3c4d5e6f",
-        name: "Leather Wallet",
+        _id: "7g8h9i0j1k2l3m4n5o6p",
+        name: "Quick Light Charcoal Box",
         wholesaleAvailable: false,
-        description: "Genuine leather wallet with multiple compartments for cards and cash.",
-        price: 35,
+        previous_price: 12,
+        description: "Easy to light charcoals, perfect for quick setup. Box of 50 pieces.",
+        price: 10,
         category: {
-            name: "Accessories",
-            img: "uploads/img/1739953905027-wallet.png"
-        },
-        quantity: 70,
-        variantImages: {
-            brown: ["uploads/variants_brown/1739955981748-wallet_brown.png"],
-            black: ["uploads/variants_black/1739955981749-wallet_black.png"]
-        },
-        variantColors: ["brown", "black"]
-    },
-    {
-        _id: "8h9i0j1a2b3c4d5e6f7g",
-        name: "Ceramic Coffee Mug",
-        wholesaleAvailable: true,
-        description: "350ml ceramic coffee mug, dishwasher safe and microwave safe.",
-        price: 12,
-        category: {
-            name: "Kitchen",
-            img: "uploads/img/1739953905028-mug.png"
+            name: "Charcoals",
+            img: "uploads/img/1739953905027-quick-light.png"
         },
         quantity: 150,
         variantImages: {
-            white: ["uploads/variants_white/1739955981750-mug_white.png"],
-            black: ["uploads/variants_black/1739955981751-mug_black.png"]
+            standard: {
+                img: ["https://images.unsplash.com/photo-1574238905104-ee98fd8a985a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            }
         },
-        variantColors: ["white", "black"]
+        variantColors: ["standard"]
     },
+    // Hookah Bowls
+    {
+        _id: "8h9i0j1k2l3m4n5o6p7q",
+        name: "Clay Phunnel Bowl",
+        wholesaleAvailable: true,
+        previous_price: 35,
+        description: "High-quality clay phunnel bowl for even heat distribution and better flavor.",
+        price: 28,
+        category: {
+            name: "Hookah Bowls",
+            img: "uploads/img/1739953905028-phunnel-bowl.png"
+        },
+        quantity: 40,
+        variantImages: {
+            terra: {
+                img: ["uploads/variants_terra/1739955981746-bowl_terra.png"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            },
+            brown: {
+                img: ["uploads/variants_brown/1739955981747-bowl_brown.png"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            }
+        },
+        variantColors: ["terra", "brown"]
+    },
+    {
+        _id: "9i0j1k2l3m4n5o6p7q8r",
+        name: "Silicone Hookah Bowl",
+        wholesaleAvailable: true,
+        previous_price: 22,
+        description: "Durable silicone bowl, unbreakable and easy to clean. Various colors available.",
+        price: 18,
+        category: {
+            name: "Hookah Bowls",
+            img: "uploads/img/1739953905029-silicone-bowl.png"
+        },
+        quantity: 60,
+        variantImages: {
+            blue: {
+                img: ["uploads/variants_blue/1739955981748-bowl_blue.png"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            },
+            red: {
+                img: ["uploads/variants_red/1739955981749-bowl_red.png"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            },
+            black: {
+                img: ["uploads/variants_black/1739955981750-bowl_black.png"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            }
+        },
+        variantColors: ["blue", "red", "black"]
+    },
+    // Additional Hookah Accessories
+    {
+        _id: "0j1k2l3m4n5o6p7q8r9s",
+        name: "Hookah Hose - Modern Design",
+        wholesaleAvailable: true,
+        previous_price: 30,
+        description: "Flexible and washable hookah hose with modern aesthetic.",
+        price: 25,
+        category: {
+            name: "Hookahs",
+            img: "uploads/img/1739953905030-modern-hose.png"
+        },
+        quantity: 35,
+        variantImages: {
+            silver: {
+                img: ["uploads/variants_silver/1739955981751-hose_silver.png"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            },
+            black: {
+                img: ["uploads/variants_black/1739955981752-hose_black.png"],
+                size: ["small", "medium", "large"],
+                quantity: 10
+            }
+        },
+        variantColors: ["silver", "black"]
+    }
 ];
 
 

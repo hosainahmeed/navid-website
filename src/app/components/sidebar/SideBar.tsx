@@ -21,7 +21,7 @@ function SideBar() {
     ]
 
     return (
-        <div className='fixed w-full z-[999] container mx-auto'>
+        <div className='fixed w-full z-[999] max-w-7xl mx-auto'>
             <PrimaryButton
                 className='rounded-full absolute top-8 left-4 animate-pulse w-12 h-12'
                 icon={<IoMdMenu />}
