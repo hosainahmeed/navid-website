@@ -10,7 +10,7 @@ function Header() {
     const router = useRouter()
     const { totalQuantity } = useCart()
     const pathname = usePathname()
-
+    console.log("pathname", pathname)
     const NavLink = [
         { href: '/shop', label: 'Shop' },
         { href: '/categories', label: 'Categories' },
