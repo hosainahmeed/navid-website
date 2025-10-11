@@ -66,7 +66,7 @@ export default function BannerCarousel() {
     }, []);
 
     return (
-        <section className="h-fit  mx-auto py-12 flex items-center justify-center">
+        <section className="h-fit  mx-auto  flex items-center justify-center">
             <div className="w-full mx-auto text-white">
                 <div className="relative w-full h-[calc(100vh-25rem)] flex items-center justify-center">
                     <button

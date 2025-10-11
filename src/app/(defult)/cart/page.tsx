@@ -75,6 +75,8 @@ const CartPage = () => {
       purpose: "buy_product",
       currency: "USD",
     };
+    localStorage.removeItem("cart");
+    localStorage.removeItem("cartTotal");
 
     console.log("🧾 Checkout Payload:", payload);
   };
@@ -206,7 +208,7 @@ const CartPage = () => {
 
         <button
           onClick={handleCheckout}
-          className="mt-6 w-full bg-gray-900 hover:bg-[var(--color-primary)] text-white font-bold py-3 rounded-xl uppercase transition"
+          className="mt-6 w-full bg-gray-900 hover:bg-[var(--color-primary)] cursor-pointer text-white font-bold py-3 rounded uppercase transition"
         >
           Proceed to Checkout
         </button>

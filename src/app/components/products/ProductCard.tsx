@@ -5,10 +5,13 @@ import { Iproduct } from '@/app/types/product';
 import { CardContent } from '@/components/ui/card';
 import { imageUrl } from '@/app/utils/imagePreview';
 
+
+
 function ProductCard({ item }: { item: Iproduct }) {
     const hasDiscount = item?.previous_price > item?.price;
 
     // Safe way to get the first available image
+
     const getFirstImage = () => {
         if (!item?.variantImages) return '';
 
@@ -24,7 +27,6 @@ function ProductCard({ item }: { item: Iproduct }) {
 
         return '';
     };
-
     const productImage = getFirstImage();
 
     return (
