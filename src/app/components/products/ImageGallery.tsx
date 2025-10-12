@@ -47,7 +47,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                     src={imageUrl({ image: images[selectedImage] })}
                     alt={productName}
                     fill
-                    className="object-cover"
+                    className="object-fill aspect-square"
                     priority
                 />
 
@@ -84,7 +84,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                                 src={imageUrl({ image })}
                                 alt={`${productName} view ${index + 1}`}
                                 fill
-                                className="object-cover"
+                                className="object-fill"
                             />
                         </button>
                     ))}

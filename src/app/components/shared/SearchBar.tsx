@@ -60,8 +60,13 @@ const SearchBar: React.FC = () => {
         <FaSearch />
         Search
       </button>
-      {showResults && query !== '' && <div className='absolute top-12 rounded z-[999] left-0 w-full h-72 p-3 shadow-2xl border overflow-y-auto bg-white'>
-        {results.map((product) => (
+      {showResults && <div className='absolute top-12 rounded z-[999] left-0 w-full h-72 p-3 shadow-2xl border overflow-y-auto bg-white'>
+        {results.length === 0 ? 
+        <div className='flex items-center justify-center h-full flex-col gap-2'>
+          <p className='text-gray-500'>No results found</p>
+          <p className='text-gray-500'>Try searching for something else</p>
+        </div>
+        : results.map((product) => (
           <div
             onMouseDown={(e) => {
               e.preventDefault()
