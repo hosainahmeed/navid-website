@@ -23,6 +23,7 @@ const eslintConfig = [
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "error",
+      "eslint-disable-next-line @typescript-eslint/no-explicit-any": "error",
     },
   },
 ];
