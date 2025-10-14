@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { memo } from 'react'
 
 function Header() {
     const router = useRouter()
@@ -54,4 +55,4 @@ function Header() {
     )
 }
 
-export default Header
+export default memo(Header)

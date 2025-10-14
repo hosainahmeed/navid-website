@@ -25,6 +25,7 @@ const SearchBar: React.FC = () => {
     }
   }
 
+
   const getFirstImage = (item: any) => {
     if (!item?.variantImages) return '';
 
