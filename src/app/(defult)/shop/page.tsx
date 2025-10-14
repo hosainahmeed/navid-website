@@ -4,7 +4,6 @@ import { useSearchParams } from 'next/navigation'
 import { MdCancel } from 'react-icons/md'
 import SectionHeader from '@/app/components/shared/SectionHeader'
 import ProductCard from '@/app/components/products/ProductCard'
-import { productData } from '@/app/constants/exmpleData'
 import { Iproduct } from '@/app/types/product'
 import { Input } from '@/components/ui/input'
 import {
@@ -20,12 +19,33 @@ const Page: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState<string>(
         searchParams.get('productName') || ''
     )
-    const [filteredProducts, setFilteredProducts] = useState<Iproduct[]>(productData)
+    const [filteredProducts, setFilteredProducts] = useState<Iproduct[]>([])
     const [selectedCategory, setSelectedCategory] = useState<string>('')
+
+    const [allProducts, setAllProducts] = useState<Iproduct[]>([])
+    const [loading, setLoading] = useState<boolean>(true)
+    const [error, setError] = useState<string | null>(null)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/mockData.json', { cache: 'no-store' })
+                if (!response.ok) throw new Error(`Failed to load mockData.json: ${response.status}`)
+                const result = await response.json()
+                const items: Iproduct[] = result?.data ?? []
+                setAllProducts(items)
+                setFilteredProducts(items)
+            } catch (err: any) {
+                setError(err?.message || 'Failed to fetch data')
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchData()
+    }, [])
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            let updatedProducts = productData
+            let updatedProducts = allProducts
 
             if (searchQuery.trim() !== '') {
                 updatedProducts = updatedProducts.filter((item) =>
@@ -43,7 +63,7 @@ const Page: React.FC = () => {
         }, 300)
 
         return () => clearTimeout(timeout)
-    }, [searchQuery, selectedCategory])
+    }, [searchQuery, selectedCategory, allProducts])
 
     return (
         <div className='max-w-7xl mx-auto px-2'>
@@ -87,6 +107,12 @@ const Page: React.FC = () => {
 
             {/* Product grid */}
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+                {loading && (
+                    <div className='col-span-full text-center text-gray-600 py-10'>Loading...</div>
+                )}
+                {error && !loading && (
+                    <div className='col-span-full text-center text-red-600 py-10'>{error}</div>
+                )}
                 {filteredProducts.length > 0 ? (
                     filteredProducts.slice(0, 6).map((item) => (
                         <ProductCard key={item._id} item={item} />
