@@ -99,7 +99,7 @@ export default function BannerCarousel() {
                                     src={BannerData[index].img}
                                     alt={`Slide ${index + 1}`}
                                     fill
-                                    className="object-fill select-none"
+                                    className="object-contain md:object-fill select-none"
                                     draggable={false}
                                     priority
                                 />
