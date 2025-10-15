@@ -51,7 +51,7 @@
     --color-primary-dark: #1F2937;
     /* --color-primary-dark: #C2185B; */
     /* Dark Pink — Hover / Active State */
-    --color-primary-light: #F8BBD0;
+    --color-primary-light: #fbe5ede0;
     /* Soft Pink — Highlights / Light BG */
     --color-accent: #D4AF37;
     /* Gold — Luxury Accent */
@@ -132,6 +132,9 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
+}
+body{
+  background-color: var(--color-primary-light);
 }
 
 @layer base {

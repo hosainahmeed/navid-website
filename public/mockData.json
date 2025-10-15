@@ -1,228 +1,182 @@
 {
     "data": [
         {
-            "_id": "68ede1bfab333302c51c7178",
-            "name": "EcoSmart Stainless Steel Water Bottle",
-            "description": "Stay hydrated with the EcoSmart stainless steel water bottle. Keeps drinks cold for 24 hours and hot for 12 hours. Leak-proof design and eco-friendly build make it perfect for travel, gym, and daily use.",
-            "price": 20.99,
+            "_id": "70a1b2c3d4e5f6a7b8c90001",
+            "name": "Titanium Deluxe Hookah",
+            "description": "Premium titanium hookah with sleek design and high airflow system. Built for long sessions and smooth smoking experience.",
+            "price": 129.99,
             "category": {
-                "name": "Home & Kitchen",
-                "img": "uploads/img/1760419681355-5234799.png"
+                "name": "Hookahs",
+                "img": "uploads/img/1760431010001-hookah-main.png"
             },
-            "sub_category": "68eddfceab333302c51c714d",
+            "sub_category": "70a1b2c3d4e5f6a7b8c90010",
             "whole_sale": false,
-            "quantity": 80,
-            "previous_price": 25.99,
+            "quantity": 50,
+            "previous_price": 149.99,
             "variantImages": {
-                "silver": {
+                "black": {
                     "img": [
-                        "uploads/variants_silver/1760420287373-vertical-shot-bottle-fresh-water-abandon-castle-istria-croatia.jpg"
+                        "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297127.jpg?t=st=1760523100~exp=1760526700~hmac=e41ac12bd6345f9fe495aba75e34b760d51fa1a23b080aae272c396754071f78&w=1480"
                     ],
                     "size": [
                         "SMALL",
                         "MEDIUM",
                         "LARGE"
+                    ],
+                    "quantity": 25
+                },
+                "silver": {
+                    "img": [
+                        "https://img.freepik.com/premium-photo/close-up-hook-floor-home_1048944-6399571.jpg?w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM",
+                        "LARGE"
+                    ],
+                    "quantity": 25
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297127.jpg?t=st=1760523100~exp=1760526700~hmac=e41ac12bd6345f9fe495aba75e34b760d51fa1a23b080aae272c396754071f78&w=1480",
+                "https://img.freepik.com/premium-photo/close-up-hook-floor-home_1048944-6399571.jpg?w=740"
+            ],
+            "variantColors": [
+                "black",
+                "silver"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90002",
+            "name": "Mirage Glass Shisha",
+            "description": "Elegant glass shisha with LED base and premium stainless steel stem. Offers modern aesthetic and smooth smoke output.",
+            "price": 89.5,
+            "category": {
+                "name": "Shisha",
+                "img": "uploads/img/1760431030002-shisha-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90011",
+            "whole_sale": false,
+            "quantity": 70,
+            "previous_price": 99.99,
+            "variantImages": {
+                "blue": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/meduza-hookah-with-cockatails-side-view_140725-9140.jpg"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 35
+                },
+                "red": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/front-view-full-shot-hookah-cafe-light_23-2149191883.jpg?t=st=1760523283~exp=1760526883~hmac=08155b8c4f0a5343833ef7b99d8d454f06b4c09896a90693319c5db1be3cdcfe&w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 35
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/meduza-hookah-with-cockatails-side-view_140725-9140.jpg",
+                "https://img.freepik.com/free-photo/front-view-full-shot-hookah-cafe-light_23-2149191883.jpg?t=st=1760523283~exp=1760526883~hmac=08155b8c4f0a5343833ef7b99d8d454f06b4c09896a90693319c5db1be3cdcfe&w=740"
+            ],
+            "variantColors": [
+                "blue",
+                "red"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90003",
+            "name": "Inferno Coconut Charcoals",
+            "description": "High-quality coconut shell charcoals that burn clean and long-lasting. Ideal for both hookah and shisha sessions.",
+            "price": 14.99,
+            "category": {
+                "name": "Charcoals",
+                "img": "uploads/img/1760431040003-charcoal-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90012",
+            "whole_sale": true,
+            "quantity": 200,
+            "previous_price": 17.99,
+            "variantImages": {
+                "cube": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740"
+                    ],
+                    "size": [
+                        "1KG",
+                        "2KG",
+                        "5KG"
+                    ],
+                    "quantity": 120
+                },
+                "hex": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/still-life-ashes-with-charcoal_23-2149631316.jpg?uid=R196698094&semt=ais_hybrid&w=740&q=80"
+                    ],
+                    "size": [
+                        "1KG",
+                        "2KG",
+                        "5KG"
+                    ],
+                    "quantity": 80
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740",
+                "https://img.freepik.com/free-photo/still-life-ashes-with-charcoal_23-2149631316.jpg?uid=R196698094&semt=ais_hybrid&w=740&q=80"
+            ],
+            "variantColors": [
+                "cube",
+                "hex"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90004",
+            "name": "Zen Clay Hookah Bowl",
+            "description": "Handcrafted clay hookah bowl designed for optimal heat distribution. Perfect for traditional and modern setups.",
+            "price": 19.99,
+            "category": {
+                "name": "Hookah Bowls",
+                "img": "uploads/img/1760431050004-bowl-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90013",
+            "whole_sale": false,
+            "quantity": 90,
+            "previous_price": 22.99,
+            "variantImages": {
+                "brown": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/shisha-kiln-with-fire-steam_114579-3127.jpg?t=st=1760523604~exp=1760527204~hmac=b23c5696a7f09aea2fe17706b6587182e1a9f2ec18d64912f5126c9b359f440f&w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
                     ],
                     "quantity": 50
                 },
                 "black": {
                     "img": [
-                        "uploads/variants_black/1760420287501-assortment-with-minimal-tumbler-drinks.jpg"
-                    ],
-                    "size": [
-                        "SMALL",
-                        "MEDIUM",
-                        "LARGE"
-                    ],
-                    "quantity": 30
-                }
-            },
-            "banner": [
-                "uploads/variants_silver/1760420287373-vertical-shot-bottle-fresh-water-abandon-castle-istria-croatia.jpg",
-                "uploads/variants_black/1760420287501-assortment-with-minimal-tumbler-drinks.jpg"
-            ],
-            "variantColors": [
-                "silver",
-                "black"
-            ]
-        },
-        {
-            "_id": "68ede39bab333302c51c71c9",
-            "name": "PureFlow Glass Water Bottle",
-            "description": "Eco-friendly glass water bottle with bamboo lid and protective sleeve. Ideal for home, office, or travel use.",
-            "price": 17,
-            "category": {
-                "name": "Home & Kitchen",
-                "img": "uploads/img/1760419681355-5234799.png"
-            },
-            "sub_category": "68eddfceab333302c51c714d",
-            "whole_sale": false,
-            "quantity": 80,
-            "previous_price": 19.990000000000002,
-            "variantImages": {
-                "clear": {
-                    "img": [
-                        "uploads/variants_clear/1760420763075-transparent-water-bottle-indoors.jpg"
-                    ],
-                    "size": [
-                        "200gram",
-                        "250gram"
-                    ],
-                    "quantity": 50
-                },
-                "white": {
-                    "img": [
-                        "uploads/variants_white/1760420763098-aluminum-bottle-packaging-liquids.jpg"
-                    ],
-                    "size": [
-                        "200gram",
-                        "250gram"
-                    ],
-                    "quantity": 30
-                }
-            },
-            "banner": [
-                "uploads/variants_clear/1760420763075-transparent-water-bottle-indoors.jpg",
-                "uploads/variants_white/1760420763098-aluminum-bottle-packaging-liquids.jpg"
-            ],
-            "variantColors": [
-                "clear",
-                "white"
-            ]
-        },
-        {
-            "_id": "68ede519ab333302c51c71e3",
-            "name": "CalmNest Soy Candle",
-            "description": "Hand-poured soy candle made with natural essential oils. Provides a relaxing aroma for peaceful evenings.",
-            "price": 13,
-            "category": {
-                "name": "Home Decor",
-                "img": "uploads/img/1760420674945-house-decoration.png"
-            },
-            "sub_category": "68ede35eab333302c51c71c0",
-            "whole_sale": false,
-            "quantity": 113,
-            "previous_price": 14.5,
-            "variantImages": {
-                "white": {
-                    "img": [
-                        "uploads/variants_white/1760421144833-reiki-symbols-concept-with-candle-stones.jpg"
-                    ],
-                    "size": [
-                        "250gram",
-                        "200gram",
-                        "1000gram"
-                    ],
-                    "quantity": 60
-                },
-                "pink": {
-                    "img": [
-                        "uploads/variants_pink/1760421144952-beauty-cosmetics-product-with-soft-pink-tones.jpg"
-                    ],
-                    "size": [
-                        "200gram",
-                        "250gram",
-                        "1000gram"
-                    ],
-                    "quantity": 53
-                }
-            },
-            "banner": [
-                "uploads/variants_white/1760421144833-reiki-symbols-concept-with-candle-stones.jpg",
-                "uploads/variants_pink/1760421144952-beauty-cosmetics-product-with-soft-pink-tones.jpg"
-            ],
-            "variantColors": [
-                "white",
-                "pink"
-            ]
-        },
-        {
-            "_id": "68edea3bab333302c51c7205",
-            "name": "BreezeFit Active T-Shirt",
-            "description": "Lightweight, quick-dry t-shirt designed for workouts and outdoor activities. Soft fabric keeps you cool and comfortable.",
-            "price": 15.989999999999998,
-            "category": {
-                "name": "Fashion",
-                "img": "uploads/img/1760422102932-brand.png"
-            },
-            "sub_category": "68ede8f9ab333302c51c71f2",
-            "whole_sale": false,
-            "quantity": 150,
-            "previous_price": 17.99,
-            "variantImages": {
-                "gray": {
-                    "img": [
-                        "uploads/variants_gray/1760422459210-portrait-adult-male-getting-ready-exercise.jpg"
-                    ],
-                    "size": [
-                        "SMALL",
-                        "MEDIUM",
-                        "LARGE"
-                    ],
-                    "quantity": 80
-                },
-                "green": {
-                    "img": [
-                        "uploads/variants_green/1760422459220-pensive-free-man-enjoying-summer-vacation.jpg"
-                    ],
-                    "size": [
-                        "SMALL",
-                        "MEDIUM",
-                        "LARGE"
-                    ],
-                    "quantity": 70
-                }
-            },
-            "banner": [
-                "uploads/variants_gray/1760422459210-portrait-adult-male-getting-ready-exercise.jpg",
-                "uploads/variants_green/1760422459220-pensive-free-man-enjoying-summer-vacation.jpg"
-            ],
-            "variantColors": [
-                "gray",
-                "green"
-            ]
-        },
-        {
-            "_id": "68edebb2ab333302c51c7223",
-            "name": "SoundWave Wireless Earbuds",
-            "description": "Compact wireless earbuds with noise isolation and touch control. Up to 6 hours of playtime with charging case.",
-            "price": 25.99,
-            "category": {
-                "name": "Electronics",
-                "img": "uploads/img/1760422464163-electronic-devices.png"
-            },
-            "sub_category": "68edea4aab333302c51c7212",
-            "whole_sale": false,
-            "quantity": 90,
-            "previous_price": 29.99,
-            "variantImages": {
-                "white": {
-                    "img": [
-                        "uploads/variants_white/1760422834252-still-life-tech-device_23-2150722625.jpg"
+                        "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297125.jpg"
                     ],
                     "size": [
                         "SMALL",
                         "MEDIUM"
                     ],
                     "quantity": 40
-                },
-                "black": {
-                    "img": [
-                        "uploads/variants_black/1760422834252-wireless-earbuds-with-neon-cyberpunk-style-lighting_23-2151074267.jpg"
-                    ],
-                    "size": [
-                        "SMALL",
-                        "MEDIUM"
-                    ],
-                    "quantity": 50
                 }
             },
             "banner": [
-                "uploads/variants_white/1760422834252-still-life-tech-device_23-2150722625.jpg",
-                "uploads/variants_black/1760422834252-wireless-earbuds-with-neon-cyberpunk-style-lighting_23-2151074267.jpg"
+                "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297125.jpg",
+                "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740"
             ],
             "variantColors": [
-                "white",
+                "brown",
                 "black"
             ]
         }

@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased px-5 md:px-0`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased md:px-0`}
       >
         <AgeVarificationPopUp>
           <CartProvider>

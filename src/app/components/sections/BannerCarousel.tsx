@@ -142,7 +142,7 @@ export default function BannerCarousel() {
                             }}
                             className={cn(`relative w-28 h-20 rounded-lg overflow-hidden transition-all duration-300`,
                                 i === index
-                                    ? 'ring-4 ring-pink-500 scale-110'
+                                    ? 'ring-4 ring-pink-200 scale-110'
                                     : 'opacity-50 hover:opacity-80 hover:scale-105'
                             )}
                         >
