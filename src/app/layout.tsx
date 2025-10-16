@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "./components/shared/Header";
-import SideBar from "./components/sidebar/SideBar";
-import Footer from "./components/shared/Footer";
 import { CartProvider } from "./context/CartContext";
 import NextTopLoader from "nextjs-toploader";
 import AgeVarificationPopUp from "./components/shared/AgeVarificationPopUp";
+import { ConfigProvider, ThemeConfig } from "antd";
 
 const anonymousPro = localFont({
   src: [
@@ -25,6 +23,28 @@ export const metadata: Metadata = {
   },
 };
 
+const themeConfig: ThemeConfig = {
+  token: {
+    borderRadius: 4,
+    fontSize: 16,
+  },
+  components: {
+    Button: {
+      borderRadius: 0,
+      colorPrimary: "rgb(222,18,151)",
+    },
+    Input: {
+      borderRadius: 0,
+    },
+    Checkbox: {
+      borderRadius: 0,
+      colorPrimary: "rgb(222,18,151)",
+      colorPrimaryActive: "rgb(222,18,151)",
+      colorPrimaryHover: "rgb(222,18,151)",
+    },
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,10 +58,9 @@ export default function RootLayout({
             <NextTopLoader
               color="#111"
             />
-            <Header />
-            {children}
-            <SideBar />
-            <Footer />
+            <ConfigProvider theme={themeConfig}>
+              {children}
+            </ConfigProvider>
           </CartProvider>
         </AgeVarificationPopUp>
       </body>

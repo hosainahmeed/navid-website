@@ -6,6 +6,7 @@ import closeUpHookahVaping3 from "@/app/assets/slider-1.png"
 import closeUpHookahVaping4 from "@/app/assets/slider-2.png"
 import closeUpHookahVaping5 from "@/app/assets/slider-3.png"
 import brand from "@/app/assets/brand.svg"
+import brandLogin from "@/app/assets/brand-login.svg"
 export const IMAGE = {
     placeholderProductImage,
     placeholderBanner,
@@ -14,7 +15,8 @@ export const IMAGE = {
     closeUpHookahVaping3,
     closeUpHookahVaping4,
     closeUpHookahVaping5,
-    brand
+    brand,
+    brandLogin
 }
 import hookahBowlsPhunnels from "@/app/assets/category-image/hookah-bowls-phunnels_ab89e97e-274a-4733-9a65-e67d23810ff1_x800.webp"
 import hookahCoalsForSale from "@/app/assets/category-image/hookah-coals-for-sale_x800.webp"

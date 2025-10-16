@@ -27,7 +27,7 @@ const AgeVerificationPopUp = ({ children }: { children: React.ReactNode }) => {
     if (isVerified) return <>{children}</>;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--purple-light)]/50 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
             <div className="bg-white max-w-md w-full mx-4 p-6 rounded-2xl shadow-lg text-center">
                 <h2 className="text-xl font-semibold mb-3">Age Verification Required</h2>
                 <p className="text-gray-600 text-sm mb-5">
@@ -50,7 +50,7 @@ const AgeVerificationPopUp = ({ children }: { children: React.ReactNode }) => {
                     <PrimaryButton
                         disabled={!checked}
                         onClick={handleAccept}
-                        title="Yes, I’m 18+"
+                        title="Yes, I’m 21+"
                     />
                     <PrimaryButton
                         onClick={handleExit}

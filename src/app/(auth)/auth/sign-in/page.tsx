@@ -1,0 +1,77 @@
+'use client'
+import { Button,Divider, Form, Input, Typography } from 'antd'
+import Link from 'next/link';
+import React from 'react'
+
+const { Title } = Typography
+
+function SignIn() {
+    const [form] = Form.useForm();
+    const onFinish = (values: any) => {
+        console.log('Received values of form:', values);
+    };
+
+    return (
+        <div className='flex relative  items-center justify-center min-h-screen'>
+            <div
+                className="absolute inset-0 z-0"
+                style={{
+                    backgroundImage: `
+        linear-gradient(to right, #dadada 1px, transparent 1px),
+        linear-gradient(to bottom, #dadada 1px, transparent 1px)
+      `,
+                    backgroundSize: "120px 120px",
+                    WebkitMaskImage:
+                        "radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)",
+                    maskImage:
+                        "radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)",
+                }}
+            />
+            <div className='w-lg bg-white z-10 p-6 border border-[var(--border-color)] shadow-sm'>
+                <Form layout='vertical' requiredMark={false} onFinish={onFinish} form={form}>
+                    <Title level={2} className="!mb-2 text-gray-800">
+                        Welcome Back
+                    </Title>
+                    <Divider />
+                    <Form.Item
+                        name="email"
+                        rules={[{ required: true, message: "Please input your email!" }]}
+                    >
+                        <Input style={{ borderRadius: '0px' }} size='large' placeholder='Email' />
+                    </Form.Item>
+                    <Form.Item
+                        name="password"
+                        rules={[{ required: true, message: "Please input your password!" }]}
+                    >
+                        <Input.Password style={{ borderRadius: '0px' }} size='large' placeholder='Password' />
+                    </Form.Item>
+                    <Form.Item className='w-full'>
+                        <Button
+                            style={{
+                                width: '100%',
+                                backgroundColor: 'var(--purple-light)',
+                                color: '#fff',
+                                border: 'none',
+                                padding: '12px',
+                                fontSize: '16px',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                borderRadius: '0px',
+                            }}
+                            size='large'
+                            type="primary" htmlType="submit">
+                            Sign In
+                        </Button>
+                    </Form.Item>
+                </Form>
+                <div className="text-center mt-4">
+                    <Link href="/auth/sign-up" className="text-blue-600 hover:underline">
+                        Don't have an account? Sign Up
+                    </Link>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default SignIn
