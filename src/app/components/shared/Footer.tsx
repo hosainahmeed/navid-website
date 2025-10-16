@@ -2,8 +2,8 @@ import React from 'react'
 
 function Footer() {
     return (
-        <footer className="mt-16 border-t min-h-[200px] border-border bg-muted/30">
-            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        <footer className="border-t border-[var(--border-color)] bg-[#EDEDED] min-h-[200px]">
+            <div className="max-w-screen-2xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
                     <div className="space-y-3">
                         <h3 className="text-sm font-semibold text-foreground">Shop</h3>
@@ -70,7 +70,7 @@ function Footer() {
                         <p className="text-sm text-muted-foreground">Subscribe to get special offers and updates.</p>
                     </div>
                 </div>
-                <div className="mt-8 border-t border-border pt-8 text-center text-sm text-muted-foreground">
+                <div className="mt-8 border-t border-[var(--border-color)] pt-8 text-center text-sm text-muted-foreground">
                     © 2025 Store. All rights reserved.
                 </div>
             </div>

@@ -5,7 +5,7 @@ import CategoryCard from "@/app/components/category/CategoryCard";
 
 const CategoryPage = () => {
   return (
-    <div className="max-w-7xl min-h-[calc(100vh-400px)] mx-auto px-4 py-8">
+    <div className="max-w-screen-2xl min-h-[calc(100vh-400px)] mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold uppercase mb-8 text-start">
         Shop by Category
       </h1>

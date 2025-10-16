@@ -34,11 +34,11 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
     }
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col border border-[var(--border-color)] gap-4">
             {/* Main Image */}
             <div
                 ref={imageRef}
-                className="relative aspect-square w-full overflow-hidden rounded-lg bg-muted cursor-crosshair"
+                className="relative border border-[var(--border-color)] aspect-square w-full overflow-hidden bg-muted cursor-crosshair"
                 onMouseEnter={() => setShowMagnifier(true)}
                 onMouseLeave={() => setShowMagnifier(false)}
                 onMouseMove={handleMouseMove}
@@ -70,14 +70,14 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
 
             {/* Thumbnail Images */}
             {images.length > 1 && (
-                <div className="grid grid-cols-4 gap-3 sm:gap-4">
+                <div className="grid grid-cols-4 border border-[var(--border-color)] gap-3 sm:gap-4">
                     {images.slice(0, 3).map((image, index) => (
                         <button
                             key={index}
                             onClick={() => setSelectedImage(index)}
                             className={cn(
-                                "relative aspect-square overflow-hidden rounded-md bg-muted transition-all",
-                                selectedImage === index ? "ring-2 ring-primary ring-offset-2" : "opacity-70 hover:opacity-100",
+                                "relative aspect-square border border-[var(--border-color)] overflow-hidden bg-muted transition-all",
+                                selectedImage === index ? "border-primary" : "opacity-70 hover:opacity-100",
                             )}
                         >
                             <Image
@@ -89,7 +89,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                         </button>
                     ))}
 
-                    {images.length > 3 && <div className="relative flex-col aspect-square overflow-hidden rounded-md bg-muted transition-all flex items-center justify-center text-3xl">
+                    {images.length > 3 && <div className="relative flex-col aspect-square overflow-hidden bg-muted transition-all flex items-center justify-center text-3xl">
                         + {images.length - 3}
                         <Dialog>
                             <DialogTrigger asChild>

@@ -66,7 +66,7 @@ const Page: React.FC = () => {
     }, [searchQuery, selectedCategory, allProducts])
 
     return (
-        <div className='max-w-7xl mx-auto px-2'>
+        <div className='max-w-screen-2xl mx-auto px-2'>
             {/* Section header */}
             <SectionHeader
                 title='All Products'
@@ -106,7 +106,7 @@ const Page: React.FC = () => {
             </div>
 
             {/* Product grid */}
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4'>
                 {loading && (
                     <div className='col-span-full text-center text-gray-600 py-10'>Loading...</div>
                 )}
@@ -114,7 +114,7 @@ const Page: React.FC = () => {
                     <div className='col-span-full text-center text-red-600 py-10'>{error}</div>
                 )}
                 {filteredProducts.length > 0 ? (
-                    filteredProducts.slice(0, 6).map((item) => (
+                    filteredProducts.map((item) => (
                         <ProductCard key={item._id} item={item} />
                     ))
                 ) : (

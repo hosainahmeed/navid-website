@@ -2,7 +2,7 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button';
+import { AnimatePresence, motion } from 'framer-motion';
 interface SectionTitleFormalProps {
     title: string;
     description?: string;
@@ -24,25 +24,49 @@ function SectionHeader(
         routes
     }: SectionTitleFormalProps) {
     const router = useRouter()
+    const [isHovered, setIsHovered] = React.useState(false)
     return (
-        <div className={cn("container my-12 py-4 border-b border-gray-200 mx-auto", "flex justify-between md:flex-row flex-col md:items-center", className)}>
-            <div>
-                <h2 className="text-xl font-semibold md:text-3xl lg:text-4xl font-optima tracking-wide leading-tight">
-                    {title}
-                </h2>
-                <span className="mt-6 text-base text-gray-400 font-normal">
-                    {description}
-                </span>
+        <div className={cn("my-12 border-y py-4 bg-[#EDEDED] border-[var(--border-color)] mx-auto", className)}>
+            <div className="max-w-screen-2xl mx-auto flex justify-between md:flex-row flex-col items-center py-2">
+                <div>
+                    <h2 className="text-xl font-semibold md:text-3xl lg:text-4xl font-optima tracking-wide leading-tight">
+                        {title}
+                    </h2>
+                    <span className="text-base text-gray-400 font-normal">
+                        {description}
+                    </span>
+                </div>
+                {button && (
+                    <motion.h1
+                        onClick={() => {
+                            if (routes && typeof routes === 'string') {
+                                router.push(routes)
+                            }
+                        }}
+                        className={cn(
+                            "flex hover:bg-transparent flex-col w-fit items-center cursor-pointer",
+                            buttonClassName)}
+                        onMouseEnter={() => setIsHovered(true)}
+                        onMouseLeave={() => setIsHovered(false)}
+                    >
+                        <div className='flex relative items-center gap-2'>
+                            {icon && icon}{buttonText}
+                            {isHovered &&
+                                <AnimatePresence>
+                                    <motion.div
+                                        initial={{ width: 0 }}
+                                        animate={{ width: '100%' }}
+                                        exit={{ width: 0 }}
+                                        transition={{ duration: 0.2 }}
+                                        className='w-full absolute h-[2px] bg-[var(--purple-light)]'
+                                    ></motion.div>
+                                </AnimatePresence>
+                            }
+                        </div>
+
+                    </motion.h1>
+                )}
             </div>
-            {button && (
-                <Button
-                    onClick={() => {
-                        if (routes && typeof routes === 'string') {
-                            router.push(routes)
-                        }
-                    }}
-                    className={cn("mt-6 flex w-fit items-center gap-2 cursor-pointer", buttonClassName)}>{icon && icon}{buttonText}</Button>
-            )}
         </div>
     )
 }

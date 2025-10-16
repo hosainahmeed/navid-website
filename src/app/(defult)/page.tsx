@@ -1,16 +1,18 @@
 import React from 'react'
 import NewArrivalsProducts from '../components/sections/NewArrivalsProducts'
 import BannerCarousel from '../components/sections/BannerCarousel'
-import Category from '../components/sections/Category'
+import SlidingCarosel from '../components/shared/SlidingCarosel'
+import TopPageCategory from '../components/sections/TopPageCategory'
 import SearchBar from '../components/shared/SearchBar'
 
 function page() {
   return (
     <div
-      className='max-w-7xl px-1 mx-auto'>
+      className='max-w-screen-2xl py-12 mx-auto border-x border-[var(--border-color)] px-3 space-y-6'>
       <SearchBar />
+      <TopPageCategory />
       <BannerCarousel />
-      <Category />
+      <SlidingCarosel />
       <NewArrivalsProducts />
     </div>
   )

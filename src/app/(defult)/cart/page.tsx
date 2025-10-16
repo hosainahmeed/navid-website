@@ -85,8 +85,8 @@ const CartPage = () => {
   const shippingCharge = total_price < 50 ? 0 : 15;
 
   return (
-    <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-6 py-10">
-      <div className="md:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+    <div className="max-w-screen-2xl mx-auto grid md:grid-cols-3 gap-6 py-10">
+      <div className="md:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-[var(--border-color)]">
         <h1 className="text-3xl font-bold mb-6 uppercase text-gray-900">
           Shopping Cart
         </h1>
@@ -133,7 +133,7 @@ const CartPage = () => {
                   <div className="flex items-center gap-3 mt-2">
                     <button
                       onClick={() => decreaseQuantity(item._id)}
-                      className="p-1 rounded-full border border-gray-400 hover:bg-gray-200"
+                      className="p-1 rounded-full border border-[var(--border-color)] hover:bg-gray-200"
                     >
                       <Minus className="w-4 h-4" />
                     </button>
@@ -142,7 +142,7 @@ const CartPage = () => {
                     </span>
                     <button
                       onClick={() => increaseQuantity(item._id)}
-                      className="p-1 rounded-full border border-gray-400 hover:bg-gray-200"
+                      className="p-1 rounded-full border border-[var(--border-color)] hover:bg-gray-200"
                     >
                       <Plus className="w-4 h-4" />
                     </button>
@@ -160,7 +160,7 @@ const CartPage = () => {
         </div>
       </div>
 
-      <div className="bg-[#F2F2F2] p-6 rounded-2xl shadow-sm border border-gray-200">
+      <div className="bg-[#F2F2F2] p-6 rounded-2xl shadow-sm border border-[var(--border-color)]">
         <h2 className="text-3xl font-bold uppercase mb-4 text-gray-900">
           Order Summary
         </h2>

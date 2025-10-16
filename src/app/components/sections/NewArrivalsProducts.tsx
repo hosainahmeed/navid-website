@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import ProductCard from '../products/ProductCard'
 import SectionHeader from '../shared/SectionHeader'
-import { ArrowRightIcon } from 'lucide-react'
 import { Iproduct } from '@/app/types/product'
 
 function NewArrivalsProducts() {
@@ -31,16 +30,16 @@ function NewArrivalsProducts() {
         <>
             <SectionHeader
                 title="New Arrivals"
-                description="Explore our wide range of products"
                 button={true}
                 buttonText='Explore All Products'
-                icon={<ArrowRightIcon className="w-6 h-6" />}
-                buttonClassName='bg-[var(--color-primary)] text-white'
                 routes='/shop'
+                className='px-2'
             />
-            <div
-                className='max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4'>
-                {filteredProducts.slice(0, 6).map((item) => <ProductCard key={item._id} item={item} />)}
+            <div className='max-w-screen-2xl mx-auto px-1'>
+                <div
+                    className='w-full mx-auto grid grid-cols-1 sm:grid-cols-2 border border-[var(--border-color)] lg:grid-cols-2 xl:grid-cols-4'>
+                    {filteredProducts.slice(0, 6).map((item) => <ProductCard key={item._id} item={item} />)}
+                </div>
             </div>
         </>
     )

@@ -21,7 +21,7 @@ function SideBar() {
     ]
 
     return (
-        <div className='hidden md:fixed dark:bg-black  md:top-12 top-1 w-full z-[999] max-w-7xl mx-auto'>
+        <div className='hidden md:fixed dark:bg-[var(--purple-light)]  md:top-12 top-1 w-full z-[999] max-w-screen-2xl mx-auto'>
             <PrimaryButton
                 className='rounded-full absolute top-8 left-4 animate-pulse w-12 h-12'
                 icon={<IoMdMenu />}
@@ -37,7 +37,7 @@ function SideBar() {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.3 }}
-                            className='fixed inset-0 bg-black/50 backdrop-blur-sm'
+                            className='fixed inset-0 bg-[var(--purple-light)]/50 backdrop-blur-sm'
                             onClick={() => setIsMenuOpen(false)}
                         />
 

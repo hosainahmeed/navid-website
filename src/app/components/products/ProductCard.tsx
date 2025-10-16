@@ -36,19 +36,18 @@ function ProductCard({ item }: { item: Iproduct }) {
     const productImage = getDisplayImage()
     const productSize = getDisplaySize()
     return (
-
         <div
-            className="w-full shadow border bg-white border-gray-300 rounded transition-transform duration-300 group p-3 hover:-translate-y-1"
+            className="w-full shadow border bg-white border-[var(--border-color)] transition-transform duration-300 group"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             <Link href={`/product/${item?._id}`}>
-                <figure className="overflow-hidden shadow rounded-lg relative mb-1">
+                <figure className="overflow-hidden h-72 aspect-square w-full border-y border-[var(--border-color)] shadow relative mb-1">
                     {productImage ? (
                         <Image
                             src={imageUrl({ image: productImage })}
-                            width={400}
-                            height={400}
+                            width={500}
+                            height={500}
                             alt={item?.name}
                             className="object-cover w-full h-full object-center aspect-square bg-gray-100 transition-all duration-500 ease-in-out"
                         />
@@ -64,7 +63,7 @@ function ProductCard({ item }: { item: Iproduct }) {
                     </span>
                 </figure>
             </Link>
-            <CardContent className="p-4">
+            <CardContent className="p-4 relative">
                 <div className='w-fit flex gap-1'>
                     {productSize.map((size, index) =>
                         <Tooltip
@@ -99,7 +98,7 @@ function ProductCard({ item }: { item: Iproduct }) {
                         </div>
                     </div>
                 </Link>
-                <ProductCardClientSide id={item?._id} />
+                <ProductCardClientSide isHovered={isHovered} id={item?._id} />
             </CardContent>
         </div>
     )

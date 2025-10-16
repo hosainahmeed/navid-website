@@ -35,7 +35,7 @@ const design = {
         darkText: "#111111",
     },
     layout: {
-        cardStyle: "rounded-2xl border border-gray-200 transition duration-300",
+        cardStyle: "rounded-2xl border border-[var(--border-color)] transition duration-300",
     },
 };
 
@@ -48,7 +48,7 @@ export default function ProfilePage() {
             className="px-4 md:px-8 py-8"
             style={{ backgroundColor: design.baseColors.primaryBackground }}
         >
-            <section className="mx-auto w-full max-w-7xl min-h-[calc(100vh-25rem)]">
+            <section className="mx-auto w-full max-w-screen-2xl min-h-[calc(100vh-25rem)]">
                 <Card
                     className={cn(
                         `bg-white mx-auto shadow-sm border-none`,

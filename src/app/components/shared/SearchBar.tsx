@@ -43,11 +43,11 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <div className='flex relative max-w-2xl mx-auto items-center my-4 gap-2'>
+    <div className='flex relative w-full mx-auto items-center my-4 gap-2'>
       <input
         type='text'
         placeholder='Search'
-        className='w-full p-2 border pl-4 border-gray-300 rounded-full shadow'
+        className='w-full p-2 border pl-4 border-[var(--border-color)]'
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -56,7 +56,7 @@ const SearchBar: React.FC = () => {
       />
       <button
         onClick={handleSearch}
-        className='bg-gray-900 flex items-center gap-2 cursor-pointer text-white px-4 py-2 rounded-full'
+        className='bg-[var(--purple-light)] flex items-center gap-2 cursor-pointer text-white px-4 py-2'
       >
         <FaSearch />
         Search

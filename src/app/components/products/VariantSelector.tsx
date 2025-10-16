@@ -40,14 +40,14 @@ export function VariantSelector({ colors, sizes, onVariantChange }: VariantSelec
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 border-y">
             {/* Color Selection */}
-            <div className="space-y-3">
-                <div className="flex items-center justify-between">
+            <div className="space-y-3 border-b border-[var(--border-color)]">
+                <div className="flex p-2 items-center justify-between">
                     <h3 className="text-sm font-medium text-foreground">Color</h3>
                     <span className="text-sm text-muted-foreground capitalize">{selectedColor}</span>
                 </div>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex p-2 flex-wrap gap-3">
                     {colors.map((color) => (
                         <button
                             key={color}
@@ -70,16 +70,16 @@ export function VariantSelector({ colors, sizes, onVariantChange }: VariantSelec
             </div>
 
             {/* Size Selection */}
-            <div className="space-y-3">
+            <div className="space-y-3 p-2 border-b border-[var(--border-color)]">
                 <h3 className="text-sm font-medium text-foreground">Size</h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap border border-[var(--border-color)]">
                     {sizes.map((size) => (
                         <Button
                             key={size}
                             variant={selectedSize === size ? "default" : "outline"}
                             size="sm"
                             onClick={() => handleSizeChange(size)}
-                            className="min-w-[4rem]"
+                            className="min-w-[6rem] h-10 hover:bg-primary text-xl hover:text-white rounded-none"
                         >
                             {size}
                         </Button>

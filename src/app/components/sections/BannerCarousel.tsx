@@ -17,7 +17,6 @@ const BannerData: IBanner[] = [
     { _id: "3", img: IMAGE.closeUpHookahVaping5 }
 ];
 
-const THUMBNAIL_LIMIT = 4;
 
 export default function BannerCarousel() {
     const [index, setIndex] = useState<number>(0);
@@ -68,7 +67,7 @@ export default function BannerCarousel() {
     return (
         <section className="h-fit  mx-auto  flex items-center justify-center">
             <div className="w-full mx-auto text-white">
-                <div className="relative w-full h-[calc(100vh-25rem)] flex items-center justify-center">
+                <div className="relative w-full h-[calc(100vh-20rem)] flex items-center justify-center">
                     <button
                         onClick={handlePrev}
                         aria-label="Previous slide"
@@ -76,7 +75,7 @@ export default function BannerCarousel() {
                     >
                         <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
-                    <div className="relative w-full h-full bg-gray-200/40 overflow-hidden rounded-2xl sm:rounded-3xl z-10">
+                    <div className="relative w-full h-full bg-gray-200/40 overflow-hidden border border-[var(--border-color)] z-10">
                         <AnimatePresence initial={false} custom={direction} mode="wait">
                             <motion.div
                                 key={BannerData[index]._id}
@@ -93,7 +92,7 @@ export default function BannerCarousel() {
                                 dragConstraints={{ left: 0, right: 0 }}
                                 dragElastic={0.2}
                                 onDragEnd={handleDragEnd}
-                                className="absolute inset-0"
+                                className="absolute inset-2"
                             >
                                 <Image
                                     src={BannerData[index].img}
@@ -125,14 +124,14 @@ export default function BannerCarousel() {
                             }}
                             aria-label={`Go to slide ${i + 1}`}
                             className={cn(`transition-all duration-300  rounded-full`, i === index
-                                ? 'w-8 sm:w-10 h-2 bg-black'
-                                : 'w-2 h-2 bg-pink-200 hover:bg-black cursor-poniter'
+                                ? 'w-8 sm:w-10 h-2 bg-[var(--purple-light)]'
+                                : 'w-2 h-2 bg-[#7a4494] hover:bg-[var(--purple-light)] cursor-poniter'
                             )}
                         />
                     ))}
                 </div>
 
-                <div className="hidden lg:flex justify-center gap-4 mt-8">
+                {/* <div className="hidden lg:flex justify-center gap-4 mt-8">
                     {BannerData.slice(0, THUMBNAIL_LIMIT).map((item, i) => (
                         <button
                             key={item._id}
@@ -142,7 +141,7 @@ export default function BannerCarousel() {
                             }}
                             className={cn(`relative w-28 h-20 rounded-lg overflow-hidden transition-all duration-300`,
                                 i === index
-                                    ? 'ring-4 ring-pink-200 scale-110'
+                                    ? 'ring-4 ring-[#7a4494] scale-110'
                                     : 'opacity-50 hover:opacity-80 hover:scale-105'
                             )}
                         >
@@ -154,7 +153,7 @@ export default function BannerCarousel() {
                                 className="w-full h-full object-cover"
                                 draggable={false}
                             />
-                            {i !== index && <div className="absolute inset-0 bg-black/40" />}
+                            {i !== index && <div className="absolute inset-0 bg-[var(--purple-light)]/40" />}
                         </button>
                     ))}
 
@@ -163,7 +162,7 @@ export default function BannerCarousel() {
                             +{BannerData.length - THUMBNAIL_LIMIT}
                         </div>
                     )}
-                </div>
+                </div> */}
             </div>
         </section>
     );

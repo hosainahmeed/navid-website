@@ -21,5 +21,15 @@ export const mockCategoryData: Category[] = [
         _id: "67a03d25fa1a56f712727df6",
         name: "Hookah Bowls",
         img: CategoryImage.hookahBowlsPhunnels
+    },
+    {
+        _id: "12367a03d25fa1a56f712727df6",
+        name: "Hookah Bowls",
+        img: CategoryImage.hookahBowlsPhunnels
+    },
+    {
+        _id: "67a45603d25fa1a56f712727df6",
+        name: "Hookah Bowls",
+        img: CategoryImage.hookahBowlsPhunnels
     }
 ]

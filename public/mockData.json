@@ -179,6 +179,546 @@
                 "brown",
                 "black"
             ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90001",
+            "name": "Titanium Deluxe Hookah",
+            "description": "Premium titanium hookah with sleek design and high airflow system. Built for long sessions and smooth smoking experience.",
+            "price": 129.99,
+            "category": {
+                "name": "Hookahs",
+                "img": "uploads/img/1760431010001-hookah-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90010",
+            "whole_sale": false,
+            "quantity": 50,
+            "previous_price": 149.99,
+            "variantImages": {
+                "black": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297127.jpg?t=st=1760523100~exp=1760526700~hmac=e41ac12bd6345f9fe495aba75e34b760d51fa1a23b080aae272c396754071f78&w=1480"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM",
+                        "LARGE"
+                    ],
+                    "quantity": 25
+                },
+                "silver": {
+                    "img": [
+                        "https://img.freepik.com/premium-photo/close-up-hook-floor-home_1048944-6399571.jpg?w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM",
+                        "LARGE"
+                    ],
+                    "quantity": 25
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297127.jpg?t=st=1760523100~exp=1760526700~hmac=e41ac12bd6345f9fe495aba75e34b760d51fa1a23b080aae272c396754071f78&w=1480",
+                "https://img.freepik.com/premium-photo/close-up-hook-floor-home_1048944-6399571.jpg?w=740"
+            ],
+            "variantColors": [
+                "black",
+                "silver"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90002",
+            "name": "Mirage Glass Shisha",
+            "description": "Elegant glass shisha with LED base and premium stainless steel stem. Offers modern aesthetic and smooth smoke output.",
+            "price": 89.5,
+            "category": {
+                "name": "Shisha",
+                "img": "uploads/img/1760431030002-shisha-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90011",
+            "whole_sale": false,
+            "quantity": 70,
+            "previous_price": 99.99,
+            "variantImages": {
+                "blue": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/meduza-hookah-with-cockatails-side-view_140725-9140.jpg"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 35
+                },
+                "red": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/front-view-full-shot-hookah-cafe-light_23-2149191883.jpg?t=st=1760523283~exp=1760526883~hmac=08155b8c4f0a5343833ef7b99d8d454f06b4c09896a90693319c5db1be3cdcfe&w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 35
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/meduza-hookah-with-cockatails-side-view_140725-9140.jpg",
+                "https://img.freepik.com/free-photo/front-view-full-shot-hookah-cafe-light_23-2149191883.jpg?t=st=1760523283~exp=1760526883~hmac=08155b8c4f0a5343833ef7b99d8d454f06b4c09896a90693319c5db1be3cdcfe&w=740"
+            ],
+            "variantColors": [
+                "blue",
+                "red"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90003",
+            "name": "Inferno Coconut Charcoals",
+            "description": "High-quality coconut shell charcoals that burn clean and long-lasting. Ideal for both hookah and shisha sessions.",
+            "price": 14.99,
+            "category": {
+                "name": "Charcoals",
+                "img": "uploads/img/1760431040003-charcoal-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90012",
+            "whole_sale": true,
+            "quantity": 200,
+            "previous_price": 17.99,
+            "variantImages": {
+                "cube": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740"
+                    ],
+                    "size": [
+                        "1KG",
+                        "2KG",
+                        "5KG"
+                    ],
+                    "quantity": 120
+                },
+                "hex": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/still-life-ashes-with-charcoal_23-2149631316.jpg?uid=R196698094&semt=ais_hybrid&w=740&q=80"
+                    ],
+                    "size": [
+                        "1KG",
+                        "2KG",
+                        "5KG"
+                    ],
+                    "quantity": 80
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740",
+                "https://img.freepik.com/free-photo/still-life-ashes-with-charcoal_23-2149631316.jpg?uid=R196698094&semt=ais_hybrid&w=740&q=80"
+            ],
+            "variantColors": [
+                "cube",
+                "hex"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90004",
+            "name": "Zen Clay Hookah Bowl",
+            "description": "Handcrafted clay hookah bowl designed for optimal heat distribution. Perfect for traditional and modern setups.",
+            "price": 19.99,
+            "category": {
+                "name": "Hookah Bowls",
+                "img": "uploads/img/1760431050004-bowl-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90013",
+            "whole_sale": false,
+            "quantity": 90,
+            "previous_price": 22.99,
+            "variantImages": {
+                "brown": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/shisha-kiln-with-fire-steam_114579-3127.jpg?t=st=1760523604~exp=1760527204~hmac=b23c5696a7f09aea2fe17706b6587182e1a9f2ec18d64912f5126c9b359f440f&w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 50
+                },
+                "black": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297125.jpg"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 40
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297125.jpg",
+                "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740"
+            ],
+            "variantColors": [
+                "brown",
+                "black"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90001",
+            "name": "Titanium Deluxe Hookah",
+            "description": "Premium titanium hookah with sleek design and high airflow system. Built for long sessions and smooth smoking experience.",
+            "price": 129.99,
+            "category": {
+                "name": "Hookahs",
+                "img": "uploads/img/1760431010001-hookah-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90010",
+            "whole_sale": false,
+            "quantity": 50,
+            "previous_price": 149.99,
+            "variantImages": {
+                "black": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297127.jpg?t=st=1760523100~exp=1760526700~hmac=e41ac12bd6345f9fe495aba75e34b760d51fa1a23b080aae272c396754071f78&w=1480"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM",
+                        "LARGE"
+                    ],
+                    "quantity": 25
+                },
+                "silver": {
+                    "img": [
+                        "https://img.freepik.com/premium-photo/close-up-hook-floor-home_1048944-6399571.jpg?w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM",
+                        "LARGE"
+                    ],
+                    "quantity": 25
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297127.jpg?t=st=1760523100~exp=1760526700~hmac=e41ac12bd6345f9fe495aba75e34b760d51fa1a23b080aae272c396754071f78&w=1480",
+                "https://img.freepik.com/premium-photo/close-up-hook-floor-home_1048944-6399571.jpg?w=740"
+            ],
+            "variantColors": [
+                "black",
+                "silver"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90002",
+            "name": "Mirage Glass Shisha",
+            "description": "Elegant glass shisha with LED base and premium stainless steel stem. Offers modern aesthetic and smooth smoke output.",
+            "price": 89.5,
+            "category": {
+                "name": "Shisha",
+                "img": "uploads/img/1760431030002-shisha-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90011",
+            "whole_sale": false,
+            "quantity": 70,
+            "previous_price": 99.99,
+            "variantImages": {
+                "blue": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/meduza-hookah-with-cockatails-side-view_140725-9140.jpg"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 35
+                },
+                "red": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/front-view-full-shot-hookah-cafe-light_23-2149191883.jpg?t=st=1760523283~exp=1760526883~hmac=08155b8c4f0a5343833ef7b99d8d454f06b4c09896a90693319c5db1be3cdcfe&w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 35
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/meduza-hookah-with-cockatails-side-view_140725-9140.jpg",
+                "https://img.freepik.com/free-photo/front-view-full-shot-hookah-cafe-light_23-2149191883.jpg?t=st=1760523283~exp=1760526883~hmac=08155b8c4f0a5343833ef7b99d8d454f06b4c09896a90693319c5db1be3cdcfe&w=740"
+            ],
+            "variantColors": [
+                "blue",
+                "red"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90003",
+            "name": "Inferno Coconut Charcoals",
+            "description": "High-quality coconut shell charcoals that burn clean and long-lasting. Ideal for both hookah and shisha sessions.",
+            "price": 14.99,
+            "category": {
+                "name": "Charcoals",
+                "img": "uploads/img/1760431040003-charcoal-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90012",
+            "whole_sale": true,
+            "quantity": 200,
+            "previous_price": 17.99,
+            "variantImages": {
+                "cube": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740"
+                    ],
+                    "size": [
+                        "1KG",
+                        "2KG",
+                        "5KG"
+                    ],
+                    "quantity": 120
+                },
+                "hex": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/still-life-ashes-with-charcoal_23-2149631316.jpg?uid=R196698094&semt=ais_hybrid&w=740&q=80"
+                    ],
+                    "size": [
+                        "1KG",
+                        "2KG",
+                        "5KG"
+                    ],
+                    "quantity": 80
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740",
+                "https://img.freepik.com/free-photo/still-life-ashes-with-charcoal_23-2149631316.jpg?uid=R196698094&semt=ais_hybrid&w=740&q=80"
+            ],
+            "variantColors": [
+                "cube",
+                "hex"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90004",
+            "name": "Zen Clay Hookah Bowl",
+            "description": "Handcrafted clay hookah bowl designed for optimal heat distribution. Perfect for traditional and modern setups.",
+            "price": 19.99,
+            "category": {
+                "name": "Hookah Bowls",
+                "img": "uploads/img/1760431050004-bowl-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90013",
+            "whole_sale": false,
+            "quantity": 90,
+            "previous_price": 22.99,
+            "variantImages": {
+                "brown": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/shisha-kiln-with-fire-steam_114579-3127.jpg?t=st=1760523604~exp=1760527204~hmac=b23c5696a7f09aea2fe17706b6587182e1a9f2ec18d64912f5126c9b359f440f&w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 50
+                },
+                "black": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297125.jpg"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 40
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297125.jpg",
+                "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740"
+            ],
+            "variantColors": [
+                "brown",
+                "black"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90001",
+            "name": "Titanium Deluxe Hookah",
+            "description": "Premium titanium hookah with sleek design and high airflow system. Built for long sessions and smooth smoking experience.",
+            "price": 129.99,
+            "category": {
+                "name": "Hookahs",
+                "img": "uploads/img/1760431010001-hookah-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90010",
+            "whole_sale": false,
+            "quantity": 50,
+            "previous_price": 149.99,
+            "variantImages": {
+                "black": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297127.jpg?t=st=1760523100~exp=1760526700~hmac=e41ac12bd6345f9fe495aba75e34b760d51fa1a23b080aae272c396754071f78&w=1480"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM",
+                        "LARGE"
+                    ],
+                    "quantity": 25
+                },
+                "silver": {
+                    "img": [
+                        "https://img.freepik.com/premium-photo/close-up-hook-floor-home_1048944-6399571.jpg?w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM",
+                        "LARGE"
+                    ],
+                    "quantity": 25
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297127.jpg?t=st=1760523100~exp=1760526700~hmac=e41ac12bd6345f9fe495aba75e34b760d51fa1a23b080aae272c396754071f78&w=1480",
+                "https://img.freepik.com/premium-photo/close-up-hook-floor-home_1048944-6399571.jpg?w=740"
+            ],
+            "variantColors": [
+                "black",
+                "silver"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90002",
+            "name": "Mirage Glass Shisha",
+            "description": "Elegant glass shisha with LED base and premium stainless steel stem. Offers modern aesthetic and smooth smoke output.",
+            "price": 89.5,
+            "category": {
+                "name": "Shisha",
+                "img": "uploads/img/1760431030002-shisha-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90011",
+            "whole_sale": false,
+            "quantity": 70,
+            "previous_price": 99.99,
+            "variantImages": {
+                "blue": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/meduza-hookah-with-cockatails-side-view_140725-9140.jpg"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 35
+                },
+                "red": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/front-view-full-shot-hookah-cafe-light_23-2149191883.jpg?t=st=1760523283~exp=1760526883~hmac=08155b8c4f0a5343833ef7b99d8d454f06b4c09896a90693319c5db1be3cdcfe&w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 35
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/meduza-hookah-with-cockatails-side-view_140725-9140.jpg",
+                "https://img.freepik.com/free-photo/front-view-full-shot-hookah-cafe-light_23-2149191883.jpg?t=st=1760523283~exp=1760526883~hmac=08155b8c4f0a5343833ef7b99d8d454f06b4c09896a90693319c5db1be3cdcfe&w=740"
+            ],
+            "variantColors": [
+                "blue",
+                "red"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90003",
+            "name": "Inferno Coconut Charcoals",
+            "description": "High-quality coconut shell charcoals that burn clean and long-lasting. Ideal for both hookah and shisha sessions.",
+            "price": 14.99,
+            "category": {
+                "name": "Charcoals",
+                "img": "uploads/img/1760431040003-charcoal-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90012",
+            "whole_sale": true,
+            "quantity": 200,
+            "previous_price": 17.99,
+            "variantImages": {
+                "cube": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740"
+                    ],
+                    "size": [
+                        "1KG",
+                        "2KG",
+                        "5KG"
+                    ],
+                    "quantity": 120
+                },
+                "hex": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/still-life-ashes-with-charcoal_23-2149631316.jpg?uid=R196698094&semt=ais_hybrid&w=740&q=80"
+                    ],
+                    "size": [
+                        "1KG",
+                        "2KG",
+                        "5KG"
+                    ],
+                    "quantity": 80
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740",
+                "https://img.freepik.com/free-photo/still-life-ashes-with-charcoal_23-2149631316.jpg?uid=R196698094&semt=ais_hybrid&w=740&q=80"
+            ],
+            "variantColors": [
+                "cube",
+                "hex"
+            ]
+        },
+        {
+            "_id": "70a1b2c3d4e5f6a7b8c90004",
+            "name": "Zen Clay Hookah Bowl",
+            "description": "Handcrafted clay hookah bowl designed for optimal heat distribution. Perfect for traditional and modern setups.",
+            "price": 19.99,
+            "category": {
+                "name": "Hookah Bowls",
+                "img": "uploads/img/1760431050004-bowl-main.png"
+            },
+            "sub_category": "70a1b2c3d4e5f6a7b8c90013",
+            "whole_sale": false,
+            "quantity": 90,
+            "previous_price": 22.99,
+            "variantImages": {
+                "brown": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/shisha-kiln-with-fire-steam_114579-3127.jpg?t=st=1760523604~exp=1760527204~hmac=b23c5696a7f09aea2fe17706b6587182e1a9f2ec18d64912f5126c9b359f440f&w=740"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 50
+                },
+                "black": {
+                    "img": [
+                        "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297125.jpg"
+                    ],
+                    "size": [
+                        "SMALL",
+                        "MEDIUM"
+                    ],
+                    "quantity": 40
+                }
+            },
+            "banner": [
+                "https://img.freepik.com/free-photo/close-up-hookah-vaping_23-2149297125.jpg",
+                "https://img.freepik.com/free-photo/display-dark-charcoal-different-forms-shapes_23-2149654202.jpg?t=st=1760523401~exp=1760527001~hmac=37224906e437858fd32b8d494343e8d9a63b1b08e0e969efcdf9c9b09d97b44c&w=740"
+            ],
+            "variantColors": [
+                "brown",
+                "black"
+            ]
         }
     ]
 }
