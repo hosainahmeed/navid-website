@@ -31,7 +31,7 @@ export default function ProfileSidebar({ data, activeItem, setActiveItem }: Side
             .join("");
 
     return (
-        <div className="sticky top-20 bg-white rounded-xl shadow-sm p-4 border">
+        <div className="sticky top-20 bg-white">
             <div className="flex items-center gap-4">
                 {data.img ? (
                     <Image
@@ -58,7 +58,7 @@ export default function ProfileSidebar({ data, activeItem, setActiveItem }: Side
                     <div
                         key={item.label}
                         onClick={() => setActiveItem(item.label)}
-                        className={`flex items-center gap-3 py-3 px-2 rounded-lg cursor-pointer transition ${activeItem === item.label ? "bg-pink-100 font-semibold" : "hover:bg-gray-50"
+                        className={`flex items-center gap-3 py-3 px-2 cursor-pointer transition ${activeItem === item.label ? "bg-[#EDEDED] font-semibold" : "hover:bg-gray-50"
                             }`}
                     >
                         {item.icon}

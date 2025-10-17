@@ -42,6 +42,12 @@ const themeConfig: ThemeConfig = {
       colorPrimaryActive: "rgb(222,18,151)",
       colorPrimaryHover: "rgb(222,18,151)",
     },
+    Select: {
+      borderRadius: 0,
+      hoverBorderColor:"var(--border-color)",
+      activeOutlineColor: "var(--border-color)",
+      activeBorderColor: "var(--border-color)",
+    },
   },
 };
 

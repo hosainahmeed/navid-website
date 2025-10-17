@@ -26,7 +26,7 @@ function SectionHeader(
     const router = useRouter()
     const [isHovered, setIsHovered] = React.useState(false)
     return (
-        <div className={cn("my-12 border-y py-4 bg-[#EDEDED] border-[var(--border-color)] mx-auto", className)}>
+        <div className={cn("my-12 border py-4 bg-[#EDEDED] border-[var(--border-color)] mx-auto", className)}>
             <div className="max-w-screen-2xl mx-auto flex justify-between md:flex-row flex-col items-center py-2">
                 <div>
                     <h2 className="text-xl font-semibold md:text-3xl lg:text-4xl font-optima tracking-wide leading-tight">

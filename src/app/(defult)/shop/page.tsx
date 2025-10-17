@@ -5,14 +5,7 @@ import { MdCancel } from 'react-icons/md'
 import SectionHeader from '@/app/components/shared/SectionHeader'
 import ProductCard from '@/app/components/products/ProductCard'
 import { Iproduct } from '@/app/types/product'
-import { Input } from '@/components/ui/input'
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select'
+import { Input, Select } from 'antd'
 
 const Page: React.FC = () => {
     const searchParams = useSearchParams()
@@ -66,23 +59,31 @@ const Page: React.FC = () => {
     }, [searchQuery, selectedCategory, allProducts])
 
     return (
-        <div className='max-w-screen-2xl mx-auto px-2'>
+        <div className='max-w-screen-2xl border-x mx-auto px-2'>
             {/* Section header */}
             <SectionHeader
                 title='All Products'
-                description="Looking for a hookah? We've got you covered! We carry a wide variety of hookah products, from traditional to modern designs. Whether you're a beginner or a pro, you'll find the perfect hookah for you. We also stock accessories like coals, bowls, and mouthpieces—everything you need for the ultimate hookah experience."
+                className='my-0 p-2'
             />
 
             {/* Search & Filter Controls */}
-            <div className='flex justify-between mb-3 gap-4 items-center flex-wrap'>
+            <div className='flex justify-between items-center md:flex-row flex-col flex-wrap'>
                 {/* Search input */}
-                <div className='w-full sm:w-auto flex-1 relative'>
+                <div className='w-full sm:w-full flex-1 relative'>
                     <Input
                         type='text'
                         placeholder='Search products'
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className='pr-8'
+                        className='border border-[var(--border-color)] rounded-none p-4 py-6'
+                        style={{
+                            borderRadius: '0px',
+                            width: '100%',
+                            height: '64px',
+                            fontSize: '28px',
+                            fontWeight: 'bold',
+                            border: '1px solid var(--border-color)',
+                        }}
                     />
                     {searchQuery !== '' && (
                         <MdCancel
@@ -94,15 +95,22 @@ const Page: React.FC = () => {
                 </div>
 
                 {/* Category select */}
-                <Select onValueChange={(value) => setSelectedCategory(value)}>
-                    <SelectTrigger className='w-[220px]'>
-                        <SelectValue placeholder='Select category' />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value='hookah'>Hookah</SelectItem>
-                        <SelectItem value='accessories'>Accessories</SelectItem>
-                    </SelectContent>
-                </Select>
+                <Select
+                    options={[
+                        { value: 'hookah', label: 'Hookah' },
+                        { value: 'accessories', label: 'Accessories' },
+                    ]}
+                    onChange={(value) => setSelectedCategory(value)}
+                    placeholder='Select category'
+                    style={{
+                        height: '64px',
+                        width: '200px',
+                        fontSize: '28px',
+                        fontWeight: 'bold',
+                        border: '1px solid var(--border-color)'
+                    }}
+                    className='!w-full md:!w-auto'
+                />
             </div>
 
             {/* Product grid */}

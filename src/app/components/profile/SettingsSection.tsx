@@ -16,7 +16,7 @@ export default function SettingsSection() {
     return (
         <div>
             <Space direction="vertical" style={{ width: "100%" }}>
-                <Card>
+                <Card style={{ borderRadius: "0px" }}>
                     <Form layout="vertical">
                         <Form.Item>
                             <Upload
@@ -34,7 +34,7 @@ export default function SettingsSection() {
                                     backgroundColor: "#ec4899",
                                     color: "white",
                                     border: "none",
-                                    borderRadius: "8px",
+                                    borderRadius: "0px",
                                     padding: "8px 16px",
                                     fontSize: "16px",
                                     fontWeight: "bold",
@@ -46,13 +46,13 @@ export default function SettingsSection() {
                     </Form>
                 </Card>
 
-                <Card title="Information Update">
+                <Card title="Information Update" style={{ borderRadius: "0px" }}>
                     <Form layout="vertical">
                         <Form.Item>
-                            <Input size="large" placeholder="Enter your name" />
+                            <Input style={{ borderRadius: "0px" }} size="large" placeholder="Enter your name" />
                         </Form.Item>
                         <Form.Item>
-                            <Input size="large" placeholder="Enter your phone" />
+                            <Input style={{ borderRadius: "0px" }} size="large" placeholder="Enter your phone" />
                         </Form.Item>
                         <Form.Item>
                             <Button
@@ -60,7 +60,7 @@ export default function SettingsSection() {
                                     backgroundColor: "#ec4899",
                                     color: "white",
                                     border: "none",
-                                    borderRadius: "8px",
+                                    borderRadius: "0px",
                                     padding: "8px 16px",
                                     fontSize: "16px",
                                     fontWeight: "bold",
@@ -72,28 +72,28 @@ export default function SettingsSection() {
                     </Form>
                 </Card>
 
-                <Card title="Change Password">
+                <Card title="Change Password" style={{ borderRadius: "0px" }}>
                     <Form requiredMark={false} layout="vertical">
                         <Form.Item
                             name="oldPassword"
                             label={<b>Old Password</b>}
                             rules={[{ required: true }]}
                         >
-                            <Input.Password size="large" placeholder="Enter old password" />
+                            <Input.Password style={{ borderRadius: "0px" }} size="large" placeholder="Enter old password" />
                         </Form.Item>
                         <Form.Item
                             name="newPassword"
                             label={<b>New Password</b>}
                             rules={[{ required: true }]}
                         >
-                            <Input.Password size="large" placeholder="Enter new password" />
+                            <Input.Password style={{ borderRadius: "0px" }} size="large" placeholder="Enter new password" />
                         </Form.Item>
                         <Form.Item
                             name="confirmPassword"
                             label={<b>Confirm Password</b>}
                             rules={[{ required: true }]}
                         >
-                            <Input.Password size="large" placeholder="Confirm password" />
+                            <Input.Password style={{ borderRadius: "0px" }} size="large" placeholder="Confirm password" />
                         </Form.Item>
                         <Form.Item>
                             <Button
@@ -101,7 +101,7 @@ export default function SettingsSection() {
                                     backgroundColor: "#ec4899",
                                     color: "white",
                                     border: "none",
-                                    borderRadius: "8px",
+                                    borderRadius: "0px",
                                     padding: "8px 16px",
                                     fontSize: "16px",
                                     fontWeight: "bold",

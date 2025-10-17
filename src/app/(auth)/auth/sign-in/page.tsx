@@ -1,9 +1,9 @@
 'use client'
-import { Button,Divider, Form, Input, Typography } from 'antd'
+import { Button, Divider, Form, Input, Typography } from 'antd'
 import Link from 'next/link';
 import React from 'react'
 
-const { Title } = Typography
+const { Title, Text } = Typography
 
 function SignIn() {
     const [form] = Form.useForm();
@@ -27,7 +27,7 @@ function SignIn() {
                         "radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)",
                 }}
             />
-            <div className='w-lg bg-white z-10 p-6 border border-[var(--border-color)] shadow-sm'>
+            <div className='w-lg bg-white z-10 p-6 border border-[var(--border-color)] shadow-sm py-28'>
                 <Form layout='vertical' requiredMark={false} onFinish={onFinish} form={form}>
                     <Title level={2} className="!mb-2 text-gray-800">
                         Welcome Back
@@ -45,6 +45,9 @@ function SignIn() {
                     >
                         <Input.Password style={{ borderRadius: '0px' }} size='large' placeholder='Password' />
                     </Form.Item>
+                    <Link href="/auth/forgot-password" className="text-blue-600 hover:underline">
+                        <h1 style={{ marginBottom: '1rem' }} className='text-end'>Forgot Password?</h1>
+                    </Link>
                     <Form.Item className='w-full'>
                         <Button
                             style={{

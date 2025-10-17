@@ -34,28 +34,28 @@ const mockOrders: Order[] = [
 export default function OrdersSection() {
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold border-b pb-2">Orders</h2>
+      <h2 className="text-xl font-bold border-b p-2">Orders</h2>
       {mockOrders.map((order) => (
-        <Card key={order._id} title={`Order #${order._id.slice(-6)}`}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <p><b>Total:</b> ${order.total_amount}</p>
-              <p><b>Payment:</b> {order.payment_status}</p>
-              <p><b>Delivery:</b> {order.delivery_status}</p>
-              <p><b>Date:</b> {dayjs(new Date(order.createdAt)).format("PPpp")}</p>
+        <div key={order._id}>
+          <div className="grid grid-cols-1 border-b sm:grid-cols-2">
+            <div className="border border-[var(--border-color)]">
+              <p className="mb-2 border-b border-[var(--border-color)] p-2"><b>Total:</b> ${order.total_amount}</p>
+              <p className="mb-2 border-b border-[var(--border-color)] p-2"><b>Payment:</b> {order.payment_status}</p>
+              <p className="mb-2 border-b border-[var(--border-color)] p-2"><b>Delivery:</b> {order.delivery_status}</p>
+              <p className="mb-2 border-[var(--border-color)] p-2"><b>Date:</b> {dayjs(new Date(order.createdAt)).format("PPpp")}</p>
             </div>
-            <div>
-              <b>Items:</b>
+            <div className="border border-[var(--border-color)]">
+              <p className="mb-2 border-b border-[var(--border-color)] p-2"><b>Items:</b></p>
               <ul className="mt-2 list-disc list-inside text-sm text-gray-700">
                 {order.items.map((item, i) => (
-                  <li key={i}>
+                  <li className="mb-2 border-b border-[var(--border-color)] p-2" key={i}>
                     {item.product.name} ({item.color}) × {item.quantity} (${item.product.price})
                   </li>
                 ))}
               </ul>
             </div>
           </div>
-        </Card>
+        </div>
       ))}
     </div>
   );

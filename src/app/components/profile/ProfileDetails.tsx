@@ -15,17 +15,17 @@ function formatDate(value: string) {
 
 export default function ProfileDetails({ data }: Props) {
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-bold border-b pb-2">Account Details</h2>
+    <div >
+      <h2 className="text-xl font-bold border-b p-2">Account Details</h2>
 
       <div className="divide-y">
         <DetailItem label="Email Address" value={data.email} icon={<Mail className="size-5" />} />
         <DetailItem label="Phone Number" value={data.phone} icon={<Smartphone className="size-5" />} />
       </div>
 
-      <h2 className="text-xl font-bold border-b pb-2 mt-8">Verification & History</h2>
+      <h2 className="text-xl font-bold border-b p-2">Verification & History</h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2">
         <StatusBlock label="Identity Check (KYC)" ok={!!data.is_identity_verified} icon={<ScanFace className="size-5" />} />
         <StatusBlock
           label="Documents Submitted"
@@ -34,12 +34,12 @@ export default function ProfileDetails({ data }: Props) {
         />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="rounded-xl border p-4 bg-white/80">
+      <div className="grid grid-cols-1 sm:grid-cols-2">
+        <div className="rounded-none border p-2 bg-white/80">
           <div className="text-sm text-gray-500">Member Since</div>
           <div className="font-medium text-gray-900">{formatDate(data.createdAt)}</div>
         </div>
-        <div className="rounded-xl border p-4 bg-white/80">
+        <div className="rounded-none border p-2 bg-white/80">
           <div className="text-sm text-gray-500">Last Updated</div>
           <div className="font-medium text-gray-900">{formatDate(data.updatedAt)}</div>
         </div>
