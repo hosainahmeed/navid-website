@@ -5,6 +5,7 @@ import Image from 'next/image'
 import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
+import { IoMdMenu } from 'react-icons/io'
 
 const SearchBar: React.FC = () => {
   const [query, setQuery] = useState('')
@@ -43,24 +44,36 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <div className='flex relative w-full mx-auto items-center my-4 gap-2'>
-      <input
-        type='text'
-        placeholder='Search'
-        className='w-full p-2 border pl-4 border-[var(--border-color)]'
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={handleKeyDown}
-        onFocus={() => setShowResults(true)}
-        onBlur={() => setShowResults(false)}
-      />
-      <button
-        onClick={handleSearch}
-        className='bg-[var(--purple-light)] flex items-center gap-2 cursor-pointer text-white px-4 py-2'
-      >
-        <FaSearch />
-        Search
-      </button>
+    <div className='flex relative md:flex-row flex-col w-full mx-auto items-center my-4 gap-2'>
+      <div className='flex items-center gap-2 w-full md:hidden'>
+        <button
+        onClick={() => router.push('/shop')}
+        className='bg-[var(--purple-light)]   w-fit h-10 flex items-center cursor-pointer text-white px-4 py-2'>
+          <IoMdMenu />
+        </button>
+        <div className='h-10 text-white w-full  md:w-fit flex-nowrap text-nowrap bg-[var(--purple-light)] flex items-center justify-center px-4 cursor-pointer'>
+          Whole sale
+        </div>
+      </div>
+      <div className='flex w-full items-center gap-2'>
+        <input
+          type='text'
+          placeholder='Search'
+          className='w-full p-2 border pl-4 border-[var(--border-color)]'
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onFocus={() => setShowResults(true)}
+          onBlur={() => setShowResults(false)}
+        />
+        <button
+          onClick={handleSearch}
+          className='bg-[var(--purple-light)] w-fit flex items-center gap-2 cursor-pointer text-white px-4 py-2'
+        >
+          <FaSearch />
+          Search
+        </button>
+      </div>
       {showResults && <div className='absolute top-12 rounded z-[999] left-0 w-full h-72 p-3 shadow-2xl border overflow-y-auto bg-white'>
         {results.length === 0 ?
           <div className='flex items-center justify-center h-full flex-col gap-2'>

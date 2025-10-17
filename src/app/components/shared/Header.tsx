@@ -19,7 +19,7 @@ function Header() {
         { href: '/categories', label: 'Categories' },
     ]
     return (
-        <header className="sticky top-0 z-50 border-b border-[var(--border-color)] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="sticky top-0 z-50 border-b border-[var(--border-color)] bg-white">
             <div
                 className="max-w-screen-2xl mx-auto flex h-16 items-center justify-between">
                 <div onClick={() => router.push('/')} 
@@ -55,6 +55,7 @@ function Header() {
                     </Link>
                 </nav>
             </div>
+             <small className="text-center text-xs w-full self-center flex items-center justify-center font-bold text-red-500">WARNING: Recommended for adults only.</small>
         </header>
     )
 }

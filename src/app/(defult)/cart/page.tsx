@@ -86,7 +86,7 @@ const CartPage = () => {
 
   return (
     <div className="max-w-screen-2xl mx-auto grid md:grid-cols-3 gap-6 py-10">
-      <div className="md:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-[var(--border-color)]">
+      <div className="md:col-span-2 bg-white p-6  border border-[var(--border-color)]">
         <h1 className="text-3xl font-bold mb-6 uppercase text-gray-900">
           Shopping Cart
         </h1>
@@ -102,7 +102,7 @@ const CartPage = () => {
             : items.map((item) => (
               <div
                 key={item._id}
-                className="flex flex-col sm:flex-row items-center sm:items-start gap-6 border-b pb-4 relative"
+                className="flex last:border-b-0 border-b flex-col sm:flex-row items-center sm:items-start gap-6  pb-4 relative"
               >
                 <button
                   onClick={() => removeItem(item._id)}
@@ -116,7 +116,7 @@ const CartPage = () => {
                   alt={item.product_id.name}
                   width={200}
                   height={200}
-                  className="w-40 h-40 object-cover rounded-xl"
+                  className="w-40 h-40 object-cover"
                 />
 
                 <div className="flex flex-col gap-2 w-full">
@@ -160,7 +160,7 @@ const CartPage = () => {
         </div>
       </div>
 
-      <div className="bg-[#F2F2F2] p-6 rounded-2xl shadow-sm border border-[var(--border-color)]">
+      <div className="bg-[#F2F2F2] p-6  border border-[var(--border-color)]">
         <h2 className="text-3xl font-bold uppercase mb-4 text-gray-900">
           Order Summary
         </h2>
@@ -208,7 +208,7 @@ const CartPage = () => {
 
         <button
           onClick={handleCheckout}
-          className="mt-6 w-full bg-gray-900 hover:bg-[var(--color-primary)] cursor-pointer text-white font-bold py-3 rounded uppercase transition"
+          className="mt-6 w-full rounded-none bg-[var(--purple-light)] hover:bg-[var(--color-primary)] cursor-pointer text-white font-bold py-3 uppercase transition"
         >
           Proceed to Checkout
         </button>

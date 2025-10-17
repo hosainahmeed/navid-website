@@ -67,7 +67,7 @@ export default function BannerCarousel() {
     return (
         <section className="h-fit  mx-auto  flex items-center justify-center">
             <div className="w-full mx-auto text-white">
-                <div className="relative w-full h-[calc(100vh-20rem)] flex items-center justify-center">
+                <div className="relative w-full h-[250px] md:h-[400px] xl:h-[600px] flex items-center justify-center">
                     <button
                         onClick={handlePrev}
                         aria-label="Previous slide"
