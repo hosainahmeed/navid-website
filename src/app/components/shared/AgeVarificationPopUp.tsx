@@ -3,15 +3,24 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import PrimaryButton from '../buttons/PrimaryButton';
+import { usePathname } from 'next/navigation';
 
 const AgeVerificationPopUp = ({ children }: { children: React.ReactNode }) => {
-    const [checked, setChecked] = useState(false);
+    // const [checked, setChecked] = useState(false);
     const [isVerified, setIsVerified] = useState<boolean | null>(null);
+    const pathName = usePathname();
+
+
 
     useEffect(() => {
-        const verified = Cookies.get('age_verified');
-        setIsVerified(verified === 'true');
-    }, []);
+        const allowedPaths = ['/terms', '/privacy-policy'];
+        const verified = Cookies.get('age_verified') === 'true';
+        if (verified || allowedPaths.includes(pathName)) {
+            setIsVerified(true);
+        } else {
+            setIsVerified(false);
+        }
+    }, [pathName]);
 
     const handleAccept = () => {
         Cookies.set('age_verified', 'true', { expires: 7 });
@@ -27,32 +36,55 @@ const AgeVerificationPopUp = ({ children }: { children: React.ReactNode }) => {
     if (isVerified) return <>{children}</>;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div className="bg-white max-w-md w-full mx-4 p-6 rounded-2xl shadow-lg text-center">
+        <div
+            id='age-verification-pop-up'
+            style={{
+                backgroundImage: `
+          linear-gradient(to right, #dadada 1px, transparent 1px),
+          linear-gradient(to bottom, #dadada 1px, transparent 1px)
+        `,
+                backgroundSize: '120px 120px',
+                WebkitMaskImage:
+                    'radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)',
+                maskImage:
+                    'radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)',
+            }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-white/60 backdrop-blur-md"
+        >
+            <div className="bg-white border border-gray-300 max-w-md w-full mx-4 p-6 shadow-lg text-center">
                 <h2 className="text-xl font-semibold mb-3">Age Verification Required</h2>
                 <p className="text-gray-600 text-sm mb-5">
-                    To access this website, you must be of legal age according to the laws of your jurisdiction.
-                    By proceeding, you confirm that you are of the legal age required to purchase and use tobacco products.
+                    You must be of legal age to access this website. By confirming below, you
+                    agree that you are of legal age to view and purchase tobacco-related
+                    products in your region.
                 </p>
 
-                <label className="block text-sm text-gray-700 mb-4 text-left">
+                {/* <label className="block text-sm text-gray-700 mb-4 text-left">
                     <input
                         onChange={(e) => setChecked(e.target.checked)}
                         type="checkbox"
                         className="mr-2 align-middle"
                     />
-                    By clicking <span className="font-semibold">Yes</span>, you agree to our{' '}
-                    <Link href="/terms" className="text-blue-500 underline">Terms & Conditions</Link>{' '} and{' '}
-                    <Link href="/privacy-policy" className="text-blue-500 underline">Privacy Policy</Link>.
-                </label>
+                    I agree to the{' '}
+                    <Link href="/terms" className="text-blue-500 underline">
+                        Terms & Conditions
+                    </Link>{' '}
+                    and{' '}
+                    <Link href="/privacy-policy" className="text-blue-500 underline">
+                        Privacy Policy
+                    </Link>
+                    .
+                </label> */}
 
                 <div className="flex justify-center gap-4">
                     <PrimaryButton
-                        disabled={!checked}
+                        className="rounded-none"
+                        // disabled={!checked}
                         onClick={handleAccept}
                         title="Yes, I’m 21+"
                     />
                     <PrimaryButton
+                        className="rounded-none"
                         onClick={handleExit}
                         title="Exit"
                     />

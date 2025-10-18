@@ -3,7 +3,7 @@ import { Button, Divider, Form, Input, Typography } from 'antd'
 import Link from 'next/link';
 import React from 'react'
 
-const { Title, Text } = Typography
+const { Title } = Typography
 
 function SignIn() {
     const [form] = Form.useForm();

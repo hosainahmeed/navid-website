@@ -5,6 +5,7 @@ import { CartProvider } from "./context/CartContext";
 import NextTopLoader from "nextjs-toploader";
 import AgeVarificationPopUp from "./components/shared/AgeVarificationPopUp";
 import { ConfigProvider, ThemeConfig } from "antd";
+import ReduxWrapper from "./redux/query/ReduxWrapper";
 
 const anonymousPro = localFont({
   src: [
@@ -44,7 +45,7 @@ const themeConfig: ThemeConfig = {
     },
     Select: {
       borderRadius: 0,
-      hoverBorderColor:"var(--border-color)",
+      hoverBorderColor: "var(--border-color)",
       activeOutlineColor: "var(--border-color)",
       activeBorderColor: "var(--border-color)",
     },
@@ -59,16 +60,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${anonymousPro.className} antialiased md:px-0`}>
-        <AgeVarificationPopUp>
-          <CartProvider>
-            <NextTopLoader
-              color="#111"
-            />
-            <ConfigProvider theme={themeConfig}>
-              {children}
-            </ConfigProvider>
-          </CartProvider>
-        </AgeVarificationPopUp>
+        <ReduxWrapper>
+          <AgeVarificationPopUp>
+            <CartProvider>
+              <NextTopLoader
+                color="#111"
+              />
+              <ConfigProvider theme={themeConfig}>
+                {children}
+              </ConfigProvider>
+            </CartProvider>
+          </AgeVarificationPopUp>
+        </ReduxWrapper>
       </body>
     </html>
   );
