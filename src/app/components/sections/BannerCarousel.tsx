@@ -3,36 +3,20 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import cn from '@/app/utils/cn';
-import Image, { StaticImageData } from 'next/image';
-import { IMAGE } from '@/app/constants/Image.index';
+import Image from 'next/image';
+import { useGetAllBannerQuery } from '@/app/redux/services/bannerApis';
+import { imageUrl } from '@/app/utils/imagePreview';
 
 interface IBanner {
     _id: string;
-    img: string | StaticImageData;
+    img: string;
 }
 
-const BannerData: IBanner[] = [
-    { _id: "1", img: IMAGE.closeUpHookahVaping3 },
-    { _id: "2", img: IMAGE.closeUpHookahVaping4 },
-    { _id: "3", img: IMAGE.closeUpHookahVaping5 }
-];
-
-
 export default function BannerCarousel() {
+    const { data: bannerData } = useGetAllBannerQuery(undefined)
     const [index, setIndex] = useState<number>(0);
     const [direction, setDirection] = useState<number>(0);
 
-    const handleNext = () => {
-        setDirection(1);
-        setIndex((prev) => (prev + 1) % BannerData.length);
-    };
-
-    const handlePrev = () => {
-        setDirection(-1);
-        setIndex((prev) => (prev === 0 ? BannerData.length - 1 : prev - 1));
-    };
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleDragEnd = (_: any, info: { offset: { x: number } }) => {
         const swipeThreshold = 50;
         if (info.offset.x > swipeThreshold) handlePrev();
@@ -58,11 +42,28 @@ export default function BannerCarousel() {
     };
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            handleNext();
-        }, 5000);
+        if (bannerData?.data?.length) {
+            setIndex(0);
+        }
+    }, [bannerData]);
+
+    const handleNext = () => {
+        if (!bannerData?.data?.length) return;
+        setDirection(1);
+        setIndex((prev) => (prev + 1) % bannerData.data.length);
+    };
+
+    const handlePrev = () => {
+        if (!bannerData?.data?.length) return;
+        setDirection(-1);
+        setIndex((prev) => (prev === 0 ? bannerData.data.length - 1 : prev - 1));
+    };
+
+    useEffect(() => {
+        if (!bannerData?.data?.length) return;
+        const timer = setInterval(handleNext, 5000);
         return () => clearInterval(timer);
-    }, []);
+    }, [bannerData]);
 
     return (
         <section className="h-fit  mx-auto  flex items-center justify-center">
@@ -78,7 +79,7 @@ export default function BannerCarousel() {
                     <div className="relative w-full h-full bg-gray-200/40 overflow-hidden border border-[var(--border-color)] z-10">
                         <AnimatePresence initial={false} custom={direction} mode="wait">
                             <motion.div
-                                key={BannerData[index]._id}
+                                key={bannerData?.data[index]?._id}
                                 custom={direction}
                                 variants={slideVariants}
                                 initial="enter"
@@ -95,7 +96,7 @@ export default function BannerCarousel() {
                                 className="absolute inset-2"
                             >
                                 <Image
-                                    src={BannerData[index].img}
+                                    src={imageUrl({ image: bannerData?.data[index]?.img })}
                                     alt={`Slide ${index + 1}`}
                                     fill
                                     className="object-contain md:object-fill select-none"
@@ -115,7 +116,7 @@ export default function BannerCarousel() {
                 </div>
 
                 <div className="flex justify-center items-center gap-2 sm:gap-3 mt-6">
-                    {BannerData.map((item, i) => (
+                    {bannerData?.data?.map((item: IBanner, i: number) => (
                         <button
                             key={item._id}
                             onClick={() => {
@@ -130,39 +131,6 @@ export default function BannerCarousel() {
                         />
                     ))}
                 </div>
-
-                {/* <div className="hidden lg:flex justify-center gap-4 mt-8">
-                    {BannerData.slice(0, THUMBNAIL_LIMIT).map((item, i) => (
-                        <button
-                            key={item._id}
-                            onClick={() => {
-                                setDirection(i > index ? 1 : -1);
-                                setIndex(i);
-                            }}
-                            className={cn(`relative w-28 h-20 rounded-lg overflow-hidden transition-all duration-300`,
-                                i === index
-                                    ? 'ring-4 ring-[#7a4494] scale-110'
-                                    : 'opacity-50 hover:opacity-80 hover:scale-105'
-                            )}
-                        >
-                            <Image
-                                src={item.img}
-                                width={900}
-                                height={500}
-                                alt={`Thumbnail ${i + 1}`}
-                                className="w-full h-full object-cover"
-                                draggable={false}
-                            />
-                            {i !== index && <div className="absolute inset-0 bg-[var(--purple-light)]/40" />}
-                        </button>
-                    ))}
-
-                    {BannerData.length > THUMBNAIL_LIMIT && (
-                        <div className="flex items-center justify-center w-28 h-20 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium">
-                            +{BannerData.length - THUMBNAIL_LIMIT}
-                        </div>
-                    )}
-                </div> */}
             </div>
         </section>
     );

@@ -1,16 +1,53 @@
+'use client'
+
+import React from 'react'
 import { Category } from '@/app/types/product'
 import Image from 'next/image'
-import React from 'react'
-import { MdKeyboardArrowDown } from 'react-icons/md'
+import { imageUrl } from '@/app/utils/imagePreview'
+import { IoMdArrowDropdown } from 'react-icons/io'
+import { FaSortUp } from 'react-icons/fa'
 
-function SectionStyleCategoryDesign({ item }: { item: Category }) {
+interface CategoryItemProps {
+  item: Category
+  selectedCategory: string | null
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string | null>>
+}
+
+const SectionStyleCategoryDesign: React.FC<CategoryItemProps> = ({
+  item,
+  selectedCategory,
+  setSelectedCategory,
+}) => {
+  const isOpen = selectedCategory === item._id
+
+  const handleClick = () => {
+    if (isOpen) {
+      setSelectedCategory(null)
+    } else {
+      setSelectedCategory(item._id)
+    }
+  }
+
   return (
-    <div className='border min-w-[250px] cursor-pointer hover:bg-[#EDEDED] hover:text-[var(--purple-light)] transition-all duration-300 border-[var(--border-color)] w-full shadow-2xs'>
-      <div className='flex items-center flex-col gap-4 p-4'>
-        <Image src={item.img} className='w-16 h-16 object-contain' alt={item.name} width={100} height={100} />
-        <h2 className='text-xl font-bold line-clamp-1'>{item.name}</h2>
-        <MdKeyboardArrowDown />
-      </div>
+    <div className="relative  w-full">
+      <button
+        className="flex flex-col w-full items-center justify-center text-center px-4 py-3 
+                   border border-[var(--border-color)] rounded-none 
+                   bg-white hover:bg-[#EDEDED] cursor-pointer hover:text-[var(--purple-light)] 
+                   min-w-[140px] transition-all duration-300"
+        onClick={handleClick}
+      >
+        <Image
+          src={imageUrl({ image: item.img })}
+          alt={item.name}
+          width={50}
+          height={50}
+          className="w-12 h-12 object-contain"
+        />
+        <span className="text-sm font-semibold mt-2">{item.name}</span>
+        {/* Icon toggles based on open state */}
+        {!isOpen ? <IoMdArrowDropdown className="w-6 h-6 mt-1" /> : <FaSortUp className="w-6 h-6 mt-1" />}
+      </button>
     </div>
   )
 }

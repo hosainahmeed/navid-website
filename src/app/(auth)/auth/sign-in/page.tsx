@@ -2,13 +2,40 @@
 import { Button, Divider, Form, Input, Typography } from 'antd'
 import Link from 'next/link';
 import React from 'react'
-
+import { useSignInMutation } from '@/app/redux/services/authApis';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 const { Title } = Typography
 
 function SignIn() {
     const [form] = Form.useForm();
-    const onFinish = (values: any) => {
-        console.log('Received values of form:', values);
+    const [signIn, { isLoading: isSignInLoading }] = useSignInMutation()
+    const router = useRouter()
+    const onFinish = async (values: any) => {
+        try {
+            const data = {
+                email: values.email,
+                password: values.password
+            }
+            if (Cookies.get('accessToken')) {
+                Cookies.remove('accessToken');
+            }
+            const res = await signIn(data).unwrap();
+            if (res?.success) {
+                Cookies.set('accessToken', res.token);
+                alert(res.message || 'Sign in successful!');
+                router.push('/');
+                return;
+            }
+        } catch (error: any) {
+            console.log(error)
+            const message =
+                error?.data?.message ||
+                error?.message ||
+                'Something went wrong while signing in!';
+            alert(message);
+        }
     };
 
     return (
@@ -50,6 +77,7 @@ function SignIn() {
                     </Link>
                     <Form.Item className='w-full'>
                         <Button
+                            loading={isSignInLoading}
                             style={{
                                 width: '100%',
                                 backgroundColor: 'var(--purple-light)',

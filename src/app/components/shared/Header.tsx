@@ -22,23 +22,23 @@ function Header() {
         <header className="sticky top-0 z-50 border-b border-[var(--border-color)] bg-white">
             <div
                 className="max-w-screen-2xl mx-auto flex h-16 items-center justify-between">
-                <div onClick={() => router.push('/')} 
-                className="flex cursor-pointer items-center justify-center gap-2">
+                <div onClick={() => router.push('/')}
+                    className="flex cursor-pointer items-center justify-center gap-2">
                     <Image
                         src={IMAGE.brand.src}
                         width={200}
                         height={200}
                         alt="brand"
                         className='w-auto h-12 md:h-12'
-                        />
-                        <div className='hidden md:flex flex-col items-start'>
-                            <h1 
-                            style={{fontFamily: "sans-serif"}}
+                    />
+                    <div className='hidden md:flex flex-col items-start'>
+                        <h1
+                            style={{ fontFamily: "sans-serif" }}
                             className='text-base text-[#a937e2] font-black md:text-2xl'>DIVAN DIONE</h1>
-                            <h2
-                            style={{fontFamily: "sans-serif"}}
+                        <h2
+                            style={{ fontFamily: "sans-serif" }}
                             className='text-xs font-medium md:text-sm'>SMOKE WITH ATTITUDE</h2>
-                        </div>
+                    </div>
                 </div>
                 <nav className="flex items-center gap-6">
                     {NavLink.map((item) => (
@@ -55,7 +55,7 @@ function Header() {
                     </Link>
                 </nav>
             </div>
-             <small className="text-center text-xs w-full self-center flex items-center justify-center font-bold text-red-500">WARNING: Recommended for adults only.</small>
+            <small className="text-center text-xs w-full self-center flex items-center justify-center font-bold text-red-500">WARNING: Recommended for adults only.</small>
         </header>
     )
 }

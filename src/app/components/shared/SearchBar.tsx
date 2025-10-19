@@ -47,7 +47,7 @@ const SearchBar: React.FC = () => {
     <div className='flex relative md:flex-row flex-col w-full mx-auto items-center my-4 gap-2'>
       <div className='flex items-center gap-2 w-full md:hidden'>
         <button
-        onClick={() => router.push('/shop')}
+        onClick={() => {}}
         className='bg-[var(--purple-light)]   w-fit h-10 flex items-center cursor-pointer text-white px-4 py-2'>
           <IoMdMenu />
         </button>

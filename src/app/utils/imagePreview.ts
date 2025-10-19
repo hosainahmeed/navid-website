@@ -1,10 +1,11 @@
-const url: string = 'https://api.divandioneapp.com'
+const url: string = 'http://10.10.20.54:5000'
+
 export const imageUrl = ({ image }: { image: string }) => {
-    return image
-        ? image?.startsWith("http")
-            ? image
-            : image?.startsWith("/")
-                ? `${url}${image}`
-                : `${url}/${image}`
-        : "https://placehold.co/400";
-};
+    if (!image) return "https://placehold.co/400"
+    const fixedImage = image.replace(/\\/g, "/")
+    return fixedImage.startsWith("http")
+        ? fixedImage
+        : fixedImage.startsWith("/")
+            ? `${url}${fixedImage}`
+            : `${url}/${fixedImage}`
+}

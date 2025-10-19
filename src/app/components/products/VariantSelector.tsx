@@ -4,6 +4,7 @@ import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Check } from "lucide-react"
+import { colorOptions } from "@/app/constants/constData"
 
 interface VariantSelectorProps {
     colors: string[]
@@ -12,6 +13,7 @@ interface VariantSelectorProps {
 }
 
 export function VariantSelector({ colors, sizes, onVariantChange }: VariantSelectorProps) {
+
     const [selectedColor, setSelectedColor] = useState(colors[0])
     const [selectedSize, setSelectedSize] = useState(sizes[0])
 
@@ -26,16 +28,9 @@ export function VariantSelector({ colors, sizes, onVariantChange }: VariantSelec
     }
 
     const getColorClass = (color: string) => {
-        const colorMap: Record<string, string> = {
-            black: "bg-black",
-            white: "bg-white",
-            gray: "bg-gray-400",
-            blue: "bg-blue-500",
-            red: "bg-red-500",
-            green: "bg-green-500",
-            yellow: "bg-yellow-400",
-            pink: "bg-pink-400",
-        }
+        const colorMap: Record<string, string> = Object.fromEntries(
+            colorOptions.map((option) => [option.value.toLowerCase(), `bg-${option.value}`])
+        );
         return colorMap[color.toLowerCase()] || "bg-gray-400"
     }
 
@@ -48,10 +43,11 @@ export function VariantSelector({ colors, sizes, onVariantChange }: VariantSelec
                     <span className="text-sm text-muted-foreground capitalize">{selectedColor}</span>
                 </div>
                 <div className="flex p-2 flex-wrap gap-3">
-                    {colors.map((color) => (
+                    {colors?.map((color) => (
                         <button
                             key={color}
                             onClick={() => handleColorChange(color)}
+                            style={{ backgroundColor: color.toLocaleLowerCase() }}
                             className={cn(
                                 "relative h-10 w-10 rounded-full border-2 transition-all",
                                 selectedColor === color
@@ -62,7 +58,7 @@ export function VariantSelector({ colors, sizes, onVariantChange }: VariantSelec
                         >
                             <span className={cn("absolute inset-1 rounded-full", getColorClass(color))} />
                             {selectedColor === color && (
-                                <Check className="absolute inset-0 m-auto h-5 w-5 text-white drop-shadow-md" />
+                                <Check className="absolute inset-0 m-auto h-5 w-5 mix-blend-difference drop-shadow-md" />
                             )}
                         </button>
                     ))}

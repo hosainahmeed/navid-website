@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
       "i0.wp.com",
       "5.imimg.com",
       "birdiemaedesigns.com",
-      "img.freepik.com"],
+      "img.freepik.com","10.10.20.54"],
     // Alternatively, you can use remotePatterns for more control:
     // remotePatterns: [
     //   {

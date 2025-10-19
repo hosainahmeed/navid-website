@@ -31,9 +31,10 @@ export interface IBanner {
 
 //form others
 export interface Category {
-    _id?: string
-    name: string
-    img: string | StaticImageData
+    _id: string,
+    name: string,
+    img: string,
+    is_active: boolean,
 }
 
 export interface VariantImage {

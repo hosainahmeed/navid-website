@@ -8,7 +8,7 @@ import SearchBar from '../components/shared/SearchBar'
 function page() {
   return (
     <div
-      className='max-w-screen-2xl py-12 mx-auto border-x border-[var(--border-color)] px-3 space-y-6'>
+      className='max-w-screen-2xl py-12 mx-auto border-x border-[var(--border-color)] px-3 space-y-2'>
       <SearchBar />
       <TopPageCategory />
       <BannerCarousel />

@@ -1,8 +1,3 @@
-export interface CartItem {
-  id: string;
-  quantity: number;
-}
-
 export interface CartContextType {
   cartItems: CartItem[];
   totalQuantity: number;
@@ -30,4 +25,13 @@ interface Item {
   quantity: number,
   price: number,
   _id: string
+}
+
+
+export interface CartItem {
+  product_id: string,
+  variant: string,
+  quantity: number,
+  price: number,
+  size: string,
 }

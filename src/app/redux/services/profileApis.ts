@@ -4,7 +4,7 @@ const profileApis = baseApis.injectEndpoints({
     endpoints: (builder) => ({
         profile: builder.query({
             query: () => ({
-                url: '/user/profile',
+                url: '/auth/profile',
                 method: 'GET',
             }),
             providesTags: ['profile'],

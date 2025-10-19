@@ -17,11 +17,11 @@ const CartPage = () => {
   const [cart, setCart] = useState<cartResponse>(mockCartData);
   const increaseQuantity = (id: string) => {
     const updatedItems = cart.items.map((item) =>
-      item._id === id
+      item?._id === id
         ? {
           ...item,
-          quantity: item.quantity + 1,
-          price: (item.quantity + 1) * item.product_id.price,
+          quantity: item?.quantity + 1,
+          price: (item?.quantity + 1) * item?.product_id?.price,
         }
         : item
     );
@@ -31,11 +31,11 @@ const CartPage = () => {
 
   const decreaseQuantity = (id: string) => {
     const updatedItems = cart.items.map((item) =>
-      item._id === id && item.quantity > 1
+      item?._id === id && item?.quantity > 1
         ? {
           ...item,
-          quantity: item.quantity - 1,
-          price: (item.quantity - 1) * item.product_id.price,
+          quantity: item?.quantity - 1,
+          price: (item?.quantity - 1) * item?.product_id?.price,
         }
         : item
     );
@@ -44,17 +44,17 @@ const CartPage = () => {
 
 
   const removeItem = (id: string) => {
-    const updatedItems = cart.items.filter((item) => item._id !== id);
+    const updatedItems = cart.items.filter((item) => item?._id !== id);
     updateCartTotals(updatedItems);
   };
 
 
   const updateCartTotals = (updatedItems: Item[]) => {
     const total_quantity = updatedItems.reduce(
-      (sum, item) => sum + item.quantity,
+      (sum, item) => sum + item?.quantity,
       0
     );
-    const total_price = updatedItems.reduce((sum, item) => sum + item.price, 0);
+    const total_price = updatedItems.reduce((sum, item) => sum + item?.price, 0);
     setCart({
       ...cart,
       items: updatedItems,
@@ -67,10 +67,10 @@ const CartPage = () => {
   const handleCheckout = () => {
     const payload = {
       price_data: cart.items.map((item) => ({
-        name: item.product_id.name,
-        unit_amount: item.product_id.price,
-        quantity: item.quantity,
-        _id: item.product_id._id,
+        name: item?.product_id?.name,
+        unit_amount: item?.product_id?.price,
+        quantity: item?.quantity,
+        _id: item?.product_id?._id,
       })),
       purpose: "buy_product",
       currency: "USD",
@@ -85,9 +85,9 @@ const CartPage = () => {
   const shippingCharge = total_price < 50 ? 0 : 15;
 
   return (
-    <div className="max-w-screen-2xl mx-auto grid md:grid-cols-3 gap-6 py-10">
-      <div className="md:col-span-2 bg-white p-6  border border-[var(--border-color)]">
-        <h1 className="text-3xl font-bold mb-6 uppercase text-gray-900">
+    <div className="max-w-screen-2xl border-x border-[var(--border-color)] mx-auto grid md:grid-cols-3 py-10">
+      <div className="md:col-span-2 bg-white border-y border-[var(--border-color)]">
+        <h1 className="text-3xl font-bold mb-6 bg-[#EDEDED] border-b border-[var(--border-color)] p-6 uppercase text-gray-900">
           Shopping Cart
         </h1>
 
@@ -96,24 +96,24 @@ const CartPage = () => {
             <div className="flex flex-col items-center justify-center">
               <p className="text-gray-900 font-bold text-2xl mb-2">Your cart is empty</p>
               <Link href={'/'}>
-                <Button>Continue Shopping</Button>
+                <Button className="rounded-none bg-[var(--purple-light)] hover:bg-[var(--color-primary)]">Continue Shopping</Button>
               </Link>
             </div>
             : items.map((item) => (
               <div
-                key={item._id}
-                className="flex last:border-b-0 border-b flex-col sm:flex-row items-center sm:items-start gap-6  pb-4 relative"
+                key={item?._id}
+                className="flex p-2 last:border-b-0 border-b flex-col sm:flex-row items-center sm:items-start gap-6  relative"
               >
                 <button
-                  onClick={() => removeItem(item._id)}
+                  onClick={() => removeItem(item?._id)}
                   className="absolute top-2 right-2 p-2 rounded-full bg-gray-900 hover:bg-[var(--color-primary)] transition"
                 >
                   <X className="text-white w-4 h-4" />
                 </button>
 
                 <Image
-                  src={item.product_id.product_image}
-                  alt={item.product_id.name}
+                  src={item?.product_id?.product_image}
+                  alt={item?.product_id?.name}
                   width={200}
                   height={200}
                   className="w-40 h-40 object-cover"
@@ -121,27 +121,27 @@ const CartPage = () => {
 
                 <div className="flex flex-col gap-2 w-full">
                   <h2 className="text-2xl font-bold text-gray-900 uppercase">
-                    {item.product_id.name}
+                    {item?.product_id?.name}
                   </h2>
                   <p className="text-gray-700 font-medium">
                     Price:{" "}
                     <span className="font-semibold text-gray-900">
-                      ${item.product_id.price}
+                      ${item?.product_id?.price}
                     </span>
                   </p>
 
                   <div className="flex items-center gap-3 mt-2">
                     <button
-                      onClick={() => decreaseQuantity(item._id)}
+                      onClick={() => decreaseQuantity(item?._id)}
                       className="p-1 rounded-full border border-[var(--border-color)] hover:bg-gray-200"
                     >
                       <Minus className="w-4 h-4" />
                     </button>
                     <span className="text-lg font-semibold w-8 text-center">
-                      {item.quantity}
+                      {item?.quantity}
                     </span>
                     <button
-                      onClick={() => increaseQuantity(item._id)}
+                      onClick={() => increaseQuantity(item?._id)}
                       className="p-1 rounded-full border border-[var(--border-color)] hover:bg-gray-200"
                     >
                       <Plus className="w-4 h-4" />
@@ -151,7 +151,7 @@ const CartPage = () => {
                   <p className="text-gray-700 font-medium mt-1">
                     Item Total:{" "}
                     <span className="font-semibold text-gray-900">
-                      ${item.price}
+                      ${item?.price}
                     </span>
                   </p>
                 </div>
@@ -168,11 +168,11 @@ const CartPage = () => {
         <div className="space-y-2">
           {items.map((item) => (
             <div
-              key={item._id}
+              key={item?._id}
               className="flex justify-between text-lg text-gray-800"
             >
-              <span>{item.product_id.name}</span>
-              <span>${item.product_id.price}</span>
+              <span>{item?.product_id?.name}</span>
+              <span>${item?.product_id?.price}</span>
             </div>
           ))}
         </div>

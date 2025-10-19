@@ -16,7 +16,7 @@ const authApis = baseApis.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: ['Profile'],
+            invalidatesTags: ['profile'],
         }),
         forgotPassword: builder.mutation({
             query: (data) => ({
@@ -24,7 +24,7 @@ const authApis = baseApis.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: ['Profile'],
+            invalidatesTags: ['profile'],
         }),
         verifyForgotOtp: builder.mutation({
             query: (data) => ({
@@ -32,7 +32,7 @@ const authApis = baseApis.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: ['Profile'],
+            invalidatesTags: ['profile'],
         }),
         resetPassword: builder.mutation({
             query: (data) => ({
@@ -40,7 +40,7 @@ const authApis = baseApis.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: ['Profile'],
+            invalidatesTags: ['profile'],
         }),
         verifyOtp: builder.mutation({
             query: (data) => ({
@@ -65,6 +65,7 @@ export const {
     useVerifyForgotOtpMutation,
     useResetPasswordMutation,
     useVerifyOtpMutation,
-    useVerificationCreateMutation
+    useVerificationCreateMutation,
+    useSignInMutation
 } = authApis
 

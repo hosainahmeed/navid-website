@@ -1,10 +1,10 @@
 "use client"
 import { useState, useRef, type MouseEvent } from "react"
-import Image from "next/image"
 import cn from "@/app/utils/cn"
 import { imageUrl } from "@/app/utils/imagePreview"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
+import { Image } from "antd"
 
 interface ImageGalleryProps {
     images: string[]
@@ -17,7 +17,6 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
     const [magnifierPosition, setMagnifierPosition] = useState({ x: 0, y: 0 })
     const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 })
     const imageRef = useRef<HTMLDivElement>(null)
-    console.log(images)
     const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
         if (!imageRef.current) return
 
@@ -46,9 +45,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                 <Image
                     src={imageUrl({ image: images[selectedImage] })}
                     alt={productName}
-                    fill
                     className="object-fill aspect-square"
-                    priority
                 />
 
                 {showMagnifier && (
@@ -83,8 +80,8 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                             <Image
                                 src={imageUrl({ image })}
                                 alt={`${productName} view ${index + 1}`}
-                                fill
                                 className="object-fill"
+                                preview={false}
                             />
                         </button>
                     ))}
@@ -112,7 +109,6 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                                             <Image
                                                 src={imageUrl({ image })}
                                                 alt={`${productName} view ${index + 1}`}
-                                                fill
                                                 className="object-cover"
                                             />
                                         </button>

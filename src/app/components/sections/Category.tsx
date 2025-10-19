@@ -18,7 +18,7 @@ function Category() {
       />
       <div className='grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-4 p-2'>
         {mockCategoryData.slice(0, 4).map((item) => (
-          <CategoryCard key={item._id} item={item} />
+          <CategoryCard key={item._id} item={item} onSelectCategory={() => {}} />
         ))}
       </div>
     </div>
