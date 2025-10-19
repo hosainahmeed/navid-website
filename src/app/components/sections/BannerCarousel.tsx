@@ -64,7 +64,9 @@ export default function BannerCarousel() {
         const timer = setInterval(handleNext, 5000);
         return () => clearInterval(timer);
     }, [bannerData]);
-
+    if (!bannerData?.data?.length) {
+        return null;
+    }
     return (
         <section className="h-fit  mx-auto  flex items-center justify-center">
             <div className="w-full mx-auto text-white">

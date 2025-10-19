@@ -44,7 +44,7 @@ console.log(product?.variantColors)
     return (
         <div className="flex flex-col border border-[var(--border-color)]">
             <div>
-                <Badge className="bg-transparent text-foreground rounded-none border-none text-xl">{product?.category.name}</Badge>
+                <Badge className="bg-transparent text-foreground rounded-none border-none text-xl">{product?.category?.name}</Badge>
                 <h1 className="text-3xl font-bold p-2 border-b border-[var(--border-color)] tracking-tight text-foreground sm:text-4xl">{product?.name}</h1>
                 <div className="flex items-center gap-2 p-2 border-b border-[var(--border-color)]">
 
@@ -121,7 +121,7 @@ console.log(product?.variantColors)
                 </div>
                 <div className="flex justify-between">
                     <span className="text-muted-foreground">Category:</span>
-                    <span className="font-medium text-foreground">{product?.category.name}</span>
+                    <span className="font-medium text-foreground">{product?.category?.name}</span>
                 </div>
                 <div className="flex justify-between">
                     <span className="text-muted-foreground">Availability:</span>

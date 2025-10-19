@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 const baseApis = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://10.10.20.54:5000",
+        baseUrl: "http://192.168.0.103:5000",
         prepareHeaders: (headers) => {
             const token = Cookies.get('accessToken');
             if (token) {

@@ -1,28 +1,77 @@
 'use client'
-
-import React, { useRef, useState, MouseEvent } from 'react'
-import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
-import { useGetAllSubCategoryQuery } from '@/app/redux/services/subcategoryApis'
+import React, { useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ChevronDown, ChevronUp } from 'lucide-react'
 import { Category } from '@/app/types/product'
 import { Subcategory } from '@/app/types/subcategory'
-import SectionStyleCategoryDesign from '../category/SectionStyleCategoryDesign'
-import { AnimatePresence, motion } from 'framer-motion'
+import { imageUrl } from '@/app/utils/imagePreview'
+import Image from 'next/image'
+import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
+import { useGetAllSubCategoryQuery } from '@/app/redux/services/subcategoryApis'
+
+interface CategoryItemProps {
+  item: Category
+  selectedCategory: string | null
+  setSelectedCategory: React.Dispatch<React.SetStateAction<string | null>>
+}
+
+const CategoryItem: React.FC<CategoryItemProps> = ({
+  item,
+  selectedCategory,
+  setSelectedCategory,
+}) => {
+  const isOpen = selectedCategory === item._id
+
+  const handleClick = () => {
+    setSelectedCategory(isOpen ? null : item._id)
+  }
+
+
+  return (
+    <div className="w-1/5 flex-shrink-0">
+      <button
+        className={`flex flex-col items-center justify-center text-center px-4 py-4 w-full h-full
+                   border-r border-gray-200 bg-white hover:bg-gray-50
+                   transition-all duration-200
+                   ${isOpen ? 'bg-gray-50 text-purple-600' : 'text-gray-700'}`}
+        onClick={handleClick}
+      >
+        <Image
+          src={imageUrl({ image: item.img })}
+          alt={item.name}
+          width={64}
+          height={64}
+          className="w-12 h-12 object-contain mb-2"
+          onError={(e) => {
+            e.currentTarget.src = 'https://via.placeholder.com/48?text=No+Image'
+          }}
+        />
+        <span className="text-sm font-semibold mb-1 line-clamp-1">{item.name}</span>
+        {isOpen ? (
+          <ChevronUp className="w-5 h-5 text-purple-600" />
+        ) : (
+          <ChevronDown className="w-5 h-5" />
+        )}
+      </button>
+    </div>
+  )
+}
+
 
 const TopPageCategory = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
-
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
-  const { data: categoryData, isLoading } = useGetAllCategoryQuery(undefined)
-  const { data: subCategoryData } = useGetAllSubCategoryQuery(
+  const { data: categoryData, isLoading, isError } = useGetAllCategoryQuery(undefined)
+  const { data: subCategoryData, isLoading: subLoading } = useGetAllSubCategoryQuery(
     { category_id: selectedCategory || '' },
     { skip: !selectedCategory }
   )
 
-  const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!scrollRef.current) return
     setIsDragging(true)
     setStartX(e.pageX - scrollRef.current.offsetLeft)
@@ -31,64 +80,146 @@ const TopPageCategory = () => {
 
   const handleMouseLeave = () => setIsDragging(false)
   const handleMouseUp = () => setIsDragging(false)
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!isDragging || !scrollRef.current) return
     e.preventDefault()
     const x = e.pageX - scrollRef.current.offsetLeft
-    const walk = (x - startX) * 1.5
+    const walk = (x - startX) * 2
     scrollRef.current.scrollLeft = scrollLeft - walk
   }
 
-  if (isLoading) return <div>Loading...</div>
+  const categories: Category[] = categoryData?.data || []
+  const subcategories: Subcategory[] = subCategoryData?.data || []
+
+  const selectedCategoryName = categories.find(c => c._id === selectedCategory)?.name || ''
+
+  if (isLoading) {
+    return (
+      <div className="bg-white border-b border-gray-200 py-8">
+        <div className="flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+          <span className="ml-3 text-gray-600">Loading categories...</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (isError || !categories.length) {
+    return (
+      <div className="bg-white border-b border-gray-200 py-8">
+        <div className="text-center text-gray-500">
+          No categories available
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div
-      ref={scrollRef}
-      onMouseDown={handleMouseDown}
-      onMouseLeave={handleMouseLeave}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      className="hidden relative md:flex flex-nowrap overflow-x-auto overflow-y-visible hide-scrollbar
-                 border-b border-[var(--border-color)] bg-white select-none cursor-grab"
-    >
-      {categoryData?.data?.map((item: Category) => (
-        <SectionStyleCategoryDesign
-          key={item._id}
-          item={item}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-        />
-      ))}
+    <div className="relative border border-[var(--border-color)] border-b bg-white">
+      {/* Category Navigation - Fixed 5 items per row with scroll */}
+      <div
+        ref={scrollRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        className={`flex flex-nowrap overflow-x-auto overflow-y-visible
+                   select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}
+                   hide-scrollbar scroll-smooth`}
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
+        {categories
+          .filter(item => item.is_active)
+          .map((item) => (
+            <CategoryItem
+              key={item._id}
+              item={item}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
+            />
+          ))}
+      </div>
 
-      {/* Dropdown */}
+      {/* Subcategory Dropdown */}
       <AnimatePresence>
-        {selectedCategory && subCategoryData?.data?.length > 0 && (
+        {selectedCategory && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute left-0 top-full mt-2 bg-white border border-[var(--border-color)] shadow-md p-4 w-full z-50"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="absolute border border-[var(--border-color)] left-0 right-0 top-full bg-white border-b  z-50 overflow-hidden"
           >
-            <h1 className="text-lg font-semibold mb-2">All Subcategories</h1>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
-              {subCategoryData.data.map((sub: Subcategory) => (
-                <div
-                  key={sub._id}
-                  className="flex flex-col items-center gap-2 border p-2 w-full hover:bg-gray-100 cursor-pointer transition-all"
-                >
-                  <img
-                    src={sub.img}
-                    alt={sub.name}
-                    className="w-10 h-10 object-contain"
-                  />
-                  <span className="text-sm font-medium">{sub.name}</span>
+            <motion.div
+              initial={{ y: -20 }}
+              animate={{ y: 0 }}
+              exit={{ y: -20 }}
+              className="container mx-auto px-6 py-6"
+            >
+              <h2 className="text-lg font-bold mb-4 text-gray-800">
+                {selectedCategoryName} Subcategories
+              </h2>
+
+              {/* Subcategory Loading */}
+              {subLoading && (
+                <div className="flex items-center justify-center py-8">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-600"></div>
+                  <span className="ml-3 text-gray-600">Loading subcategories...</span>
                 </div>
-              ))}
-            </div>
+              )}
+
+              {/* Subcategory Grid */}
+              {!subLoading && subcategories.length > 0 && (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+                  {subcategories.map((sub) => {
+                    const subImageUrl = imageUrl({ image: sub.img })
+                    return (
+                      <div
+                        key={sub._id}
+                        className="flex  items-center gap-3 border border-[var(--border-color)] p-1 cursor-pointer transition-all"
+                      >
+                        <Image
+                          src={subImageUrl}
+                          alt={sub.name}
+                          width={64}
+                          height={64}
+                          className="w-12 h-12 object-contain"
+                        />
+                        <span className="text-sm font-medium text-center text-gray-700">
+                          {sub.name}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+
+              {/* No Subcategories */}
+              {!subLoading && subcategories.length === 0 && (
+                <div className="text-center py-8 text-gray-500">
+                  No subcategories available for this category
+                </div>
+              )}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <style jsx>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .line-clamp-1 {
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
+        }
+      `}</style>
     </div>
   )
 }
