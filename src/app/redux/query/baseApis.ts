@@ -1,9 +1,10 @@
+import { url } from '@/app/utils/imagePreview';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'js-cookie';
 const baseApis = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://192.168.0.103:5000",
+        baseUrl: url,
         prepareHeaders: (headers) => {
             const token = Cookies.get('accessToken');
             if (token) {

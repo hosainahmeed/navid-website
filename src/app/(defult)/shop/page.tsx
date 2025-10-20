@@ -14,11 +14,10 @@ import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
 const Page: React.FC = () => {
     const searchParams = useSearchParams()
     const initialSearch = searchParams.get('productName') || ''
-
+    
     const [searchQuery, setSearchQuery] = useState<string>(initialSearch)
     const [selectedCategory, setSelectedCategory] = useState<string>('')
 
-    // ✅ Memoize debounce function to avoid re-creation on each render
     const debouncedSearch = useMemo(
         () =>
             debounce((value: string) => {

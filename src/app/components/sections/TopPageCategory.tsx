@@ -8,6 +8,7 @@ import { imageUrl } from '@/app/utils/imagePreview'
 import Image from 'next/image'
 import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
 import { useGetAllSubCategoryQuery } from '@/app/redux/services/subcategoryApis'
+import { cn } from '@/lib/utils'
 
 interface CategoryItemProps {
   item: Category
@@ -28,12 +29,12 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
 
 
   return (
-    <div className="w-1/5 flex-shrink-0">
+    <div className="w-1/5 min-w-[140px] flex-shrink-0">
       <button
-        className={`flex flex-col items-center justify-center text-center px-4 py-4 w-full h-full
+        className={cn(`flex flex-col items-center justify-center text-center px-4 py-4 w-full h-full
                    border-r border-gray-200 bg-white hover:bg-gray-50
                    transition-all duration-200
-                   ${isOpen ? 'bg-gray-50 text-purple-600' : 'text-gray-700'}`}
+                   ${isOpen ? 'bg-[#EDEDED] text-purple-600' : 'text-gray-700'}`)}
         onClick={handleClick}
       >
         <Image
@@ -116,7 +117,7 @@ const TopPageCategory = () => {
   }
 
   return (
-    <div className="relative border border-[var(--border-color)] border-b bg-white">
+    <div className="relative  border border-[var(--border-color)] border-b bg-white">
       {/* Category Navigation - Fixed 5 items per row with scroll */}
       <div
         ref={scrollRef}
@@ -124,7 +125,7 @@ const TopPageCategory = () => {
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
-        className={`flex flex-nowrap overflow-x-auto overflow-y-visible
+        className={`flex  flex-nowrap overflow-x-auto overflow-y-visible
                    select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}
                    hide-scrollbar scroll-smooth`}
         style={{
@@ -174,7 +175,7 @@ const TopPageCategory = () => {
 
               {/* Subcategory Grid */}
               {!subLoading && subcategories.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+                <div className="grid grid-cols-1 max-h-[200px] md:max-h-[400px] overflow-y-scroll  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {subcategories.map((sub) => {
                     const subImageUrl = imageUrl({ image: sub.img })
                     return (
