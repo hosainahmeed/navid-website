@@ -14,7 +14,7 @@ import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
 const Page: React.FC = () => {
     const searchParams = useSearchParams()
     const initialSearch = searchParams.get('productName') || ''
-    
+
     const [searchQuery, setSearchQuery] = useState<string>(initialSearch)
     const [selectedCategory, setSelectedCategory] = useState<string>('')
 
@@ -34,7 +34,7 @@ const Page: React.FC = () => {
         [debouncedSearch]
     )
 
-    const { data: categoryData, isLoading: categoryLoading } = useGetAllCategoryQuery(undefined)
+    const { data: categoryData, isLoading: categoryLoading, isFetching } = useGetAllCategoryQuery(undefined)
     const { data: productData, isLoading: productLoading } = useGetAllProductQuery({
         search: searchQuery,
         category: selectedCategory,
@@ -43,8 +43,8 @@ const Page: React.FC = () => {
     const products = productData?.data || []
     const categories =
         categoryData?.data?.map((item: any) => ({
-            value: item._id,
-            label: item.name,
+            value: item?._id,
+            label: item?.name,
         })) || []
 
     return (
@@ -53,41 +53,32 @@ const Page: React.FC = () => {
             <SectionHeader title='All Products' className='my-0 p-2' />
 
             {/* Search & Filter Controls */}
-            <div className='flex justify-between items-center md:flex-row flex-col'>
+            <div className='flex justify-between items-center flex-row'>
                 {/* Search input */}
                 <div className='relative w-full flex-1'>
                     <Input
+                        allowClear
                         placeholder='Search products'
                         onChange={handleSearchChange}
                         defaultValue={searchQuery}
                         className='border border-[var(--border-color)] p-4 py-6 font-bold text-[28px] rounded-none'
                         style={{ height: '64px' }}
                     />
-                    {searchQuery && (
-                        <MdCancel
-                            onClick={() => {
-                                setSearchQuery('')
-                                debouncedSearch('')
-                            }}
-                            className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 cursor-pointer'
-                            size={24}
-                        />
-                    )}
                 </div>
 
                 {/* Category select */}
                 <Select
-                    loading={categoryLoading}
+                    loading={categoryLoading || isFetching}
                     options={categories}
                     onChange={(value) => setSelectedCategory(value)}
                     placeholder='Select category'
                     style={{
                         height: '64px',
-                        minWidth: '200px',
+                        minWidth: '150px',
                         fontSize: '20px',
                         fontWeight: 'bold',
                     }}
-                    className='!w-full md:!w-auto'
+                    className=''
                     allowClear
                 />
             </div>
@@ -99,7 +90,7 @@ const Page: React.FC = () => {
                         Loading products...
                     </div>
                 ) : products.length > 0 ? (
-                    products.map((item: Iproduct) => <ProductCard key={item._id} item={item} />)
+                    products.map((item: Iproduct) => <ProductCard key={item?._id} item={item} />)
                 ) : (
                     <div className='col-span-full min-h-[400px] h-full flex items-center justify-center text-center text-gray-600 py-10'>
                         No products found

@@ -6,6 +6,7 @@ import cn from '@/app/utils/cn';
 import Image from 'next/image';
 import { useGetAllBannerQuery } from '@/app/redux/services/bannerApis';
 import { imageUrl } from '@/app/utils/imagePreview';
+import { Skeleton } from 'antd';
 
 interface IBanner {
     _id: string;
@@ -13,7 +14,7 @@ interface IBanner {
 }
 
 export default function BannerCarousel() {
-    const { data: bannerData } = useGetAllBannerQuery(undefined)
+    const { data: bannerData, isLoading } = useGetAllBannerQuery(undefined)
     const [index, setIndex] = useState<number>(0);
     const [direction, setDirection] = useState<number>(0);
 
@@ -64,6 +65,15 @@ export default function BannerCarousel() {
         const timer = setInterval(handleNext, 5000);
         return () => clearInterval(timer);
     }, [bannerData]);
+
+    if (isLoading) {
+        return (
+            <div className='h-[250px] border border-[var(--border-color)] md:h-[400px] xl:h-[600px] flex items-center justify-center'>
+                <Skeleton.Image />
+            </div>
+        )
+    }
+
     if (!bannerData?.data?.length) {
         return null;
     }

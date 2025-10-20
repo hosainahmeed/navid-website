@@ -67,7 +67,7 @@ const TopPageCategory = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
   const { data: categoryData, isLoading, isError } = useGetAllCategoryQuery(undefined)
-  const { data: subCategoryData, isLoading: subLoading } = useGetAllSubCategoryQuery(
+  const { data: subCategoryData, isLoading: subLoading, isFetching } = useGetAllSubCategoryQuery(
     { category_id: selectedCategory || '' },
     { skip: !selectedCategory }
   )
@@ -159,50 +159,36 @@ const TopPageCategory = () => {
               initial={{ y: -20 }}
               animate={{ y: 0 }}
               exit={{ y: -20 }}
-              className="container mx-auto px-6 py-6"
+              className="container mx-auto p-2"
             >
-              <h2 className="text-lg font-bold mb-4 text-gray-800">
-                {selectedCategoryName} Subcategories
+              <h2 className="text-lg line-clamp-2 text-wrap font-bold bg-[var(--color-primary-light)] px-2 text-white mb-4">
+                {selectedCategoryName} Subcategories ({subcategories?.length || 0})
               </h2>
 
               {/* Subcategory Loading */}
-              {subLoading && (
+              {subLoading || isFetching ? (
                 <div className="flex items-center justify-center py-8">
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-600"></div>
                   <span className="ml-3 text-gray-600">Loading subcategories...</span>
                 </div>
-              )}
-
-              {/* Subcategory Grid */}
-              {!subLoading && subcategories.length > 0 && (
+              ) : subcategories.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  No subcategories available for this category
+                </div>
+              ) : (
                 <div className="grid grid-cols-1 max-h-[200px] md:max-h-[400px] overflow-y-scroll  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {subcategories.map((sub) => {
-                    const subImageUrl = imageUrl({ image: sub.img })
                     return (
                       <div
                         key={sub._id}
-                        className="flex  items-center gap-3 border border-[var(--border-color)] p-1 cursor-pointer transition-all"
+                        className="flex hover:underline items-center gap-3 p-1 cursor-pointer transition-all"
                       >
-                        <Image
-                          src={subImageUrl}
-                          alt={sub.name}
-                          width={64}
-                          height={64}
-                          className="w-12 h-12 object-contain"
-                        />
-                        <span className="text-sm font-medium text-center text-gray-700">
+                        <span className="text-sm line-clamp-1 font-medium text-center text-gray-700">
                           {sub.name}
                         </span>
                       </div>
                     )
                   })}
-                </div>
-              )}
-
-              {/* No Subcategories */}
-              {!subLoading && subcategories.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
-                  No subcategories available for this category
                 </div>
               )}
             </motion.div>

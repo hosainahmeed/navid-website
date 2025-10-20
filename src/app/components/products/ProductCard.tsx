@@ -23,7 +23,6 @@ function ProductCard({ item }: { item: Iproduct }) {
 
         const variant = item.variantImages[colorKey]
         const imgList = variant?.img || []
-        // console.log(variant)
         return imgList[0] || ''
     }
 

@@ -2,6 +2,7 @@
 import { AddToCartIcon } from '@/app/constants/icon.index'
 import { IMAGE } from '@/app/constants/Image.index'
 import { useCart } from '@/app/context/CartContext'
+import { useProfileQuery } from '@/app/redux/services/profileApis'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
@@ -10,20 +11,21 @@ import { usePathname, useRouter } from 'next/navigation'
 import { memo } from 'react'
 
 function Header() {
+    const { data: profileData } = useProfileQuery(undefined)
+    console.log("profileData", profileData)
     const router = useRouter()
     const { totalQuantity } = useCart()
     const pathname = usePathname()
     console.log("pathname", pathname)
     const NavLink = [
         { href: '/shop', label: 'Shop' },
-        { href: '/categories', label: 'Categories' },
     ]
     return (
         <header className="sticky top-0 z-50 border-b border-[var(--border-color)] bg-white">
             <div
-                className="max-w-screen-2xl mx-auto flex h-16 items-center justify-between">
+                className="max-w-screen-2xl border-x border-[var(--border-color)] p-2 mx-auto flex h-16 items-center justify-between">
                 <div onClick={() => router.push('/')}
-                    className="flex cursor-pointer items-center justify-center gap-2">
+                    className="flex  cursor-pointer items-center justify-center gap-2">
                     <Image
                         src={IMAGE.brand.src}
                         width={200}
