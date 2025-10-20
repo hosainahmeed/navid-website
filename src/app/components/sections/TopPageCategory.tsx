@@ -183,7 +183,7 @@ const TopPageCategory = () => {
                         key={sub._id}
                         className="flex hover:underline items-center gap-3 p-1 cursor-pointer transition-all"
                       >
-                        <span className="text-sm line-clamp-1 font-medium text-center text-gray-700">
+                        <span className="text-sm px-2 line-clamp-1 font-medium text-center text-gray-700">
                           {sub.name}
                         </span>
                       </div>

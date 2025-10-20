@@ -28,16 +28,6 @@ const mockProfile = {
     },  
 };
 
-const design = {
-    designName: "Modern User Profile",
-    baseColors: {
-        primaryBackground: "#FBE8EF",
-        darkText: "#111111",
-    },
-    layout: {
-        cardStyle: "border border-[var(--border-color)] transition duration-300",
-    },
-};
 
 export default function ProfilePage() {
     const data = mockProfile.data;
@@ -45,18 +35,16 @@ export default function ProfilePage() {
 
     return (
         <main
-            style={{ backgroundColor: design.baseColors.primaryBackground }}
-            className="p-6"
+            className="border-y  border-[var(--border-color)]"
         >
             <section className="mx-auto w-full  max-w-screen-2xl min-h-[calc(100vh-25rem)]">
                 <div
                     className={cn(
                         `bg-white mx-auto border-x p-0 border-[var(--border-color)] rounded-none`,
-                        design.layout.cardStyle
-                    )}
+                        )}
                 >
-                    <div className="flex flex-col lg:flex-row">
-                        <div className="lg:w-1/3 sticky top-24 self-start px-2">
+                    <div className="w-full">
+                        <div className="">
                             <ProfileSidebar
                                 data={data}
                                 activeItem={activeItem}
@@ -64,7 +52,7 @@ export default function ProfilePage() {
                             />
                         </div>
 
-                        <div className="lg:w-2/3 w-full border-x border-[var(--border-color)]">
+                        <div className="w-full">
                             {activeItem === "Profile" && <ProfileDetails data={data} />}
                             {activeItem === "Orders" && <OrdersSection />}
                             {activeItem === "Settings" && <SettingsSection />}

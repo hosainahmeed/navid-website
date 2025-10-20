@@ -1,4 +1,4 @@
-export const url: string = 'http://10.10.20.54:5000'
+export const url: string = 'https://api.divandioneapp.com'
 
 export const imageUrl = ({ image }: { image: string }) => {
     if (!image) return "https://placehold.co/400"

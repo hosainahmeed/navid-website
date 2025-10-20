@@ -31,7 +31,7 @@ export default function SettingsSection() {
                         <Form.Item>
                             <Button
                                 style={{
-                                    backgroundColor: "#ec4899",
+                                    backgroundColor: "var(--purple-light)",
                                     color: "white",
                                     border: "none",
                                     borderRadius: "0px",
@@ -57,7 +57,7 @@ export default function SettingsSection() {
                         <Form.Item>
                             <Button
                                 style={{
-                                    backgroundColor: "#ec4899",
+                                    backgroundColor: "var(--purple-light)",
                                     color: "white",
                                     border: "none",
                                     borderRadius: "0px",
@@ -98,7 +98,7 @@ export default function SettingsSection() {
                         <Form.Item>
                             <Button
                                 style={{
-                                    backgroundColor: "#ec4899",
+                                    backgroundColor: "var(--purple-light)",
                                     color: "white",
                                     border: "none",
                                     borderRadius: "0px",

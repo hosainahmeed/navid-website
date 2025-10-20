@@ -31,8 +31,8 @@ export default function ProfileSidebar({ data, activeItem, setActiveItem }: Side
             .join("");
 
     return (
-        <div className="sticky top-20 bg-white">
-            <div className="flex items-center gap-4">
+        <div className="overflow-hidden bg-white">
+            <div className="flex items-center gap-4 p-4">
                 {data.img ? (
                     <Image
                         src={data.img}
@@ -53,12 +53,12 @@ export default function ProfileSidebar({ data, activeItem, setActiveItem }: Side
                 </div>
             </div>
 
-            <div className="divide-y py-4 divide-gray-200">
+            <div className="divide-y my-4 border border-[var(--border-color)] bg-[#EDEDED] flex w-full divide-gray-200">
                 {sideBarItem.map((item) => (
                     <div
                         key={item.label}
                         onClick={() => setActiveItem(item.label)}
-                        className={`flex items-center gap-3 py-3 px-2 cursor-pointer transition ${activeItem === item.label ? "bg-[#EDEDED] font-semibold" : "hover:bg-gray-50"
+                        className={`flex items-center gap-3 py-3 px-2 cursor-pointer transition ${activeItem === item.label ? "bg-[var(--purple-light)] border-y border-[var(--border-color)] font-semibold" : "hover:bg-gray-50"
                             }`}
                     >
                         {item.icon}

@@ -2,20 +2,32 @@
 import { imageUrl } from '@/app/utils/imagePreview'
 import Image from 'next/image'
 import React, { useMemo, useState } from 'react'
-import { FaSearch } from 'react-icons/fa'
+import { FaArrowLeft, FaSearch } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
-import { IoMdMenu } from 'react-icons/io'
+import { IoMdClose, IoMdMenu } from 'react-icons/io'
 import { useGetAllProductQuery } from '@/app/redux/services/productApis'
-import { Iproduct } from '@/app/types/product'
+import { Category, Iproduct } from '@/app/types/product'
 import debounce from 'lodash.debounce'
+import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useGetAllSubCategoryQuery } from '@/app/redux/services/subcategoryApis'
+import { Subcategory } from '@/app/types/subcategory'
 
 const SearchBar: React.FC = () => {
   const [search, setSearch] = useState('')
   const [showResults, setShowResults] = useState(false)
+  const [showSubCategory, setShowSubCategory] = useState(false)
   const { data: productData, isLoading: productLoading } = useGetAllProductQuery({
     ...(search && { search }),
   })
   const router = useRouter()
+  const [showCategory, setShowCategory] = useState(false)
+  const { data: categoryData, isLoading: categoryLoading } = useGetAllCategoryQuery(undefined)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const { data: subCategoryData, isLoading: subCategoryLoading } = useGetAllSubCategoryQuery({
+    category_id: selectedCategory
+  }, { skip: selectedCategory === null })
+
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -56,11 +68,11 @@ const SearchBar: React.FC = () => {
 
   return (
     <div className='flex relative md:flex-row flex-col w-full mx-auto items-center my-4 gap-2'>
-      <div className='flex items-center gap-2 w-full md:hidden'>
+      <div className='flex items-center gap-2 w-full md:w-fit'>
         <button
-          onClick={() => { }}
+          onClick={() => setShowCategory(!showCategory)}
           className='bg-[var(--purple-light)]   w-fit h-10 flex items-center cursor-pointer text-white px-4 py-2'>
-          <IoMdMenu />
+          {showCategory ? <IoMdClose /> : <IoMdMenu />}
         </button>
         <div className='h-10 text-white w-full  md:w-fit flex-nowrap text-nowrap bg-[var(--purple-light)] flex items-center justify-center px-4 cursor-pointer'>
           Whole sale
@@ -114,6 +126,60 @@ const SearchBar: React.FC = () => {
             </div>
           ))}
       </div>}
+      {showCategory &&
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className='absolute top-12 rounded z-[999] left-0 w-full h-72 border border-[var(--border-color)] shadow-2xl overflow-y-auto bg-white'>
+            {categoryData?.data.length === 0 ?
+              <div className='flex items-center justify-center h-full flex-col gap-2'>
+                <p className='text-gray-500'>No results found</p>
+              </div>
+              : showSubCategory ?
+                subCategoryData?.data.map((sub: Subcategory) => {
+                  return (
+                    <div key={sub?._id}>
+                      <h1 onClick={() => setShowSubCategory(false)}
+                       className='cursor-pointer text-xl text-white flex bg-[var(--purple-light)] p-1 items-center gap-2 flex-nowrap mb-2'><FaArrowLeft /> Back</h1>
+                      <div
+                        className="flex hover:underline items-center gap-3 p-1 cursor-pointer transition-all"
+                      >
+                        <span className="text-xl px-2 line-clamp-1 font-medium text-center text-gray-700">
+                          {sub?.name}
+                        </span>
+                      </div>
+                    </div>
+                  )
+                })
+
+                : categoryData?.data.map((category: Category) => (
+                  <div
+                    onClick={() => {
+                      setShowSubCategory(true)
+                      setSelectedCategory(category?._id)
+                    }}
+                    key={category?._id}
+                    className='p-4 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer'
+                  >
+                    <div className='flex items-center gap-4'>
+                      {getFirstImage(category) && <Image
+                        src={imageUrl({ image: getFirstImage(category) })}
+                        alt={category?.name}
+                        width={50}
+                        height={50}
+                      />}
+                      <div className='flex items-center gap-2 w-full justify-between'>
+                        <span className='font-semibold text-xl'>{category?.name}</span> {">"}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+          </motion.div>
+        </AnimatePresence>
+      }
     </div >
   )
 }

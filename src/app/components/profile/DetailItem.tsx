@@ -14,7 +14,7 @@ export default function DetailItem({ label, value, icon }: Props) {
       <div className="text-gray-500">{icon}</div>
       <div>
         <div className="text-sm text-gray-500">{label}</div>
-        <div className="font-medium text-gray-900 break-all">{value ?? "—"}</div>
+        <div className="text-gray-900 break-all font-normal">{value ?? "—"}</div>
       </div>
     </div>
   );
