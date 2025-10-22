@@ -12,6 +12,8 @@ import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useGetAllSubCategoryQuery } from '@/app/redux/services/subcategoryApis'
 import { Subcategory } from '@/app/types/subcategory'
+import { message, Skeleton } from 'antd'
+import { useProfileQuery } from '@/app/redux/services/profileApis'
 
 const SearchBar: React.FC = () => {
   const [search, setSearch] = useState('')
@@ -21,6 +23,7 @@ const SearchBar: React.FC = () => {
     ...(search && { search }),
   })
   const router = useRouter()
+  const { data: profileData, isLoading: profileLoading } = useProfileQuery(undefined)
   const [showCategory, setShowCategory] = useState(false)
   const { data: categoryData, isLoading: categoryLoading } = useGetAllCategoryQuery(undefined)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
@@ -66,6 +69,14 @@ const SearchBar: React.FC = () => {
     return '';
   };
 
+  const handleWholeSale = () => {
+    if (profileData?.data?.tax_id === null) {
+      router.push('/profile?tab=Settings')
+      return
+    }
+    router.push('/wholesale')
+  }
+
   return (
     <div className='flex relative md:flex-row flex-col w-full mx-auto items-center my-4 gap-2'>
       <div className='flex items-center gap-2 w-full md:w-fit'>
@@ -74,7 +85,9 @@ const SearchBar: React.FC = () => {
           className='bg-[var(--purple-light)]   w-fit h-10 flex items-center cursor-pointer text-white px-4 py-2'>
           {showCategory ? <IoMdClose /> : <IoMdMenu />}
         </button>
-        <div className='h-10 text-white w-full  md:w-fit flex-nowrap text-nowrap bg-[var(--purple-light)] flex items-center justify-center px-4 cursor-pointer'>
+        <div
+          onClick={handleWholeSale}
+          className='h-10 text-white w-full  md:w-fit flex-nowrap text-nowrap bg-[var(--purple-light)] flex items-center justify-center px-4 cursor-pointer'>
           Whole sale
         </div>
       </div>
@@ -102,25 +115,25 @@ const SearchBar: React.FC = () => {
             <p className='text-gray-500'>No results found</p>
             <p className='text-gray-500'>Try searching for something else</p>
           </div>
-          : productData?.data.map((product: Iproduct) => (
+          : productLoading ? <Skeleton /> : productData?.data.map((product: Iproduct) => (
             <div
               onMouseDown={(e) => {
                 e.preventDefault()
-                router.push(`/shop?productName=${product.name}`)
+                router.push(`/shop?productName=${product?.name}`)
               }}
-              key={product._id}
+              key={product?._id}
               className='p-4 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer'
             >
               <div className='flex items-center gap-4'>
                 {getFirstImage(product) && <Image
                   src={imageUrl({ image: getFirstImage(product) })}
-                  alt={product.name}
+                  alt={product?.name}
                   width={50}
                   height={50}
                 />}
                 <div className='flex items-start gap-2 flex-col'>
-                  <span className='font-semibold'>{product.name}</span>
-                  <span className='text-gray-700 flex items-center gap-2 font-semibold'>{product.price}{product.previous_price && <small className='line-through'>{product.previous_price}</small>}</span>
+                  <span className='font-semibold'>{product?.name}</span>
+                  <span className='text-gray-700 flex items-center gap-2 font-semibold'>{product?.price}{product?.previous_price && <small className='line-through'>{product?.previous_price}</small>}</span>
                 </div>
               </div>
             </div>
@@ -139,23 +152,25 @@ const SearchBar: React.FC = () => {
                 <p className='text-gray-500'>No results found</p>
               </div>
               : showSubCategory ?
-                subCategoryData?.data.map((sub: Subcategory) => {
-                  return (
-                    <div key={sub?._id}>
-                      <h1 onClick={() => setShowSubCategory(false)}
-                       className='cursor-pointer text-xl text-white flex bg-[var(--purple-light)] p-1 items-center gap-2 flex-nowrap mb-2'><FaArrowLeft /> Back</h1>
-                      <div
-                        className="flex hover:underline items-center gap-3 p-1 cursor-pointer transition-all"
-                      >
-                        <span className="text-xl px-2 line-clamp-1 font-medium text-center text-gray-700">
-                          {sub?.name}
-                        </span>
+                <>
+                  <h1 onClick={() => setShowSubCategory(false)}
+                    className='cursor-pointer text-xl text-white flex bg-[var(--purple-light)] p-1 items-center gap-2 flex-nowrap mb-2'><FaArrowLeft /> Back</h1>
+                  {subCategoryData?.data.map((sub: Subcategory) => {
+                    return (
+                      <div key={sub?._id}>
+                        <div
+                          className="flex hover:underline items-center gap-3 p-1 cursor-pointer transition-all"
+                        >
+                          <span className="text-xl px-2 line-clamp-1 font-medium text-center text-gray-700">
+                            {sub?.name}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  )
-                })
+                    )
+                  })}
+                </>
 
-                : categoryData?.data.map((category: Category) => (
+                : categoryLoading ? <Skeleton /> : categoryData?.data?.map((category: Category) => (
                   <div
                     onClick={() => {
                       setShowSubCategory(true)

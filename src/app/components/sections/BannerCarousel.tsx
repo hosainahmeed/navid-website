@@ -126,23 +126,6 @@ export default function BannerCarousel() {
                         <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                 </div>
-
-                <div className="flex justify-center items-center gap-2 sm:gap-3 mt-6">
-                    {bannerData?.data?.map((item: IBanner, i: number) => (
-                        <button
-                            key={item._id}
-                            onClick={() => {
-                                setDirection(i > index ? 1 : -1);
-                                setIndex(i);
-                            }}
-                            aria-label={`Go to slide ${i + 1}`}
-                            className={cn(`transition-all duration-300  rounded-full`, i === index
-                                ? 'w-8 sm:w-10 h-2 bg-[var(--purple-light)]'
-                                : 'w-2 h-2 bg-[#7a4494] hover:bg-[var(--purple-light)] cursor-poniter'
-                            )}
-                        />
-                    ))}
-                </div>
             </div>
         </section>
     );

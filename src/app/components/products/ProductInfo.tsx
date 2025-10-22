@@ -6,18 +6,22 @@ import { Badge } from "@/components/ui/badge"
 import { Minus, Plus, ShoppingCart, Heart } from "lucide-react"
 import { Product } from "@/app/types/product"
 import { VariantSelector } from "./VariantSelector"
-import { useCart } from "@/app/context/CartContext"
 import { useRouter } from "next/navigation"
+import { useCreateCartMutation } from "@/app/redux/services/cartApis"
 
 interface ProductInfoProps {
     product: Product
+    selectedVariantImage: string
+    setSelectedVariantImage: (image: string) => void
 }
 
-export function ProductInfo({ product }: ProductInfoProps) {
+export function ProductInfo({ product, selectedVariantImage, setSelectedVariantImage }: ProductInfoProps) {
     const [quantity, setQuantity] = useState(1)
     const [selectedColor, setSelectedColor] = useState(product?.variantColors[0])
     const [selectedSize, setSelectedSize] = useState(product?.variantImages[product?.variantColors[0]]?.size[0])
-    const { addToCart } = useCart()
+    const [createCartMutation] = useCreateCartMutation()
+
+
     const router = useRouter()
 
     const hasDiscount = product?.previous_price > product?.price
@@ -40,7 +44,51 @@ export function ProductInfo({ product }: ProductInfoProps) {
     const handleNavigate = (route: string) => {
         router.push(route)
     }
-console.log(product?.variantColors)
+
+
+    const handleAddToCart = async (product: Product) => {
+        try {
+            if (!product) {
+                throw new Error("Product not found")
+            }
+            if (quantity < 0) {
+                throw new Error("Quantity cannot be less than 0")
+            }
+            if (quantity > product?.quantity) {
+                throw new Error("Quantity cannot be greater than available quantity")
+            }
+            if (!selectedVariantImage) {
+                throw new Error("Please select a variant image")
+            }
+            if (!selectedSize) {
+                throw new Error("Please select a size")
+            }
+            if (!selectedColor) {
+                throw new Error("Please select a color")
+            }
+
+
+            const data = {
+                items: [
+                    {
+                        product_id: product?._id,
+                        quantity: quantity,
+                        price: product?.price,
+                        variant: selectedVariantImage as string,
+                        size: selectedSize
+                    }
+                ]
+            }
+
+            const res = await createCartMutation(data).unwrap()
+            if (!res?.success) {
+                throw new Error(res?.message)
+            }
+            alert(res?.message)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <div className="flex flex-col border border-[var(--border-color)]">
             <div>
@@ -72,7 +120,7 @@ console.log(product?.variantColors)
                     </>
                 )}
             </div>
-            <VariantSelector colors={product?.variantColors} sizes={availableSizes} onVariantChange={handleVariantChange} />
+            <VariantSelector setSelectedVariantImage={setSelectedVariantImage} variantImages={product?.variantImages} colors={product?.variantColors} sizes={availableSizes} onVariantChange={handleVariantChange} />
 
             {/* Quantity Selector */}
             <div className="space-y-3 p-2 border-b border-[var(--border-color)]">
@@ -106,7 +154,7 @@ console.log(product?.variantColors)
             {/* Action Buttons */}
             <div className="flex flex-col gap-3 sm:flex-row">
                 <Button
-                    onClick={() => addToCart(product?._id, quantity)}
+                    onClick={() => handleAddToCart(product)}
                     size="default" className="flex-1 text-xl border-[var(--border-color)] border h-16  hover:text-white transition-all duration-300 cursor-pointer rounded-none gap-2" disabled={product?.quantity === 0}>
                     <ShoppingCart className="h-5 w-5" />
                     Add to Cart

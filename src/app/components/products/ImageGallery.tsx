@@ -9,9 +9,11 @@ import { Image } from "antd"
 interface ImageGalleryProps {
     images: string[]
     productName: string
+    selectedVariantImage: any
+    setSelectedVariantImage: any
 }
 
-export function ImageGallery({ images, productName }: ImageGalleryProps) {
+export function ImageGallery({ selectedVariantImage, images, productName, setSelectedVariantImage }: ImageGalleryProps) {
     const [selectedImage, setSelectedImage] = useState(0)
     const [showMagnifier, setShowMagnifier] = useState(false)
     const [magnifierPosition, setMagnifierPosition] = useState({ x: 0, y: 0 })
@@ -43,7 +45,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                 onMouseMove={handleMouseMove}
             >
                 <Image
-                    src={imageUrl({ image: images[selectedImage] })}
+                    src={imageUrl({ image: selectedVariantImage || images[selectedImage] })}
                     alt={productName}
                     className="object-fill aspect-square"
                 />
@@ -56,7 +58,7 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                             height: "500px",
                             left: `${magnifierPosition.x - 250}px`,
                             top: `${magnifierPosition.y - 250}px`,
-                            backgroundImage: `url(${imageUrl({ image: images[selectedImage] })})`,
+                            backgroundImage: `url(${imageUrl({ image: selectedVariantImage || images[selectedImage] })})`,
                             backgroundSize: "600%",
                             backgroundPosition: `${imagePosition.x}% ${imagePosition.y}%`,
                             backgroundRepeat: "no-repeat",
@@ -71,7 +73,10 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                     {images.slice(0, 3).map((image, index) => (
                         <button
                             key={index}
-                            onClick={() => setSelectedImage(index)}
+                            onClick={() => {
+                                setSelectedVariantImage(image)
+                                setSelectedImage(index)
+                            }}
                             className={cn(
                                 "relative aspect-square border border-[var(--border-color)] overflow-hidden bg-muted transition-all",
                                 selectedImage === index ? "border-primary" : "opacity-70 hover:opacity-100",
@@ -100,7 +105,10 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                                     {images.map((image, index) => (
                                         <button
                                             key={index}
-                                            onClick={() => setSelectedImage(index)}
+                                            onClick={() => {
+                                                setSelectedVariantImage(image)
+                                                setSelectedImage(index)
+                                            }}
                                             className={cn(
                                                 "relative aspect-square overflow-hidden rounded-md bg-muted transition-all",
                                                 selectedImage === index ? "ring-2 ring-primary ring-offset-2" : "opacity-70 hover:opacity-100",
@@ -118,8 +126,9 @@ export function ImageGallery({ images, productName }: ImageGalleryProps) {
                         </Dialog>
                     </div>}
                 </div>
-            )}
+            )
+            }
 
-        </div>
+        </div >
     )
 }

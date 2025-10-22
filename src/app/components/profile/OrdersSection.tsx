@@ -34,7 +34,7 @@ const mockOrders: Order[] = [
 export default function OrdersSection() {
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold border-b p-2">Orders</h2>
+      <h2 className="text-xl font-bold">Orders</h2>
       {mockOrders.map((order) => (
         <div key={order._id}>
           <div className="grid grid-cols-1 border-b sm:grid-cols-2">

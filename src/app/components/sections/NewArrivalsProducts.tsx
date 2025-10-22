@@ -14,9 +14,9 @@ function NewArrivalsProducts() {
                 button={true}
                 buttonText='Explore All Products'
                 routes='/shop'
-                className='px-2'
+                className='px-2 my-0'
             />
-            <div className='max-w-screen-2xl mx-auto px-1'>
+            <div className='max-w-screen-2xl mx-auto'>
                 <div
                     className='w-full mx-auto grid grid-cols-1 sm:grid-cols-2 border border-[var(--border-color)] lg:grid-cols-3 xl:grid-cols-4'>
                     {productData?.data?.length > 0 ?

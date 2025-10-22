@@ -1,37 +1,19 @@
 'use client';
 import { useState } from "react";
-import { Card } from "antd";
 import { cn } from "@/lib/utils";
 import ProfileSidebar from "../../components/profile/ProfileSidebar";
 import ProfileDetails from "../../components/profile/ProfileDetails";
 import OrdersSection from "../../components/profile/OrdersSection";
 import SettingsSection from "../../components/profile/SettingsSection";
-import { IMAGE } from "../../constants/Image.index";
-
-const mockProfile = {
-    success: true,
-    message: "profile fetched successfully",
-    data: {
-        _id: "679b457c5e7e5f16f04a59e9",
-        name: "Navid Dione",
-        email: "siyamoffice0273@gmail.com",
-        phone: "1234567890",
-        img: IMAGE.brand,
-        role: "ADMIN",
-        block: false,
-        is_verified: true,
-        provider: "CREDENTIAL",
-        credits: 0,
-        is_identity_verified: false,
-        createdAt: "2025-01-30T09:25:16.919Z",
-        updatedAt: "2025-02-02T11:40:40.695Z",
-    },  
-};
+import { useProfileQuery } from "@/app/redux/services/profileApis";
+import { useSearchParams } from "next/navigation";
 
 
 export default function ProfilePage() {
-    const data = mockProfile.data;
-    const [activeItem, setActiveItem] = useState("Profile");
+    const params = useSearchParams()
+    const { data } = useProfileQuery(undefined)
+    const [activeItem, setActiveItem] = useState(params.get('tab') || "Profile");
+
 
     return (
         <main
@@ -41,22 +23,20 @@ export default function ProfilePage() {
                 <div
                     className={cn(
                         `bg-white mx-auto border-x p-0 border-[var(--border-color)] rounded-none`,
-                        )}
+                    )}
                 >
-                    <div className="w-full">
-                        <div className="">
-                            <ProfileSidebar
-                                data={data}
-                                activeItem={activeItem}
-                                setActiveItem={setActiveItem}
-                            />
-                        </div>
+                    <div>
+                        <ProfileSidebar
+                            data={data?.data}
+                            activeItem={activeItem}
+                            setActiveItem={setActiveItem}
+                        />
+                    </div>
 
-                        <div className="w-full">
-                            {activeItem === "Profile" && <ProfileDetails data={data} />}
-                            {activeItem === "Orders" && <OrdersSection />}
-                            {activeItem === "Settings" && <SettingsSection />}
-                        </div>
+                    <div className="w-full">
+                        {activeItem === "Profile" && <ProfileDetails data={data?.data} />}
+                        {activeItem === "Orders" && <OrdersSection />}
+                        {activeItem === "Settings" && <SettingsSection data={data?.data} />}
                     </div>
                 </div>
             </section>

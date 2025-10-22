@@ -1,18 +1,20 @@
 'use client'
-import { AddToCartIcon } from '@/app/constants/icon.index'
+import { AddToCartIcon, UserIcon } from '@/app/constants/icon.index'
 import { IMAGE } from '@/app/constants/Image.index'
 import { useCart } from '@/app/context/CartContext'
 import { useProfileQuery } from '@/app/redux/services/profileApis'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
+import { Button } from 'antd'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { memo } from 'react'
+import { FaRegUserCircle } from 'react-icons/fa'
 
 function Header() {
     const { data: profileData } = useProfileQuery(undefined)
-    console.log("profileData", profileData)
+    console.log(profileData)
     const router = useRouter()
     const { totalQuantity } = useCart()
     const pathname = usePathname()
@@ -51,9 +53,29 @@ function Header() {
                         </Link>
                     ))}
                     <Link href="/cart" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
-                        <Badge>{totalQuantity}</Badge>
                         <AddToCartIcon className="w-5 h-5" fill="black" />
                     </Link>
+                    {profileData ? (
+                        <Link href="/profile" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+                            <FaRegUserCircle className="w-5 h-5 text-black" />
+                        </Link>
+                    ) : (
+                        <div className="flex items-center gap-2">
+                            <Link href="/auth/sign-in" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+                                <Button
+                                    type="default"
+                                >Sign In</Button>
+                            </Link>
+                            <Link href="/auth/sign-up" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+                                <Button
+                                    style={{
+                                        backgroundColor: "var(--purple-light)",
+                                        color: "black"
+                                    }}
+                                    type="default">Sign Up</Button>
+                            </Link>
+                        </div>
+                    )}
                 </nav>
             </div>
             <small className="text-center text-xs w-full self-center flex items-center justify-center font-bold text-red-500">WARNING: Recommended for adults only.</small>

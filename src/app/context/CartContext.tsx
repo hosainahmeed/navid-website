@@ -32,10 +32,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     );
 
     const addToCart = useCallback((id: string, quantity: number = 1) => {
-        setCartItems(prev => {
-            const existing = prev.find(i => i.id === id);
+        setCartItems((prev: any) => {
+            const existing = prev.find((i: any) => i.id === id);
             if (existing) {
-                return prev.map(i =>
+                return prev.map((i: any) =>
                     i.id === id ? { ...i, quantity: i.quantity + quantity } : i
                 );
             }
@@ -44,7 +44,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     const removeFromCart = useCallback((id: string) => {
-        setCartItems(prev => prev.filter(item => item.id !== id));
+        setCartItems((prev: any) => prev.filter((item: any) => item.id !== id));
     }, []);
 
     const clearCart = useCallback(() => setCartItems([]), []);

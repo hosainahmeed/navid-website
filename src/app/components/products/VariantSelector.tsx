@@ -1,21 +1,33 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Check } from "lucide-react"
 import { colorOptions } from "@/app/constants/constData"
 
 interface VariantSelectorProps {
+    variantImages: any
     colors: string[]
+    setSelectedVariantImage: (image: string) => void
     sizes: string[]
     onVariantChange?: (color: string, size: string) => void
 }
 
-export function VariantSelector({ colors, sizes, onVariantChange }: VariantSelectorProps) {
+export function VariantSelector({ setSelectedVariantImage, variantImages, colors, sizes, onVariantChange }: VariantSelectorProps) {
 
     const [selectedColor, setSelectedColor] = useState(colors[0])
     const [selectedSize, setSelectedSize] = useState(sizes[0])
+
+    useEffect(() => {
+        if (variantImages) {
+            Object.entries(variantImages).forEach(([color, images]: any) => {
+                if (color === selectedColor) {
+                    setSelectedVariantImage(images?.img[0])
+                }
+            })
+        }
+    }, [selectedColor, variantImages])
 
     const handleColorChange = (color: string) => {
         setSelectedColor(color)

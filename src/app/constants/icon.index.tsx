@@ -13,7 +13,7 @@ export const AddToCartIcon = ({ className, fill }: { className?: string, fill?: 
             className={cn("", className)}
         >
             <g>
-                <path d="M1 1a1 1 0 1 0 0 2h1.78a.694.694 35.784 0 1 .657.474l3.297 9.893c.147.44.165.912.053 1.362l-.271 1.087C6.117 17.41 7.358 19 9 19h12a1 1 0 1 0 0-2H9c-.39 0-.64-.32-.545-.697l.205-.818A.64.64 142.028 0 1 9.28 15H20a1 1 0 0 0 .95-.684l2.665-8A1 1 0 0 0 22.666 5H6.555a.694.694 35.783 0 1-.658-.474l-.948-2.842A1 1 0 0 0 4 1zm7 19a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" paint-order="fill markers stroke" fill={fill} opacity="1" data-original="#000000"></path>
+                <path d="M1 1a1 1 0 1 0 0 2h1.78a.694.694 35.784 0 1 .657.474l3.297 9.893c.147.44.165.912.053 1.362l-.271 1.087C6.117 17.41 7.358 19 9 19h12a1 1 0 1 0 0-2H9c-.39 0-.64-.32-.545-.697l.205-.818A.64.64 142.028 0 1 9.28 15H20a1 1 0 0 0 .95-.684l2.665-8A1 1 0 0 0 22.666 5H6.555a.694.694 35.783 0 1-.658-.474l-.948-2.842A1 1 0 0 0 4 1zm7 19a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" paintOrder="fill markers stroke" fill={fill} opacity="1" data-original="#000000"></path>
             </g>
         </svg>
     );
@@ -33,5 +33,11 @@ export const EyeIcon = ({ className, fill }: { className?: string, fill?: string
     return (
 
         <svg xmlns="http://www.w3.org/2000/svg" className={className} version="1.1" xmlnsXlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 488.85 488.85" xmlSpace="preserve"><g><path d="M244.425 98.725c-93.4 0-178.1 51.1-240.6 134.1-5.1 6.8-5.1 16.3 0 23.1 62.5 83.1 147.2 134.2 240.6 134.2s178.1-51.1 240.6-134.1c5.1-6.8 5.1-16.3 0-23.1-62.5-83.1-147.2-134.2-240.6-134.2zm6.7 248.3c-62 3.9-113.2-47.2-109.3-109.3 3.2-51.2 44.7-92.7 95.9-95.9 62-3.9 113.2 47.2 109.3 109.3-3.3 51.1-44.8 92.6-95.9 95.9zm-3.1-47.4c-33.4 2.1-61-25.4-58.8-58.8 1.7-27.6 24.1-49.9 51.7-51.7 33.4-2.1 61 25.4 58.8 58.8-1.8 27.7-24.2 50-51.7 51.7z" fill={fill} opacity="1" data-original="#000000"></path></g></svg>
+    )
+}
+
+export const UserIcon = ({ className, fill }: { className?: string, fill?: string }) => {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" className={className} focusable="false" aria-hidden="true"><g clip-path="url(#profile_svg__a)"><circle cx="7" cy="7" r="5.5"></circle><circle cx="7" cy="5.5" r="1.75"></circle><path stroke-linecap="round" stroke-linejoin="round" d="m10.5 11-.088-.11A4.37 4.37 0 0 0 7 9.25a4.37 4.37 0 0 0-3.412 1.64L3.5 11"></path></g><defs><clipPath id="profile_svg__a"><path fill={fill} d="M0 0h14v14H0z"></path></clipPath></defs></svg>
     )
 }

@@ -1,72 +1,58 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
-import { X, Plus, Minus } from "lucide-react";
+import { X, Plus, Minus, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { cartResponse, Item } from "@/app/types/cart";
-import { mockCartData } from "@/app/lib/mockCartData";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
+import {
+  useDeleteCartMutation,
+  useGetAllCartQuery,
+} from "@/app/redux/services/cartApis";
+import { imageUrl } from "@/app/utils/imagePreview";
 
 const Divider = ({ className }: { className?: string }) => (
   <div className={cn("h-[1px] w-full bg-gray-300 my-3", className)} />
 );
 
 const CartPage = () => {
-  const [cart, setCart] = useState<cartResponse>(mockCartData);
-  const increaseQuantity = (id: string) => {
-    const updatedItems = cart.items.map((item) =>
-      item?._id === id
-        ? {
-          ...item,
-          quantity: item?.quantity + 1,
-          price: (item?.quantity + 1) * item?.product_id?.price,
-        }
-        : item
+  const { data: cartResponse, isLoading } = useGetAllCartQuery(undefined);
+  const [deleteCartMutation, { isLoading: deleteLoading }] = useDeleteCartMutation();
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-[50vh] text-xl font-semibold text-gray-700">
+        Loading Cart...
+      </div>
     );
-    updateCartTotals(updatedItems);
+  }
+
+  const cartData = cartResponse?.data;
+  const items = cartData?.items || [];
+
+  const removeItem = async (id: string) => {
+    console.log(id)
+    try {
+      const res = await deleteCartMutation(id).unwrap();
+      if (!res?.success) throw new Error(res?.message);
+      alert(res?.message);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+
+  const increaseQuantity = (id: string) => {
+    console.log("Increase quantity for:", id);
+  };
 
   const decreaseQuantity = (id: string) => {
-    const updatedItems = cart.items.map((item) =>
-      item?._id === id && item?.quantity > 1
-        ? {
-          ...item,
-          quantity: item?.quantity - 1,
-          price: (item?.quantity - 1) * item?.product_id?.price,
-        }
-        : item
-    );
-    updateCartTotals(updatedItems);
+    console.log("Decrease quantity for:", id);
   };
-
-
-  const removeItem = (id: string) => {
-    const updatedItems = cart.items.filter((item) => item?._id !== id);
-    updateCartTotals(updatedItems);
-  };
-
-
-  const updateCartTotals = (updatedItems: Item[]) => {
-    const total_quantity = updatedItems.reduce(
-      (sum, item) => sum + item?.quantity,
-      0
-    );
-    const total_price = updatedItems.reduce((sum, item) => sum + item?.price, 0);
-    setCart({
-      ...cart,
-      items: updatedItems,
-      total_quantity,
-      total_price,
-    });
-  };
-
 
   const handleCheckout = () => {
     const payload = {
-      price_data: cart.items.map((item) => ({
+      price_data: items.map((item: any) => ({
         name: item?.product_id?.name,
         unit_amount: item?.product_id?.price,
         quantity: item?.quantity,
@@ -75,60 +61,72 @@ const CartPage = () => {
       purpose: "buy_product",
       currency: "USD",
     };
-    localStorage.removeItem("cart");
-    localStorage.removeItem("cartTotal");
-
     console.log("🧾 Checkout Payload:", payload);
   };
 
-  const { items, total_price } = cart;
-  const shippingCharge = total_price < 50 ? 0 : 15;
+  const shippingCharge = cartData?.total_price < 50 ? 0 : 15;
 
   return (
     <div className="max-w-screen-2xl border-x border-[var(--border-color)] mx-auto grid md:grid-cols-3 py-10">
+
       <div className="md:col-span-2 bg-white border-y border-[var(--border-color)]">
         <h1 className="text-3xl font-bold mb-6 bg-[#EDEDED] border-b border-[var(--border-color)] p-6 uppercase text-gray-900">
           Shopping Cart
         </h1>
 
         <div className="space-y-6">
-          {items.length <= 0 ?
+          {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center">
-              <p className="text-gray-900 font-bold text-2xl mb-2">Your cart is empty</p>
-              <Link href={'/'}>
-                <Button className="rounded-none bg-[var(--purple-light)] hover:bg-[var(--color-primary)]">Continue Shopping</Button>
+              <p className="text-gray-900 font-bold text-2xl mb-2">
+                Your cart is empty
+              </p>
+              <Link href={"/"}>
+                <Button className="rounded-none bg-[var(--purple-light)] hover:bg-[var(--color-primary)]">
+                  Continue Shopping
+                </Button>
               </Link>
             </div>
-            : items.map((item) => (
+          ) : (
+            items.map((item: any) => (
               <div
                 key={item?._id}
-                className="flex p-2 last:border-b-0 border-b flex-col sm:flex-row items-center sm:items-start gap-6  relative"
+                className="flex p-2 last:border-b-0 border-b flex-col sm:flex-row items-center sm:items-start gap-6 relative"
               >
+
                 <button
-                  onClick={() => removeItem(item?._id)}
+                  onClick={() => removeItem(item?.product_id?._id)}
                   className="absolute top-2 right-2 p-2 rounded-full bg-gray-900 hover:bg-[var(--color-primary)] transition"
                 >
-                  <X className="text-white w-4 h-4" />
+                  {deleteLoading ? <Loader2 className="text-white w-4 h-4 animate-spin" /> : <X className="text-white w-4 h-4" />}
                 </button>
 
+
                 <Image
-                  src={item?.product_id?.product_image}
+                  src={imageUrl({ image: item?.variant })}
                   alt={item?.product_id?.name}
                   width={200}
                   height={200}
                   className="w-40 h-40 object-cover"
                 />
 
+
                 <div className="flex flex-col gap-2 w-full">
                   <h2 className="text-2xl font-bold text-gray-900 uppercase">
                     {item?.product_id?.name}
                   </h2>
+                  <p className="text-gray-700 font-medium">
+                    Size:{" "}
+                    <span className="font-semibold text-gray-900">
+                      {item?.size}
+                    </span>
+                  </p>
                   <p className="text-gray-700 font-medium">
                     Price:{" "}
                     <span className="font-semibold text-gray-900">
                       ${item?.product_id?.price}
                     </span>
                   </p>
+
 
                   <div className="flex items-center gap-3 mt-2">
                     <button
@@ -156,23 +154,25 @@ const CartPage = () => {
                   </p>
                 </div>
               </div>
-            ))}
+            ))
+          )}
         </div>
       </div>
 
-      <div className="bg-[#F2F2F2] p-6  border border-[var(--border-color)]">
+
+      <div className="bg-[#F2F2F2] p-6 border border-[var(--border-color)]">
         <h2 className="text-3xl font-bold uppercase mb-4 text-gray-900">
           Order Summary
         </h2>
 
         <div className="space-y-2">
-          {items.map((item) => (
+          {items.map((item: any) => (
             <div
               key={item?._id}
               className="flex justify-between text-lg text-gray-800"
             >
               <span>{item?.product_id?.name}</span>
-              <span>${item?.product_id?.price}</span>
+              <span>${item?.price}</span>
             </div>
           ))}
         </div>
@@ -181,7 +181,7 @@ const CartPage = () => {
 
         <div className="flex justify-between text-lg font-semibold text-gray-800">
           <span>Subtotal</span>
-          <span>${total_price}</span>
+          <span>${cartData?.total_price}</span>
         </div>
 
         <div className="flex justify-between text-gray-700 text-sm mt-1">
@@ -192,7 +192,7 @@ const CartPage = () => {
         <div
           className={cn(
             "flex justify-between text-lg mt-2 font-semibold",
-            total_price < 50 && "line-through text-gray-500"
+            cartData?.total_price < 50 && "line-through text-gray-500"
           )}
         >
           <span>Shipping Charge</span>
@@ -203,7 +203,7 @@ const CartPage = () => {
 
         <div className="flex justify-between text-2xl font-bold text-gray-900 mt-3">
           <span>Total</span>
-          <span>${total_price + shippingCharge}</span>
+          <span>${cartData?.total_price + shippingCharge}</span>
         </div>
 
         <button

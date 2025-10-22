@@ -29,7 +29,7 @@ function SectionHeader(
         <div className={cn("my-12 border py-4 bg-[#EDEDED] border-[var(--border-color)] mx-auto", className)}>
             <div className="max-w-screen-2xl mx-auto flex justify-between md:flex-row flex-col items-center py-2">
                 <div>
-                    <h2 className="text-xl font-semibold md:text-3xl lg:text-4xl font-optima tracking-wide leading-tight">
+                    <h2 className="text-base font-semibold md:text-3xl lg:text-3xl font-optima tracking-wide leading-tight">
                         {title}
                     </h2>
                     <span className="text-base text-gray-400 font-normal">
