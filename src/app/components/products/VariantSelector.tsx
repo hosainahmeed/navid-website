@@ -5,25 +5,34 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Check } from "lucide-react"
 import { colorOptions } from "@/app/constants/constData"
+import { FaVideo } from "react-icons/fa"
 
 interface VariantSelectorProps {
     variantImages: any
     colors: string[]
     setSelectedVariantImage: (image: string) => void
+    setIsVideo: (value: boolean) => void
     sizes: string[]
     onVariantChange?: (color: string, size: string) => void
 }
 
-export function VariantSelector({ setSelectedVariantImage, variantImages, colors, sizes, onVariantChange }: VariantSelectorProps) {
-
-    const [selectedColor, setSelectedColor] = useState(colors[0])
-    const [selectedSize, setSelectedSize] = useState(sizes[0])
+export function VariantSelector({ setSelectedVariantImage, setIsVideo, variantImages, colors, sizes, onVariantChange }: VariantSelectorProps) {
+    let image = ["mp4", "mov", "wmv", "avi", "mkv", "webm", "flv"]
+    const [selectedColor, setSelectedColor] = useState<any>(colors?.length && colors[0])
+    const [selectedSize, setSelectedSize] = useState<any>(sizes?.length && sizes[0])
 
     useEffect(() => {
         if (variantImages) {
             Object.entries(variantImages).forEach(([color, images]: any) => {
                 if (color === selectedColor) {
-                    setSelectedVariantImage(images?.img[0])
+                    if (image.includes(images?.img[0].split(".")[1])) {
+                        setIsVideo(true)
+                        setSelectedVariantImage(images?.img[0])
+                    }
+                    else {
+                        setSelectedVariantImage(images?.img[0])
+                        setIsVideo(false)
+                    }
                 }
             })
         }
@@ -65,13 +74,23 @@ export function VariantSelector({ setSelectedVariantImage, variantImages, colors
                                 selectedColor === color
                                     ? "border-primary ring-2 ring-primary ring-offset-2"
                                     : "border-border hover:border-primary/50",
+                                selectedColor?.toLocaleLowerCase() === 'video' && selectedColor === color ?
+                                    "rounded-none" : "border-border hover:border-primary/50"
                             )}
                             aria-label={`Select ${color} color`}
                         >
-                            <span className={cn("absolute inset-1 rounded-full", getColorClass(color))} />
-                            {selectedColor === color && (
-                                <Check className="absolute inset-0 m-auto h-5 w-5 mix-blend-difference drop-shadow-md" />
-                            )}
+                            {color === 'video' ?
+                                <div className="flex items-center justify-center">
+                                    <FaVideo />
+                                </div> :
+                                <>
+                                    <span className={cn("absolute inset-1 rounded-full", getColorClass(color))} />
+                                    {selectedColor?.toLocaleLowerCase() === 'video' && selectedColor === color &&
+                                        <Check className="absolute inset-0 m-auto h-5 w-5 mix-blend-difference drop-shadow-md" />
+                                    }
+                                </>
+                            }
+
                         </button>
                     ))}
                 </div>

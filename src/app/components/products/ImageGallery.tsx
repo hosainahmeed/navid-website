@@ -4,16 +4,19 @@ import cn from "@/app/utils/cn"
 import { imageUrl } from "@/app/utils/imagePreview"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
-import { Image } from "antd"
+import { Image, Skeleton } from "antd"
 
 interface ImageGalleryProps {
     images: string[]
     productName: string
     selectedVariantImage: any
-    setSelectedVariantImage: any
+    setSelectedVariantImage: any,
+    isVideo: boolean
+    setIsVideo: any
+    isLoading: boolean
 }
 
-export function ImageGallery({ selectedVariantImage, images, productName, setSelectedVariantImage }: ImageGalleryProps) {
+export function ImageGallery({ selectedVariantImage, images, productName, setSelectedVariantImage, isVideo, setIsVideo, isLoading }: ImageGalleryProps) {
     const [selectedImage, setSelectedImage] = useState(0)
     const [showMagnifier, setShowMagnifier] = useState(false)
     const [magnifierPosition, setMagnifierPosition] = useState({ x: 0, y: 0 })
@@ -30,27 +33,37 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
         setImagePosition({ x, y })
     }
 
-    const handleShowAllImage = (images: string[]) => {
-        console.log(images)
-    }
-
     return (
         <div className="flex flex-col border border-[var(--border-color)] gap-4">
             {/* Main Image */}
             <div
                 ref={imageRef}
-                className="relative border border-[var(--border-color)] aspect-square w-full overflow-hidden bg-muted cursor-crosshair"
+                className={cn("relative border border-[var(--border-color)] aspect-square w-full overflow-hidden bg-muted",
+                    isVideo ? "cursor-auto" : "cursor-crosshair",
+                )}
                 onMouseEnter={() => setShowMagnifier(true)}
                 onMouseLeave={() => setShowMagnifier(false)}
                 onMouseMove={handleMouseMove}
             >
-                <Image
-                    src={imageUrl({ image: selectedVariantImage || images[selectedImage] })}
-                    alt={productName}
-                    className="object-fill aspect-square"
-                />
+                {isVideo ?
+                    isLoading ?
+                        <div className="aspect-square w-full h-full">
+                            <Skeleton.Image className="!aspect-square !w-full !h-full" />
+                        </div> : <div className="aspect-square">
+                            <video className="aspect-square w-full h-full" src={imageUrl({ image: selectedVariantImage || images[selectedImage] })} controls autoPlay loop />
+                        </div>
+                    :
+                    isLoading ?
+                        <div className="aspect-square w-full h-full">
+                            <Skeleton.Image className="!aspect-square !w-full !h-full" />
+                        </div>
+                        : <Image
+                            src={imageUrl({ image: selectedVariantImage || images[selectedImage] })}
+                            alt={productName}
+                            className="object-fill aspect-square"
+                        />}
 
-                {showMagnifier && (
+                {showMagnifier && !isVideo && !isLoading && (
                     <div
                         className="absolute pointer-events-none border-2 border-white shadow-lg rounded-full hidden md:block"
                         style={{
@@ -76,6 +89,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                             onClick={() => {
                                 setSelectedVariantImage(image)
                                 setSelectedImage(index)
+                                setIsVideo(false)
                             }}
                             className={cn(
                                 "relative aspect-square border border-[var(--border-color)] overflow-hidden bg-muted transition-all",
@@ -85,7 +99,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                             <Image
                                 src={imageUrl({ image })}
                                 alt={`${productName} view ${index + 1}`}
-                                className="object-fill"
+                                className="!object-fill !w-full !h-full !object-bottom"
                                 preview={false}
                             />
                         </button>
@@ -96,7 +110,6 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                         <Dialog>
                             <DialogTrigger asChild>
                                 <Button
-                                    onClick={() => handleShowAllImage(images)}
                                     size="sm">View All</Button>
                             </DialogTrigger>
                             <DialogContent>
@@ -117,7 +130,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                                             <Image
                                                 src={imageUrl({ image })}
                                                 alt={`${productName} view ${index + 1}`}
-                                                className="object-cover"
+                                                className="object-cover !w-full !h-full"
                                             />
                                         </button>
                                     ))}

@@ -12,17 +12,17 @@ import { useCreateCartMutation } from "@/app/redux/services/cartApis"
 interface ProductInfoProps {
     product: Product
     selectedVariantImage: string
+    isVideo: boolean
+    setIsVideo: (value: boolean) => void
     setSelectedVariantImage: (image: string) => void
 }
 
-export function ProductInfo({ product, selectedVariantImage, setSelectedVariantImage }: ProductInfoProps) {
+export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo, setSelectedVariantImage }: ProductInfoProps) {
     const [quantity, setQuantity] = useState(1)
     const [selectedColor, setSelectedColor] = useState(product?.variantColors[0])
     const [selectedSize, setSelectedSize] = useState(product?.variantImages[product?.variantColors[0]]?.size[0])
     const [createCartMutation] = useCreateCartMutation()
 
-
-    const router = useRouter()
 
     const hasDiscount = product?.previous_price > product?.price
     const discountPercentage = hasDiscount
@@ -41,9 +41,6 @@ export function ProductInfo({ product, selectedVariantImage, setSelectedVariantI
     const currentVariant = product?.variantImages[selectedColor]
     const availableSizes = currentVariant?.size || []
 
-    const handleNavigate = (route: string) => {
-        router.push(route)
-    }
 
 
     const handleAddToCart = async (product: Product) => {
@@ -120,7 +117,7 @@ export function ProductInfo({ product, selectedVariantImage, setSelectedVariantI
                     </>
                 )}
             </div>
-            <VariantSelector setSelectedVariantImage={setSelectedVariantImage} variantImages={product?.variantImages} colors={product?.variantColors} sizes={availableSizes} onVariantChange={handleVariantChange} />
+            <VariantSelector setIsVideo={setIsVideo} setSelectedVariantImage={setSelectedVariantImage} variantImages={product?.variantImages} colors={product?.variantColors} sizes={availableSizes} onVariantChange={handleVariantChange} />
 
             {/* Quantity Selector */}
             <div className="space-y-3 p-2 border-b border-[var(--border-color)]">

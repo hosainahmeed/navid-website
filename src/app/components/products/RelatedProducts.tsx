@@ -8,7 +8,7 @@ interface RelatedProductsProps {
 }
 
 export function RelatedProducts({ products }: RelatedProductsProps) {
-    if (products.length === 0) return null
+    if (Array.isArray(products) && products.length === 0) return null
 
     return (
         <section className="space-y-6">
@@ -21,7 +21,7 @@ export function RelatedProducts({ products }: RelatedProductsProps) {
             />
 
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {products.map((product:Iproduct) => {
+                {Array.isArray(products) && products.map((product: Iproduct) => {
                     return <ProductCard key={product._id} item={product} />
                 })}
             </div>

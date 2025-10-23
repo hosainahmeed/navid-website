@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import Image from 'next/image'
 import ProductCardClientSide from './ProductCardClientSide'
 import { Iproduct } from '@/app/types/product'
@@ -14,25 +14,25 @@ function ProductCard({ item }: { item: Iproduct }) {
 
 
     const getDisplayImage = () => {
-        if (!item?.variantImages || !item?.variantColors?.length) return ''
 
-        const colorList = item.variantColors
-        const colorKey = isHovered
-            ? colorList[1] || colorList[0]
-            : colorList[0]
-
-        const variant = item.variantImages[colorKey]
-        const imgList = variant?.img || []
-        return imgList[0] || ''
+        if (Array.isArray(item?.banner) && item?.banner.length <= 0) return ''
+        if (Array.isArray(item?.banner) && item?.banner.length === 1) return item?.banner[0]
+        let index = 0;
+        isHovered
+            ? index = 1
+            : index = 0
+        return item?.banner[index]
     }
 
+    const image = useMemo(() => getDisplayImage(), [isHovered])
+    
     const getDisplaySize = () => {
         if (!item?.variantColors?.length) return []
         const sizeList = item?.variantColors || []
         return sizeList || []
     }
 
-    const productImage = getDisplayImage()
+    const productImage = image
     const productSize = getDisplaySize()
     return (
         <div

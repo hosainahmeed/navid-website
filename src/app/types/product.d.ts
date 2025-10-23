@@ -18,6 +18,7 @@ export interface Iproduct {
         img: string;
     };
     quantity: number;
+    banner: string[];
     variantImages: {
         [key: string]: IVariant;
     };
