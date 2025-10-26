@@ -9,13 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select } from "antd";
 import {
   useGetAllShippingAddressQuery,
   useCreateShippingAddressMutation,
@@ -150,37 +144,30 @@ export function CheckoutAddressModal({ open, onClose }: CheckoutAddressModalProp
                 <>
                   {!showCreateForm && (
                     <>
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         <label className="text-base font-semibold block">
                           Select Shipping Address
                         </label>
                         <Select
-                          value={selectedAddressId}
-                          onValueChange={setSelectedAddressId}
-                        >
-                          <SelectTrigger className="h-12 rounded-none">
-                            <SelectValue placeholder="Choose an address" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {shippingAddresses.length === 0 ? (
-                              <SelectItem value="no-address" disabled>
-                                No addresses found
-                              </SelectItem>
-                            ) : (
-                              shippingAddresses.map((addr: any) => (
-                                <SelectItem key={addr._id} value={addr._id}>
-                                  {addr.name} - {addr.address} ({addr.phone})
-                                </SelectItem>
-                              ))
-                            )}
-                          </SelectContent>
-                        </Select>
+                          value={selectedAddressId || undefined}
+                          onChange={setSelectedAddressId}
+                          placeholder="Choose an address"
+                          style={{ width: '100%' }}
+                          size="large"
+                          dropdownStyle={{ zIndex: 9999 }}
+                          getPopupContainer={(trigger) => trigger.parentElement || document.body}
+                          options={shippingAddresses.map((addr: any) => ({
+                            value: addr._id,
+                            label: `${addr.name} - ${addr.address} (${addr.phone})`
+                          }))}
+                          notFoundContent="No addresses found"
+                        />
                       </div>
 
                       <Button
                         variant="outline"
                         onClick={() => setShowCreateForm(true)}
-                        className="w-full h-12 rounded-none"
+                        className="w-full h-12 rounded-none mt-4"
                       >
                         + Add New Shipping Address
                       </Button>
@@ -275,30 +262,23 @@ export function CheckoutAddressModal({ open, onClose }: CheckoutAddressModalProp
                 </div>
               ) : (
                 <>
-                  <label className="text-base font-semibold block">
+                  <label className="text-base font-semibold block mb-3">
                     Select Pickup Address
                   </label>
                   <Select
-                    value={selectedAddressId}
-                    onValueChange={setSelectedAddressId}
-                  >
-                    <SelectTrigger className="h-12 rounded-none">
-                      <SelectValue placeholder="Choose a pickup location" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {pickupAddresses.length === 0 ? (
-                        <SelectItem value="no-address" disabled>
-                          No pickup locations found
-                        </SelectItem>
-                      ) : (
-                        pickupAddresses.map((addr: any) => (
-                          <SelectItem key={addr._id} value={addr._id}>
-                            {addr.name} - {addr.address} ({addr.phone})
-                          </SelectItem>
-                        ))
-                      )}
-                    </SelectContent>
-                  </Select>
+                    value={selectedAddressId || undefined}
+                    onChange={setSelectedAddressId}
+                    placeholder="Choose a pickup location"
+                    style={{ width: '100%' }}
+                    size="large"
+                    dropdownStyle={{ zIndex: 9999 }}
+                    getPopupContainer={(trigger) => trigger.parentElement || document.body}
+                    options={pickupAddresses.map((addr: any) => ({
+                      value: addr._id,
+                      label: `${addr.name} - ${addr.address} (${addr.phone})`
+                    }))}
+                    notFoundContent="No pickup locations found"
+                  />
                 </>
               )}
             </div>
