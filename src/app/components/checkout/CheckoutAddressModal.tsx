@@ -293,7 +293,7 @@ export function CheckoutAddressModal({ open, onClose }: CheckoutAddressModalProp
                       ) : (
                         pickupAddresses.map((addr: any) => (
                           <SelectItem key={addr._id} value={addr._id}>
-                            {addr.name} - {addr.address}
+                            {addr.name} - {addr.address} ({addr.phone})
                           </SelectItem>
                         ))
                       )}
