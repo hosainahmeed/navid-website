@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { ConfigProvider } from "antd";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "antd";
@@ -96,6 +97,17 @@ export function CheckoutAddressModal({ open, onClose }: CheckoutAddressModalProp
   };
 
   return (
+    <ConfigProvider
+      theme={{
+        components: {
+          Select: {
+            optionSelectedBg: 'rgba(0, 0, 0, 0.04)',
+            optionActiveBg: 'rgba(0, 0, 0, 0.04)',
+            controlItemBgHover: 'rgba(0, 0, 0, 0.04)',
+          },
+        },
+      }}
+    >
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
@@ -304,5 +316,6 @@ export function CheckoutAddressModal({ open, onClose }: CheckoutAddressModalProp
         </div>
       </DialogContent>
     </Dialog>
+    </ConfigProvider>
   );
 }
