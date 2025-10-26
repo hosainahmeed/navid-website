@@ -1,0 +1,328 @@
+"use client";
+
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  useGetAllShippingAddressQuery,
+  useCreateShippingAddressMutation,
+  useGetAllPickupAddressQuery,
+} from "@/app/redux/services/addressApis";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
+
+interface CheckoutAddressModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+type AddressType = "shipping" | "pickup";
+
+export function CheckoutAddressModal({ open, onClose }: CheckoutAddressModalProps) {
+  const [addressType, setAddressType] = useState<AddressType>("shipping");
+  const [selectedAddressId, setSelectedAddressId] = useState<string>("");
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const router = useRouter();
+
+  // Form state for creating new shipping address
+  const [newAddress, setNewAddress] = useState({
+    name: "",
+    phone: "",
+    address: "",
+  });
+
+  // API hooks
+  const { data: shippingAddressData, isLoading: shippingLoading } =
+    useGetAllShippingAddressQuery(undefined, {
+      skip: addressType !== "shipping",
+    });
+  const { data: pickupAddressData, isLoading: pickupLoading } =
+    useGetAllPickupAddressQuery(undefined, {
+      skip: addressType !== "pickup",
+    });
+  const [createShippingAddress, { isLoading: createLoading }] =
+    useCreateShippingAddressMutation();
+
+  const shippingAddresses = shippingAddressData?.data || [];
+  const pickupAddresses = pickupAddressData?.data || [];
+
+  const handleCreateAddress = async () => {
+    if (!newAddress.name || !newAddress.phone || !newAddress.address) {
+      toast.error("Please fill all fields");
+      return;
+    }
+
+    try {
+      const res = await createShippingAddress(newAddress).unwrap();
+      if (!res?.success) {
+        throw new Error(res?.message);
+      }
+      toast.success(res?.message || "Shipping address created successfully!");
+      setNewAddress({ name: "", phone: "", address: "" });
+      setShowCreateForm(false);
+    } catch (error: any) {
+      if (error?.status === 403) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        router.push("/login");
+      } else {
+        toast.error(
+          error?.message || error?.data?.message || "Failed to create address"
+        );
+      }
+      console.log(error);
+    }
+  };
+
+  const handleProceed = () => {
+    if (!selectedAddressId) {
+      toast.error("Please select an address");
+      return;
+    }
+
+    // TODO: Proceed with checkout using selectedAddressId
+    toast.success("Proceeding to checkout...");
+    console.log("Selected Address ID:", selectedAddressId);
+    console.log("Address Type:", addressType);
+    onClose();
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold">
+            Select Delivery Method
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="space-y-6 py-4">
+          {/* Address Type Selection */}
+          <div className="space-y-3">
+            <label className="text-base font-semibold block">Delivery Type</label>
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                variant={addressType === "shipping" ? "default" : "outline"}
+                onClick={() => {
+                  setAddressType("shipping");
+                  setSelectedAddressId("");
+                }}
+                className="h-12 rounded-none"
+              >
+                Shipping Address
+              </Button>
+              <Button
+                variant={addressType === "pickup" ? "default" : "outline"}
+                onClick={() => {
+                  setAddressType("pickup");
+                  setSelectedAddressId("");
+                  setShowCreateForm(false);
+                }}
+                className="h-12 rounded-none"
+              >
+                Pickup Address
+              </Button>
+            </div>
+          </div>
+
+          {/* Shipping Address Selection */}
+          {addressType === "shipping" && (
+            <div className="space-y-4">
+              {shippingLoading ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin" />
+                </div>
+              ) : (
+                <>
+                  {!showCreateForm && (
+                    <>
+                      <div className="space-y-2">
+                        <label className="text-base font-semibold block">
+                          Select Shipping Address
+                        </label>
+                        <Select
+                          value={selectedAddressId}
+                          onValueChange={setSelectedAddressId}
+                        >
+                          <SelectTrigger className="h-12 rounded-none">
+                            <SelectValue placeholder="Choose an address" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {shippingAddresses.length === 0 ? (
+                              <SelectItem value="no-address" disabled>
+                                No addresses found
+                              </SelectItem>
+                            ) : (
+                              shippingAddresses.map((addr: any) => (
+                                <SelectItem key={addr._id} value={addr._id}>
+                                  {addr.name} - {addr.address} ({addr.phone})
+                                </SelectItem>
+                              ))
+                            )}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <Button
+                        variant="outline"
+                        onClick={() => setShowCreateForm(true)}
+                        className="w-full h-12 rounded-none"
+                      >
+                        + Add New Shipping Address
+                      </Button>
+                    </>
+                  )}
+
+                  {/* Create New Address Form */}
+                  {showCreateForm && (
+                    <div className="space-y-4 border border-[var(--border-color)] p-4">
+                      <h3 className="font-semibold text-lg">
+                        Create New Shipping Address
+                      </h3>
+
+                      <div className="space-y-2">
+                        <label className="block font-medium">Name</label>
+                        <Input
+                          placeholder="Enter your name"
+                          value={newAddress.name}
+                          onChange={(e) =>
+                            setNewAddress({ ...newAddress, name: e.target.value })
+                          }
+                          className="rounded-none"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="block font-medium">Phone</label>
+                        <Input
+                          placeholder="Enter phone number"
+                          value={newAddress.phone}
+                          onChange={(e) =>
+                            setNewAddress({ ...newAddress, phone: e.target.value })
+                          }
+                          className="rounded-none"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="block font-medium">Address</label>
+                        <Input
+                          placeholder="Enter full address"
+                          value={newAddress.address}
+                          onChange={(e) =>
+                            setNewAddress({
+                              ...newAddress,
+                              address: e.target.value,
+                            })
+                          }
+                          className="rounded-none"
+                        />
+                      </div>
+
+                      <div className="flex gap-3">
+                        <Button
+                          onClick={handleCreateAddress}
+                          disabled={createLoading}
+                          className="flex-1 rounded-none h-12"
+                        >
+                          {createLoading ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Creating...
+                            </>
+                          ) : (
+                            "Create Address"
+                          )}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            setShowCreateForm(false);
+                            setNewAddress({ name: "", phone: "", address: "" });
+                          }}
+                          className="flex-1 rounded-none h-12"
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Pickup Address Selection */}
+          {addressType === "pickup" && (
+            <div className="space-y-2">
+              {pickupLoading ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin" />
+                </div>
+              ) : (
+                <>
+                  <label className="text-base font-semibold block">
+                    Select Pickup Address
+                  </label>
+                  <Select
+                    value={selectedAddressId}
+                    onValueChange={setSelectedAddressId}
+                  >
+                    <SelectTrigger className="h-12 rounded-none">
+                      <SelectValue placeholder="Choose a pickup location" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {pickupAddresses.length === 0 ? (
+                        <SelectItem value="no-address" disabled>
+                          No pickup locations found
+                        </SelectItem>
+                      ) : (
+                        pickupAddresses.map((addr: any) => (
+                          <SelectItem key={addr._id} value={addr._id}>
+                            {addr.name} - {addr.address}
+                          </SelectItem>
+                        ))
+                      )}
+                    </SelectContent>
+                  </Select>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          <div className="flex gap-3 pt-4">
+            <Button
+              onClick={handleProceed}
+              disabled={!selectedAddressId}
+              className="flex-1 h-12 rounded-none bg-[var(--purple-light)] hover:bg-[var(--color-primary)]"
+            >
+              Proceed to Checkout
+            </Button>
+            <Button
+              variant="outline"
+              onClick={onClose}
+              className="flex-1 h-12 rounded-none"
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}

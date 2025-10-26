@@ -13,6 +13,7 @@ import {
 import { imageUrl } from "@/app/utils/imagePreview";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { CheckoutAddressModal } from "@/app/components/checkout/CheckoutAddressModal";
 
 const Divider = ({ className }: { className?: string }) => (
   <div className={cn("h-[1px] w-full bg-gray-300 my-3", className)} />
@@ -24,6 +25,7 @@ const CartPage = () => {
   const [createCartMutation] = useCreateCartMutation();
   const router = useRouter();
   const [optimisticQuantities, setOptimisticQuantities] = useState<Record<string, number>>({});
+  const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -168,22 +170,17 @@ const CartPage = () => {
   };
 
   const handleCheckout = () => {
-    const payload = {
-      price_data: items.map((item: any) => ({
-        name: item?.product_id?.name,
-        unit_amount: item?.product_id?.price,
-        quantity: item?.quantity,
-        _id: item?.product_id?._id,
-      })),
-      purpose: "buy_product",
-      currency: "USD",
-    };
-    console.log("🧾 Checkout Payload:", payload);
+    if (items.length === 0) {
+      toast.error("Your cart is empty");
+      return;
+    }
+    setCheckoutModalOpen(true);
   };
 
   const shippingCharge = cartData?.total_price < 50 ? 0 : 15;
 
   return (
+    <>
     <div className="max-w-screen-2xl border-x border-[var(--border-color)] mx-auto grid md:grid-cols-3 py-10">
 
       <div className="md:col-span-2 bg-white border-y border-[var(--border-color)]">
@@ -240,7 +237,7 @@ const CartPage = () => {
                   <p className="text-gray-700 font-medium">
                     Price:{" "}
                     <span className="font-semibold text-gray-900">
-                      ${item?.product_id?.price}
+                      ${item?.product_id?.price?.toFixed(2)}
                     </span>
                   </p>
 
@@ -266,7 +263,7 @@ const CartPage = () => {
                   <p className="text-gray-700 font-medium mt-1">
                     Item Total:{" "}
                     <span className="font-semibold text-gray-900">
-                      ${item?.price}
+                      ${item?.price?.toFixed(2)}
                     </span>
                   </p>
                 </div>
@@ -289,7 +286,7 @@ const CartPage = () => {
               className="flex justify-between text-lg text-gray-800"
             >
               <span>{item?.product_id?.name}</span>
-              <span>${item?.price}</span>
+              <span>${item?.price?.toFixed(2)}</span>
             </div>
           ))}
         </div>
@@ -298,7 +295,7 @@ const CartPage = () => {
 
         <div className="flex justify-between text-lg font-semibold text-gray-800">
           <span>Subtotal</span>
-          <span>${cartData?.total_price}</span>
+          <span>${cartData?.total_price?.toFixed(2)}</span>
         </div>
 
         <div className="flex justify-between text-gray-700 text-sm mt-1">
@@ -313,14 +310,14 @@ const CartPage = () => {
           )}
         >
           <span>Shipping Charge</span>
-          <span>${shippingCharge}</span>
+          <span>${shippingCharge.toFixed(2)}</span>
         </div>
 
         <Divider />
 
         <div className="flex justify-between text-2xl font-bold text-gray-900 mt-3">
           <span>Total</span>
-          <span>${cartData?.total_price + shippingCharge}</span>
+          <span>${(cartData?.total_price + shippingCharge)?.toFixed(2)}</span>
         </div>
 
         <button
@@ -331,6 +328,13 @@ const CartPage = () => {
         </button>
       </div>
     </div>
+
+    {/* Checkout Address Modal */}
+    <CheckoutAddressModal
+      open={checkoutModalOpen}
+      onClose={() => setCheckoutModalOpen(false)}
+    />
+    </>
   );
 };
 
