@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Minus, Plus, ShoppingCart, Heart } from "lucide-react"
@@ -8,6 +8,7 @@ import { Product } from "@/app/types/product"
 import { VariantSelector } from "./VariantSelector"
 import { useRouter } from "next/navigation"
 import { useCreateCartMutation } from "@/app/redux/services/cartApis"
+import toast from "react-hot-toast"
 
 interface ProductInfoProps {
     product: Product
@@ -22,6 +23,30 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
     const [selectedColor, setSelectedColor] = useState(product?.variantColors[0])
     const [selectedSize, setSelectedSize] = useState(product?.variantImages[product?.variantColors[0]]?.size[0])
     const [createCartMutation] = useCreateCartMutation()
+    const router = useRouter()
+
+    // Set default variant and size when product changes
+    useEffect(() => {
+        if (product?.variantColors?.length > 0) {
+            const defaultColor = product.variantColors[0]
+            setSelectedColor(defaultColor)
+            
+            if (product?.variantImages?.[defaultColor]?.size?.length > 0) {
+                setSelectedSize(product.variantImages[defaultColor].size[0])
+            }
+            
+            // Set default variant image (first image of first color)
+            if (product?.variantImages?.[defaultColor]?.img?.length > 0) {
+                const firstImage = product.variantImages[defaultColor].img[0]
+                setSelectedVariantImage(firstImage)
+                
+                // Check if it's a video
+                const videoExtensions = ["mp4", "mov", "wmv", "avi", "mkv", "webm", "flv"]
+                const fileExtension = firstImage.split(".").pop()?.toLowerCase()
+                setIsVideo(videoExtensions.includes(fileExtension || ""))
+            }
+        }
+    }, [product, setSelectedVariantImage, setIsVideo])
 
 
     const hasDiscount = product?.previous_price > product?.price
@@ -37,6 +62,17 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
         setSelectedColor(color)
         setSelectedSize(size)
     }
+
+    // Update size when color changes to default to first size of new color
+    useEffect(() => {
+        if (selectedColor && product?.variantImages?.[selectedColor]?.size?.length > 0) {
+            const sizesForColor = product.variantImages[selectedColor].size
+            // If current selected size is not available in new color, select first size
+            if (!sizesForColor.includes(selectedSize)) {
+                setSelectedSize(sizesForColor[0])
+            }
+        }
+    }, [selectedColor, product])
 
     const currentVariant = product?.variantImages[selectedColor]
     const availableSizes = currentVariant?.size || []
@@ -78,11 +114,19 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             }
 
             const res = await createCartMutation(data).unwrap()
+           
             if (!res?.success) {
                 throw new Error(res?.message)
             }
-            alert(res?.message)
-        } catch (error) {
+            toast.success(res?.message || "Product added to cart successfully!")
+        } catch (error: any) {
+            if (error?.status === 403) {
+                toast.error("Session expired. Please login again.")
+                localStorage.removeItem("token")
+                router.push("/login")
+            } else {
+                toast.error(error?.message || error?.data?.message || "Failed to add product to cart")
+            }
             console.log(error)
         }
     }

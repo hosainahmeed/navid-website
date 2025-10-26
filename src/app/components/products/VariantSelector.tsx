@@ -21,6 +21,28 @@ export function VariantSelector({ setSelectedVariantImage, setIsVideo, variantIm
     const [selectedColor, setSelectedColor] = useState<any>(colors?.length && colors[0])
     const [selectedSize, setSelectedSize] = useState<any>(sizes?.length && sizes[0])
 
+    // Initialize selectedColor when colors prop changes
+    useEffect(() => {
+        if (colors?.length > 0) {
+            setSelectedColor(colors[0])
+            // Trigger variant change with first color and size
+            if (sizes?.length > 0) {
+                onVariantChange?.(colors[0], sizes[0] || selectedSize)
+            }
+        }
+    }, [colors])
+
+    // Update selectedSize when sizes prop changes (e.g., when color changes)
+    useEffect(() => {
+        if (sizes?.length > 0) {
+            // If current size is not in available sizes, select first size
+            if (!sizes.includes(selectedSize)) {
+                setSelectedSize(sizes[0])
+                onVariantChange?.(selectedColor, sizes[0])
+            }
+        }
+    }, [sizes])
+
     useEffect(() => {
         if (variantImages) {
             Object.entries(variantImages).forEach(([color, images]: any) => {

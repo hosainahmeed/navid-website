@@ -9,7 +9,7 @@ import React, {
     useCallback,
 } from "react";
 import { CartContextType, CartItem } from "../types/cart";
-
+import { Toaster } from 'react-hot-toast';
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -60,7 +60,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         [cartItems, totalQuantity, addToCart, removeFromCart, clearCart]
     );
 
-    return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+    return <CartContext.Provider value={value}>
+          <Toaster />
+        {children}</CartContext.Provider>;
 };
 
 export const useCart = () => {
