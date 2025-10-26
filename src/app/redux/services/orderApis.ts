@@ -19,9 +19,16 @@ const orderApis = baseApis.injectEndpoints({
                 method: 'POST',
                 body: data
             }),
-            invalidatesTags: ['cart']
+            invalidatesTags: ['cart', 'order']
+        }),
+        getAllOrders: builder.query({
+            query: (page: number = 1) => ({
+                url: `/order/get-all?page=${page}`,
+                method: 'GET'
+            }),
+            providesTags: ['order']
         })
     })
 })
 
-export const { useCreateOrderMutation } = orderApis
+export const { useCreateOrderMutation, useGetAllOrdersQuery } = orderApis
