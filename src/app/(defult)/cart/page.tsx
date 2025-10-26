@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { X, Plus, Minus, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -8,8 +8,11 @@ import Link from "next/link";
 import {
   useDeleteCartMutation,
   useGetAllCartQuery,
+  useCreateCartMutation,
 } from "@/app/redux/services/cartApis";
 import { imageUrl } from "@/app/utils/imagePreview";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Divider = ({ className }: { className?: string }) => (
   <div className={cn("h-[1px] w-full bg-gray-300 my-3", className)} />
@@ -18,6 +21,9 @@ const Divider = ({ className }: { className?: string }) => (
 const CartPage = () => {
   const { data: cartResponse, isLoading } = useGetAllCartQuery(undefined);
   const [deleteCartMutation, { isLoading: deleteLoading }] = useDeleteCartMutation();
+  const [createCartMutation] = useCreateCartMutation();
+  const router = useRouter();
+  const [optimisticQuantities, setOptimisticQuantities] = useState<Record<string, number>>({});
 
   if (isLoading) {
     return (
@@ -35,19 +41,130 @@ const CartPage = () => {
     try {
       const res = await deleteCartMutation(id).unwrap();
       if (!res?.success) throw new Error(res?.message);
-      alert(res?.message);
-    } catch (error) {
+      toast.success(res?.message || "Item removed from cart");
+    } catch (error: any) {
+      if (error?.status === 403) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        router.push("/login");
+      } else {
+        toast.error(error?.message || error?.data?.message || "Failed to remove item");
+      }
       console.log(error);
     }
   };
 
 
-  const increaseQuantity = (id: string) => {
-    console.log("Increase quantity for:", id);
+  const increaseQuantity = async (itemId: string) => {
+    const item = items.find((i: any) => i._id === itemId);
+    if (!item) return;
+
+    const currentQuantity = optimisticQuantities[itemId] ?? item.quantity;
+    const newQuantity = currentQuantity + 1;
+
+    // Check if exceeds available stock
+    if (newQuantity > item.product_id?.quantity) {
+      toast.error("Cannot exceed available stock");
+      return;
+    }
+
+    // Optimistic update
+    setOptimisticQuantities(prev => ({ ...prev, [itemId]: newQuantity }));
+
+    try {
+      const data = {
+        items: [
+          {
+            product_id: item.product_id._id,
+            quantity: newQuantity,
+            price: item.product_id.price,
+            variant: item.variant,
+            size: item.size
+          }
+        ]
+      };
+
+      const res = await createCartMutation(data).unwrap();
+      if (!res?.success) {
+        throw new Error(res?.message);
+      }
+      // Remove from optimistic state on success
+      setOptimisticQuantities(prev => {
+        const newState = { ...prev };
+        delete newState[itemId];
+        return newState;
+      });
+    } catch (error: any) {
+      // Revert on error
+      setOptimisticQuantities(prev => {
+        const newState = { ...prev };
+        delete newState[itemId];
+        return newState;
+      });
+
+      if (error?.status === 403) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        router.push("/login");
+      } else {
+        toast.error(error?.message || error?.data?.message || "Failed to update quantity");
+      }
+      console.log(error);
+    }
   };
 
-  const decreaseQuantity = (id: string) => {
-    console.log("Decrease quantity for:", id);
+  const decreaseQuantity = async (itemId: string) => {
+    const item = items.find((i: any) => i._id === itemId);
+    if (!item) return;
+
+    const currentQuantity = optimisticQuantities[itemId] ?? item.quantity;
+    const newQuantity = Math.max(1, currentQuantity - 1);
+
+    if (newQuantity === currentQuantity) return;
+
+    // Optimistic update
+    setOptimisticQuantities(prev => ({ ...prev, [itemId]: newQuantity }));
+
+    try {
+      const data = {
+        items: [
+          {
+            product_id: item.product_id._id,
+            quantity: newQuantity,
+            price: item.product_id.price,
+            variant: item.variant,
+            size: item.size
+          }
+        ]
+      };
+
+      const res = await createCartMutation(data).unwrap();
+      if (!res?.success) {
+        throw new Error(res?.message);
+      }
+      // Remove from optimistic state on success
+      setOptimisticQuantities(prev => {
+        const newState = { ...prev };
+        delete newState[itemId];
+        return newState;
+      });
+    } catch (error: any) {
+      // Revert on error
+      setOptimisticQuantities(prev => {
+        const newState = { ...prev };
+        delete newState[itemId];
+        return newState;
+      });
+
+      if (error?.status === 403) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        router.push("/login");
+      } else {
+        toast.error(error?.message || error?.data?.message || "Failed to update quantity");
+      }
+      console.log(error);
+    }
   };
 
   const handleCheckout = () => {
@@ -136,7 +253,7 @@ const CartPage = () => {
                       <Minus className="w-4 h-4" />
                     </button>
                     <span className="text-lg font-semibold w-8 text-center">
-                      {item?.quantity}
+                      {optimisticQuantities[item._id] ?? item?.quantity}
                     </span>
                     <button
                       onClick={() => increaseQuantity(item?._id)}

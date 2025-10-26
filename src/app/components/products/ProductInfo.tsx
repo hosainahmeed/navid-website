@@ -54,8 +54,66 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
         ? Math.round(((product?.previous_price - product?.price) / product?.previous_price) * 100)
         : 0
 
-    const handleQuantityChange = (delta: number) => {
-        setQuantity((prev) => Math.max(1, Math.min(prev + delta, product?.quantity)))
+    const handleQuantityChange = async (delta: number) => {
+        // Calculate new quantity
+        const newQuantity = Math.max(1, Math.min(quantity + delta, product?.quantity))
+        
+        // If quantity doesn't change, do nothing
+        if (newQuantity === quantity) return
+        
+        // Store previous quantity for rollback
+        const previousQuantity = quantity
+        
+        // Optimistic update - update UI immediately
+        setQuantity(newQuantity)
+        
+        try {
+            // Validate required fields
+            if (!product) {
+                throw new Error("Product not found")
+            }
+            if (!selectedVariantImage) {
+                throw new Error("Please select a variant image")
+            }
+            if (!selectedSize) {
+                throw new Error("Please select a size")
+            }
+            if (!selectedColor) {
+                throw new Error("Please select a color")
+            }
+
+            const data = {
+                items: [
+                    {
+                        product_id: product?._id,
+                        quantity: newQuantity,
+                        price: product?.price,
+                        variant: selectedVariantImage as string,
+                        size: selectedSize
+                    }
+                ]
+            }
+
+            const res = await createCartMutation(data).unwrap()
+           
+            if (!res?.success) {
+                throw new Error(res?.message)
+            }
+            // Optionally show a subtle success message
+            // toast.success("Cart updated")
+        } catch (error: any) {
+            // Revert quantity on error
+            setQuantity(previousQuantity)
+            
+            if (error?.status === 403) {
+                toast.error("Session expired. Please login again.")
+                localStorage.removeItem("token")
+                router.push("/login")
+            } else {
+                toast.error(error?.message || error?.data?.message || "Failed to update cart")
+            }
+            console.log(error)
+        }
     }
 
     const handleVariantChange = (color: string, size: string) => {
