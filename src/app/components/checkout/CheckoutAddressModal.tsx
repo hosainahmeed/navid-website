@@ -16,6 +16,7 @@ import {
   useCreateShippingAddressMutation,
   useGetAllPickupAddressQuery,
 } from "@/app/redux/services/addressApis";
+import { useCreateOrderMutation } from "@/app/redux/services/orderApis";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
@@ -23,11 +24,13 @@ import { Loader2 } from "lucide-react";
 interface CheckoutAddressModalProps {
   open: boolean;
   onClose: () => void;
+  cartItems: any[];
+  totalAmount: number;
 }
 
 type AddressType = "shipping" | "pickup";
 
-export function CheckoutAddressModal({ open, onClose }: CheckoutAddressModalProps) {
+export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: CheckoutAddressModalProps) {
   const [addressType, setAddressType] = useState<AddressType>("shipping");
   const [selectedAddressId, setSelectedAddressId] = useState<string>("");
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -51,6 +54,7 @@ export function CheckoutAddressModal({ open, onClose }: CheckoutAddressModalProp
     });
   const [createShippingAddress, { isLoading: createLoading }] =
     useCreateShippingAddressMutation();
+  const [createOrder, { isLoading: orderLoading }] = useCreateOrderMutation();
 
   const shippingAddresses = shippingAddressData?.data || [];
   const pickupAddresses = pickupAddressData?.data || [];
@@ -83,17 +87,58 @@ export function CheckoutAddressModal({ open, onClose }: CheckoutAddressModalProp
     }
   };
 
-  const handleProceed = () => {
+  const handleProceed = async () => {
     if (!selectedAddressId) {
       toast.error("Please select an address");
       return;
     }
 
-    // TODO: Proceed with checkout using selectedAddressId
-    toast.success("Proceeding to checkout...");
-    console.log("Selected Address ID:", selectedAddressId);
-    console.log("Address Type:", addressType);
-    onClose();
+    try {
+      // Format cart items for order
+      const orderItems = cartItems.map((item: any) => ({
+        product: item.product_id._id,
+        quantity: item.quantity,
+        color: item.variant || "",
+        size: item.size || ""
+      }));
+
+      // Create order payload
+      const orderPayload: any = {
+        items: orderItems,
+        total_amount: totalAmount,
+      };
+
+      // Add address based on type
+      if (addressType === "shipping") {
+        orderPayload.delivery_address = selectedAddressId;
+      } else {
+        orderPayload.pick_up_address = selectedAddressId;
+      }
+
+      const res = await createOrder(orderPayload).unwrap();
+      
+      if (!res?.success) {
+        throw new Error(res?.message);
+      }
+
+      toast.success(res?.message || "Order created successfully!");
+      console.log("Order created:", res);
+      onClose();
+      
+      // Optionally redirect to order confirmation page
+      // router.push("/orders");
+    } catch (error: any) {
+      if (error?.status === 403) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        router.push("/login");
+      } else {
+        toast.error(
+          error?.message || error?.data?.message || "Failed to create order"
+        );
+      }
+      console.log(error);
+    }
   };
 
   return (
@@ -300,10 +345,17 @@ export function CheckoutAddressModal({ open, onClose }: CheckoutAddressModalProp
           <div className="flex gap-3 pt-4">
             <Button
               onClick={handleProceed}
-              disabled={!selectedAddressId}
+              disabled={!selectedAddressId || orderLoading}
               className="flex-1 h-12 rounded-none bg-[var(--purple-light)] hover:bg-[var(--color-primary)]"
             >
-              Proceed to Checkout
+              {orderLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Creating Order...
+                </>
+              ) : (
+                "Confirm Order"
+              )}
             </Button>
             <Button
               variant="outline"

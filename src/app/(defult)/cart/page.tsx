@@ -333,6 +333,8 @@ const CartPage = () => {
     <CheckoutAddressModal
       open={checkoutModalOpen}
       onClose={() => setCheckoutModalOpen(false)}
+      cartItems={items}
+      totalAmount={cartData?.total_price || 0}
     />
     </>
   );
