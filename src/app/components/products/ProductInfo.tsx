@@ -108,7 +108,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             if (error?.status === 403) {
                 toast.error("Session expired. Please login again.")
                 localStorage.removeItem("token")
-                router.push("/login")
+                router.push("/auth/sign-in")
             } else {
                 toast.error(error?.message || error?.data?.message || "Failed to update cart")
             }
@@ -181,7 +181,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             if (error?.status === 403) {
                 toast.error("Session expired. Please login again.")
                 localStorage.removeItem("token")
-                router.push("/login")
+                router.push("/auth/sign-in")
             } else {
                 toast.error(error?.message || error?.data?.message || "Failed to add product to cart")
             }

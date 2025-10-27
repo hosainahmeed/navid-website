@@ -48,7 +48,7 @@ const CartPage = () => {
       if (error?.status === 403) {
         toast.error("Session expired. Please login again.");
         localStorage.removeItem("token");
-        router.push("/login");
+        router.push("/auth/sign-in");
       } else {
         toast.error(error?.message || error?.data?.message || "Failed to remove item");
       }
@@ -107,7 +107,7 @@ const CartPage = () => {
       if (error?.status === 403) {
         toast.error("Session expired. Please login again.");
         localStorage.removeItem("token");
-        router.push("/login");
+        router.push("/auth/sign-in");
       } else {
         toast.error(error?.message || error?.data?.message || "Failed to update quantity");
       }
@@ -161,7 +161,7 @@ const CartPage = () => {
       if (error?.status === 403) {
         toast.error("Session expired. Please login again.");
         localStorage.removeItem("token");
-        router.push("/login");
+        router.push("/auth/sign-in");
       } else {
         toast.error(error?.message || error?.data?.message || "Failed to update quantity");
       }
