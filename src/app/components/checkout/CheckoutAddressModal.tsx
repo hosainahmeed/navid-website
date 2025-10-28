@@ -83,7 +83,6 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
           error?.message || error?.data?.message || "Failed to create address"
         );
       }
-      console.log(error);
     }
   };
 
@@ -122,7 +121,6 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
       }
 
       toast.success(res?.message || "Order created successfully!");
-      console.log("Order created:", res);
       onClose();
       
       // Optionally redirect to order confirmation page

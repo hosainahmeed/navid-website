@@ -28,7 +28,6 @@ function OneTimePassword() {
             }
             const res = await verifyOtp(data).unwrap();
             if (res?.success) {
-                console.log(res)
                 toast.success(res.message || 'Verification successful!');
                 if (Cookies.get('accessToken')) {
                     Cookies.remove('accessToken');
@@ -38,7 +37,6 @@ function OneTimePassword() {
                 return;
             }
         } catch (error: any) {
-            console.log(error)
             const message =
                 error?.data?.message ||
                 error?.message ||
@@ -61,7 +59,6 @@ function OneTimePassword() {
                 return;
             }
         } catch (error: any) {
-            console.log(error)
             const message =
                 error?.data?.message ||
                 error?.message ||

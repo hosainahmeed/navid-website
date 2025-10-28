@@ -39,7 +39,6 @@ const CartPage = () => {
   const items = cartData?.items || [];
 
   const removeItem = async (id: string) => {
-    console.log(id)
     try {
       const res = await deleteCartMutation(id).unwrap();
       if (!res?.success) throw new Error(res?.message);
@@ -52,7 +51,6 @@ const CartPage = () => {
       } else {
         toast.error(error?.message || error?.data?.message || "Failed to remove item");
       }
-      console.log(error);
     }
   };
 
@@ -95,7 +93,6 @@ const CartPage = () => {
       } else {
         toast.error(error?.message || error?.data?.message || "Failed to update quantity");
       }
-      console.log(error);
     }
   };
 
@@ -132,7 +129,6 @@ const CartPage = () => {
       } else {
         toast.error(error?.message || error?.data?.message || "Failed to update quantity");
       }
-      console.log(error);
     }
   };
 

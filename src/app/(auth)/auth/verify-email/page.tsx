@@ -35,7 +35,7 @@ function page() {
                 }
             }
         } catch (error: any) {
-            console.log(error)
+         
             const message =
                 error?.data?.message ||
                 error?.message ||
@@ -58,7 +58,7 @@ function page() {
                 return;
             }
         } catch (error: any) {
-            console.log(error)
+        
             const message =
                 error?.data?.message ||
                 error?.message ||

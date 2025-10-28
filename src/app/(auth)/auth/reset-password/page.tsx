@@ -37,7 +37,6 @@ function ResetPassword() {
                 return;
             }
         } catch (error: any) {
-            console.log(error)
             const message =
                 error?.data?.message ||
                 error?.message ||

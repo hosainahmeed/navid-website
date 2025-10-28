@@ -14,7 +14,6 @@ import { FaRegUserCircle } from 'react-icons/fa'
 
 function Header() {
     const { data: profileData } = useProfileQuery(undefined)
-    console.log(profileData)
     const router = useRouter()
     const { totalQuantity } = useCart()
     const pathname = usePathname()

@@ -112,7 +112,6 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             } else {
                 toast.error(error?.message || error?.data?.message || "Failed to update cart")
             }
-            console.log(error)
         }
     }
 
@@ -185,7 +184,6 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             } else {
                 toast.error(error?.message || error?.data?.message || "Failed to add product to cart")
             }
-            console.log(error)
         }
     }
     return (
