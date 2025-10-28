@@ -1,7 +1,7 @@
 'use client'
 import { imageUrl } from '@/app/utils/imagePreview'
 import Image from 'next/image'
-import React, { useMemo, useState } from 'react'
+import React, { memo, useMemo, useState } from 'react'
 import { FaArrowLeft, FaSearch } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
 import { IoMdClose, IoMdMenu } from 'react-icons/io'
@@ -20,8 +20,8 @@ const SearchBar: React.FC = () => {
   const [search, setSearch] = useState('')
   const [showResults, setShowResults] = useState(false)
   const [showSubCategory, setShowSubCategory] = useState(false)
-  const { data: productData, isLoading: productLoading } = useGetAllProductQuery({
-    ...(search && { search }),
+  const { data: productData, isLoading: productLoading, isFetching } = useGetAllProductQuery({
+    ...(search !== '' && { search }),
   })
   const router = useRouter()
   const { data: profileData, isLoading: profileLoading } = useProfileQuery(undefined)
@@ -79,14 +79,14 @@ const SearchBar: React.FC = () => {
   }
 
   return (
-    <div className='flex relative md:flex-row flex-col w-full mx-auto items-center my-4 gap-2'>
+    <div className='flex relative md:flex-row flex-col w-full mx-auto items-center border border-[var(--border-color)] my-4'>
       <div className={cn('w-full z-50 relative flex flex-col md:flex-row gap-2',
         showResults ? 'z-50' : 'z-0'
       )}>
-        <div className='flex items-center gap-2 w-full md:w-fit'>
+        <div className='flex items-center w-full md:w-fit'>
           <button
             onClick={() => setShowCategory(!showCategory)}
-            className='bg-[var(--purple-light)]   w-fit h-10 flex items-center cursor-pointer text-white px-4 py-2'>
+            className='bg-[var(--purple-light)] border-r border-[var(--border-color)]  w-fit h-10 flex items-center cursor-pointer text-white px-4 py-2'>
             {showCategory ? <IoMdClose /> : <IoMdMenu />}
           </button>
           <div
@@ -99,7 +99,7 @@ const SearchBar: React.FC = () => {
           <input
             type='text'
             placeholder='Search'
-            className='w-full p-2 bg-white border pl-4 border-[var(--border-color)]'
+            className='w-full p-2 bg-white outline-none focus:outline-none border-none'
             onChange={(e) => debouncedSearch(e.target.value)}
             onKeyDown={handleKeyDown}
             onFocus={() => setShowResults(true)}
@@ -126,13 +126,13 @@ const SearchBar: React.FC = () => {
         />
       }
 
-      {showResults && <div className='absolute md:block hidden top-12 rounded z-[999] left-0 w-full h-72 p-3 shadow-2xl border overflow-y-auto bg-white'>
-        {productData?.data.length === 0 ?
+      {showResults && <div className='absolute md:block hidden top-12 rounded z-[888] left-0 w-full h-72 p-3 shadow-2xl border overflow-y-auto bg-white'>
+        {productData?.data?.length === 0 ?
           <div className='flex items-center justify-center h-full flex-col gap-2'>
             <p className='text-gray-500'>No results found</p>
             <p className='text-gray-500'>Try searching for something else</p>
           </div>
-          : productLoading ? <Skeleton /> : productData?.data.map((product: Iproduct) => (
+          : (productLoading || isFetching) ? <Skeleton /> : productData?.data?.map((product: Iproduct) => (
             <div
               onMouseDown={(e) => {
                 e.preventDefault()
@@ -225,4 +225,4 @@ const SearchBar: React.FC = () => {
   )
 }
 
-export default SearchBar
+export default memo(SearchBar)

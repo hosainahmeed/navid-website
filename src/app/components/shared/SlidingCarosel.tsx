@@ -6,7 +6,7 @@ import { imageUrl } from '@/app/utils/imagePreview';
 import { Skeleton } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { memo } from 'react';
 import Marquee from 'react-fast-marquee';
 
 function SlidingCarosel() {
@@ -68,4 +68,4 @@ function SlidingCarosel() {
     );
 }
 
-export default SlidingCarosel;
+export default memo(SlidingCarosel);

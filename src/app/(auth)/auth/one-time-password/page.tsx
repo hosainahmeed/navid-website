@@ -1,10 +1,9 @@
 'use client'
 import { useVerificationCreateMutation, useVerifyOtpMutation } from '@/app/redux/services/authApis';
-import { Button, Divider, Form, Input, Typography } from 'antd'
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { Button, Form, Input, Typography } from 'antd'
+import { useRouter, useSearchParams } from 'next/navigation';
 import React from 'react'
-
+import Cookies from 'js-cookie';
 const { Title } = Typography
 
 function OneTimePassword() {
@@ -13,6 +12,7 @@ function OneTimePassword() {
     const [verifyOtp, { isLoading: isVerifyOtpLoading }] = useVerifyOtpMutation()
     const [verificationCreate, { isLoading: isVerificationCreating }] = useVerificationCreateMutation()
     const [form] = Form.useForm();
+    const router = useRouter()
     const onFinish = async (values: any) => {
         try {
             if (!email) {
@@ -27,7 +27,13 @@ function OneTimePassword() {
             }
             const res = await verifyOtp(data).unwrap();
             if (res?.success) {
+                console.log(res)
                 alert(res.message || 'Verification successful!');
+                if (Cookies.get('accessToken')) {
+                    Cookies.remove('accessToken');
+                }
+                Cookies.set('accessToken', res?.data?.token);
+                router.push('/');
                 return;
             }
         } catch (error: any) {
@@ -115,8 +121,8 @@ function OneTimePassword() {
                     </Form.Item>
                 </Form>
                 <span
-                onClick={handleResend}
-                className='text-[var(--purple-light)] hover:underline cursor-pointer'>Resend code</span>
+                    onClick={handleResend}
+                    className='text-[var(--purple-light)] hover:underline cursor-pointer'>{isVerificationCreating ? 'Resending...' : 'Resend code'}</span>
             </div>
         </div>
     )

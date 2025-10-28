@@ -62,13 +62,12 @@ export default function SettingsSection({ data }: { data: any }) {
                     </Form.Item>
                 </Form>
             </Card>
-            <div className="grid grid-cols-1 border border-[var(--border-color)] md:grid-cols-2">
+            <div className="grid grid-cols-1 md:grid-cols-2">
                 {/* Information Update */}
                 <Card
                     variant="outlined"
-                    headStyle={{ backgroundColor: "#EDEDED", borderBottom: "1px solid var(--border-color)" }}
+                    headStyle={{ backgroundColor: "#EDEDED", borderBottom: "2px solid var(--border-color)" ,borderRadius:"0px"}}
                     title={<span className="font-semibold text-lg">Information Update</span>}
-                    className="shadow-sm"
                     style={{ borderRadius: "0px" }}
                 >
                     <Form requiredMark={false} layout="vertical" form={formInfo} onFinish={handleInfoUpdate}>
@@ -101,9 +100,8 @@ export default function SettingsSection({ data }: { data: any }) {
                 {/* Change Password */}
                 <Card
                     variant="outlined"
-                    headStyle={{ backgroundColor: "#EDEDED", borderBottom: "1px solid var(--border-color)" }}
+                    headStyle={{ backgroundColor: "#EDEDED", borderBottom: "2px solid var(--border-color)", borderRadius: "0px" }}
                     title={<span className="font-semibold text-lg">Change Password</span>}
-                    className="shadow-sm"
                     style={{ borderRadius: "0px" }}
                 >
                     <Form
@@ -150,6 +148,7 @@ export default function SettingsSection({ data }: { data: any }) {
                     </Form>
                 </Card>
             </div>
+            
         </div>
     );
 }

@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { memo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { Category } from '@/app/types/product'
@@ -219,4 +219,4 @@ const TopPageCategory = () => {
   )
 }
 
-export default TopPageCategory
+export default memo(TopPageCategory)

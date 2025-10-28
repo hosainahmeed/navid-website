@@ -17,12 +17,11 @@ export default function ProfilePage() {
 
     return (
         <main
-            className="border-y  border-[var(--border-color)]"
         >
             <section className="mx-auto w-full  max-w-screen-2xl min-h-[calc(100vh-25rem)]">
                 <div
                     className={cn(
-                        `bg-white mx-auto border-x p-0 border-[var(--border-color)] rounded-none`,
+                        `bg-white mx-auto border-x py-12 border-[var(--border-color)] rounded-none`,
                     )}
                 >
                     <div>

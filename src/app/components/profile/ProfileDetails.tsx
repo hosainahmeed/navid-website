@@ -19,13 +19,14 @@ function formatDate(value: string) {
 export default function ProfileDetails({ data }: Props) {
   return (
     <div>
-      <h2 className="text-xl font-bold p-2 bg-[#EDEDED]">Account Details</h2>
+      <h2
+       className="text-xl font-bold p-2 bg-[#EDEDED] border-b border-[var(--border-color)]">Account Details</h2>
       <div className="divide-y">
         <DetailItem label="Email Address" value={data?.email} icon={<Mail className="size-5" />} />
         <DetailItem label="Phone Number" value={data?.phone} icon={<Smartphone className="size-5" />} />
       </div>
 
-      <h2 className="text-xl font-bold border-b bg-[#EDEDED] p-2">Verification & History</h2>
+      <h2 className="text-xl font-bold border-y bg-[#EDEDED] p-2 border-[var(--border-color)]">Verification & History</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2">
         <StatusBlock label="Identity Check (KYC)" ok={!!data?.is_identity_verified} icon={<ScanFace className="size-5" />} />
@@ -35,7 +36,7 @@ export default function ProfileDetails({ data }: Props) {
           icon={<FileText className={cn("size-5", data?.documents?.length > 0 ? "text-green-500" : "text-red-500")} />}
         />
       </div>
-      <h2 className="text-xl font-bold border-b bg-[#EDEDED] p-2">Documents</h2>
+      <h2 className="text-xl font-bold border-y bg-[#EDEDED] p-2 border-[var(--border-color)]">Documents</h2>
       <div className="flex items-center justify-center gap-2">
         {
           data?.documents?.length > 0 ? data?.documents?.map((url: string, index: number) => (
@@ -50,7 +51,7 @@ export default function ProfileDetails({ data }: Props) {
         }
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2">
+      <div className="grid grid-cols-1 border-t border-[var(--border-color)] sm:grid-cols-2">
         <div className="rounded-none border p-2 bg-white/80">
           <div className="text-sm text-gray-500">Member Since</div>
           <div className="font-normal  text-gray-900">{formatDate(data?.createdAt)}</div>

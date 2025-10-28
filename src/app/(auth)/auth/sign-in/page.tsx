@@ -6,7 +6,7 @@ import { useSignInMutation } from '@/app/redux/services/authApis';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-const { Title } = Typography
+const { Title, Text } = Typography
 
 function SignIn() {
     const [form] = Form.useForm();
@@ -54,11 +54,12 @@ function SignIn() {
                         "radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)",
                 }}
             />
-            <div className='w-lg bg-white z-10 p-6 border border-[var(--border-color)] shadow-sm py-28'>
+            <div className='w-lg bg-white z-10 p-6 border border-[var(--border-color)] shadow-sm py-12'>
                 <Form layout='vertical' requiredMark={false} onFinish={onFinish} form={form}>
                     <Title level={2} className="!mb-2 text-gray-800">
                         Welcome Back
                     </Title>
+                    <Text>Enter your email and password to sign in</Text>
                     <Divider />
                     <Form.Item
                         name="email"

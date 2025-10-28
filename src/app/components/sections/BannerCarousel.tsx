@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import cn from '@/app/utils/cn';
@@ -13,7 +13,7 @@ interface IBanner {
     img: string;
 }
 
-export default function BannerCarousel() {
+const BannerCarousel = () => {
     const { data: bannerData, isLoading } = useGetAllBannerQuery(undefined)
     const [index, setIndex] = useState<number>(0);
     const [direction, setDirection] = useState<number>(0);
@@ -130,3 +130,4 @@ export default function BannerCarousel() {
         </section>
     );
 }
+export default memo(BannerCarousel)

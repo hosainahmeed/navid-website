@@ -1,15 +1,16 @@
 'use client'
 import React, { useCallback, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { MdCancel } from 'react-icons/md'
-import { Input, Select } from 'antd'
+import { Input, Select, Spin } from 'antd'
 import debounce from 'lodash.debounce'
-
+import { SearchOutlined } from '@ant-design/icons';
 import SectionHeader from '@/app/components/shared/SectionHeader'
 import ProductCard from '@/app/components/products/ProductCard'
 import { Iproduct } from '@/app/types/product'
 import { useGetAllProductQuery } from '@/app/redux/services/productApis'
 import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
+import Image from 'next/image'
+import { IMAGE } from '@/app/constants/Image.index'
 
 const Page: React.FC = () => {
     const searchParams = useSearchParams()
@@ -49,14 +50,11 @@ const Page: React.FC = () => {
 
     return (
         <div className='max-w-screen-2xl border-x mx-auto p-2'>
-            {/* Section header */}
             <SectionHeader title='All Products' className='my-0 p-2' />
-
-            {/* Search & Filter Controls */}
             <div className='flex justify-between items-center flex-row'>
-                {/* Search input */}
                 <div className='relative w-full flex-1'>
                     <Input
+                        prefix={isFetching ? <Spin size='small' /> : <SearchOutlined />}
                         allowClear
                         placeholder='Search products'
                         onChange={handleSearchChange}
@@ -66,7 +64,6 @@ const Page: React.FC = () => {
                     />
                 </div>
 
-                {/* Category select */}
                 <Select
                     loading={categoryLoading || isFetching}
                     options={categories}
@@ -83,17 +80,43 @@ const Page: React.FC = () => {
                 />
             </div>
 
-            {/* Product grid */}
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-                {productLoading ? (
-                    <div className='col-span-full text-center text-gray-600 py-10'>
-                        Loading products...
+            <div >
+                {productLoading || isFetching ? (
+                    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+                        {Array.from({ length: 8 }).map((_, index) => (
+                            <div className='w-full p-2 border border-[var(--border-color)] min-h-64 bg-white' key={index} >
+                                <Image
+                                    src={IMAGE.placeholderImg}
+                                    alt='placeholder'
+                                    placeholder='blur'
+                                    blurDataURL={IMAGE.placeholderImg.blurDataURL}
+                                    width={IMAGE.placeholderImg.width}
+                                    height={IMAGE.placeholderImg.height}
+                                    className='w-auto h-28 border border-[var(--border-color)]'
+                                />
+                                <div className='flex flex-col items-start justify-center h-28'>
+                                    <div className='w-[90%] animate-pulse border border-[var(--border-color)] h-4 bg-gray-200 mb-2' />
+                                    <div className='w-[80%] animate-pulse border border-[var(--border-color)] h-4 bg-gray-200 mb-2' />
+                                    <div className='w-[20%] animate-pulse border border-[var(--border-color)] h-6 mt-2 bg-gray-200 mb-2' />
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 ) : products.length > 0 ? (
-                    products.map((item: Iproduct) => <ProductCard key={item?._id} item={item} />)
+                    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+                        {products.map((item: Iproduct) => <ProductCard key={item?._id} item={item} />)}
+                    </div>
                 ) : (
-                    <div className='col-span-full min-h-[400px] h-full flex items-center justify-center text-center text-gray-600 py-10'>
-                        No products found
+                    <div className='flex p-12 items-center justify-center'>
+                        <Image
+                            src={IMAGE.nodata}
+                            alt='nodata'
+                            placeholder='blur'
+                            blurDataURL={IMAGE.nodata.blurDataURL}
+                            width={IMAGE.nodata.width}
+                            height={IMAGE.nodata.height}
+                            className='w-xl'
+                        />
                     </div>
                 )}
             </div>

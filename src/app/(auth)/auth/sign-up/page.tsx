@@ -49,7 +49,6 @@ function SignUp() {
                 return;
             }
 
-            // throw new Error(res?.message || 'Something went wrong while signing up!');
         } catch (error: any) {
             console.log(error)
             const message =

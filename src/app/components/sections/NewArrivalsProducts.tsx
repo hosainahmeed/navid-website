@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { memo } from 'react'
 import ProductCard from '../products/ProductCard'
 import SectionHeader from '../shared/SectionHeader'
 import { Iproduct } from '@/app/types/product'
@@ -31,4 +31,4 @@ function NewArrivalsProducts() {
     )
 }
 
-export default NewArrivalsProducts
+export default memo(NewArrivalsProducts)
