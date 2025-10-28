@@ -41,7 +41,7 @@ function ProductCard({ item }: { item: Iproduct }) {
             onMouseLeave={() => setIsHovered(false)}
         >
             <Link href={`/product/${item?._id}`}>
-                <figure className="overflow-hidden h-72 aspect-square w-full border-y border-[var(--border-color)] shadow relative mb-1">
+                <figure className="overflow-hidden h-72 aspect-square w-full border-y border-[var(--border-color)] relative">
                     {productImage ? (
                         <Image
                             src={imageUrl({ image: productImage })}
@@ -62,7 +62,7 @@ function ProductCard({ item }: { item: Iproduct }) {
                     </span>
                 </figure>
             </Link>
-            <CardContent className="p-4 relative">
+            <CardContent className="p-4 relative bg-[#EDEDED] border-t border-[var(--border-color)]">
                 <div className='w-fit flex gap-1'>
                     {productSize.map((size, index) =>
                         <Tooltip

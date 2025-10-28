@@ -59,7 +59,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${anonymousPro.className} antialiased md:px-0`}>
+      <body
+        className={`${anonymousPro.className} antialiased md:px-0`}>
         <ReduxWrapper>
           <AgeVarificationPopUp>
             <CartProvider>
