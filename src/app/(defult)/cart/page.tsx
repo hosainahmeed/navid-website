@@ -25,7 +25,6 @@ const CartPage = () => {
   const [deleteCartMutation, { isLoading: deleteLoading }] = useDeleteCartMutation();
   const [createCartMutation] = useCreateCartMutation();
   const router = useRouter();
-  const [optimisticQuantities, setOptimisticQuantities] = useState<Record<string, number>>({});
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
 
   if (isLoading) {
@@ -59,10 +58,10 @@ const CartPage = () => {
 
 
   const increaseQuantity = async (itemId: string) => {
-    const item = items.find((i: any) => i._id === itemId);
+    const item = items.find((i: any) => i?._id === itemId);
     if (!item) return;
 
-    const currentQuantity = optimisticQuantities[itemId] ?? item.quantity;
+    const currentQuantity = item.quantity;
     const newQuantity = currentQuantity + 1;
 
     // Check if exceeds available stock
@@ -70,9 +69,6 @@ const CartPage = () => {
       toast.error("Cannot exceed available stock");
       return;
     }
-
-    // Optimistic update
-    setOptimisticQuantities(prev => ({ ...prev, [itemId]: newQuantity }));
 
     try {
       const data = {
@@ -91,20 +87,7 @@ const CartPage = () => {
       if (!res?.success) {
         throw new Error(res?.message);
       }
-      // Remove from optimistic state on success
-      setOptimisticQuantities(prev => {
-        const newState = { ...prev };
-        delete newState[itemId];
-        return newState;
-      });
     } catch (error: any) {
-      // Revert on error
-      setOptimisticQuantities(prev => {
-        const newState = { ...prev };
-        delete newState[itemId];
-        return newState;
-      });
-
       if (error?.status === 403) {
         toast.error("Session expired. Please login again.");
         localStorage.removeItem("token");
@@ -120,14 +103,10 @@ const CartPage = () => {
     const item = items.find((i: any) => i._id === itemId);
     if (!item) return;
 
-    const currentQuantity = optimisticQuantities[itemId] ?? item.quantity;
+    const currentQuantity = item.quantity;
     const newQuantity = Math.max(1, currentQuantity - 1);
 
     if (newQuantity === currentQuantity) return;
-
-    // Optimistic update
-    setOptimisticQuantities(prev => ({ ...prev, [itemId]: newQuantity }));
-
     try {
       const data = {
         items: [
@@ -145,20 +124,7 @@ const CartPage = () => {
       if (!res?.success) {
         throw new Error(res?.message);
       }
-      // Remove from optimistic state on success
-      setOptimisticQuantities(prev => {
-        const newState = { ...prev };
-        delete newState[itemId];
-        return newState;
-      });
     } catch (error: any) {
-      // Revert on error
-      setOptimisticQuantities(prev => {
-        const newState = { ...prev };
-        delete newState[itemId];
-        return newState;
-      });
-
       if (error?.status === 403) {
         toast.error("Session expired. Please login again.");
         localStorage.removeItem("token");
@@ -199,7 +165,7 @@ const CartPage = () => {
                 <p className="text-gray-900 font-bold text-2xl mb-2">
                   Your cart is empty
                 </p>
-                <Link href={"/"}>
+                <Link href={"/shop"}>
                   <Button className="rounded-none bg-[var(--purple-light)] hover:bg-[var(--color-primary)]">
                     Continue Shopping
                   </Button>
@@ -255,7 +221,7 @@ const CartPage = () => {
                         <Minus className="w-4 h-4" />
                       </button>
                       <span className="text-lg font-semibold w-8 text-center">
-                        {optimisticQuantities[item._id] ?? item?.quantity}
+                        {item?.quantity}
                       </span>
                       <button
                         onClick={() => increaseQuantity(item?._id)}

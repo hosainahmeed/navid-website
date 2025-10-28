@@ -9,6 +9,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 interface SidebarProps {
     data: {
@@ -27,6 +28,7 @@ export default function ProfileSidebar({
     setActiveItem,
 }: SidebarProps) {
     const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
+    const router = useRouter();
 
     const sideBarItem = [
         { label: "Profile", icon: <User2 className="size-4" /> },
@@ -129,6 +131,7 @@ export default function ProfileSidebar({
                                 <Button
                                     onClick={() => {
                                         Cookies.remove("accessToken")
+                                        router.push("/")
                                         setShowLogoutModal(false);
                                     }}
                                     style={{

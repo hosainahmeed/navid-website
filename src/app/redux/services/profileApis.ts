@@ -10,8 +10,8 @@ const profileApis = baseApis.injectEndpoints({
             providesTags: ['profile'],
         }),
         updateProfile: builder.mutation({
-            query: ({data}) => ({
-                url: '/user/edit-profile',
+            query: (data) => ({
+                url: '/auth/update-profile',
                 method: 'PATCH',
                 body: data,
             }),
