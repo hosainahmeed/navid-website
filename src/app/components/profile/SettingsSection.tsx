@@ -12,8 +12,9 @@ export default function SettingsSection({ data }: { data: any }) {
     const [formPassword] = Form.useForm();
     const [formImg] = Form.useForm();
     const [formDocs] = Form.useForm();
-    const [updateProfileMutation] = useUpdateProfileMutation();
-    const [changePasswordMutation] = useChangePasswordMutation();
+    const [formTax] = Form.useForm();
+    const [updateProfileMutation, { isLoading: isUpdateProfileLoading }] = useUpdateProfileMutation();
+    const [changePasswordMutation, { isLoading: isChangePasswordLoading }] = useChangePasswordMutation();
 
     useEffect(() => {
         if (data) {
@@ -22,9 +23,12 @@ export default function SettingsSection({ data }: { data: any }) {
                 email: data?.email,
                 phone: data?.phone,
             });
+            formTax.setFieldsValue({
+                tax_id: data?.tax_id ?? "",
+            });
 
         }
-    }, [data, formInfo]);
+    }, [data, formInfo, formTax]);
 
     const normFile = (e: any) => {
         if (Array.isArray(e)) return e;
@@ -94,6 +98,21 @@ export default function SettingsSection({ data }: { data: any }) {
         }
     };
 
+    const handleTaxIdUpdate = async (values: any) => {
+        try {
+            const formData = new FormData();
+            formData.append('tax_id', values?.tax_id ?? '');
+            const res = await updateProfileMutation(formData as any).unwrap();
+            if (res?.success) {
+                toast.success(res?.message || 'Tax ID updated successfully!');
+            } else {
+                throw new Error(res?.message || 'Failed to update Tax ID');
+            }
+        } catch (error: any) {
+            toast.error(error?.data?.message || error?.message || 'Failed to update Tax ID');
+        }
+    };
+
     const handlePasswordChange = async (values: any) => {
         if (values.newPassword !== values.confirmPassword) {
             toast.error("Passwords do not match!");
@@ -126,20 +145,22 @@ export default function SettingsSection({ data }: { data: any }) {
                 title={<span className="font-semibold text-lg">Profile Image</span>}
                 style={{ borderRadius: "0px", marginBottom: 16 }}
             >
-                <div className="flex items-center gap-4 mb-4">
-                    {data?.img && (
-                        <Image
-                            src={imageUrl({ image: data.img })}
-                            alt="Current profile"
-                            className="border border-[var(--border-color)] p-1 max-h-[120px] object-contain"
-                            style={{ width: "auto" }}
-                        />
-                    )}
+                <div className="flex flex-col gap-2">
+                    <h1 className="text-lg font-semibold">Select New Profile Image</h1>
+                    <div className="flex items-center gap-4 mb-4">
+                        {data?.img && (
+                            <Image
+                                src={imageUrl({ image: data.img })}
+                                alt="Current profile"
+                                className="border border-[var(--border-color)] p-1 max-h-[120px] object-contain"
+                                style={{ width: "auto" }}
+                            />
+                        )}
+                    </div>
                 </div>
                 <Form layout="vertical" requiredMark={false} form={formImg} onFinish={handleProfileImgUpdate}>
                     <Form.Item
                         name="profile_img"
-                        label="Select New Profile Image"
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
                         rules={[{ required: true, message: 'Please select a profile image' }]}
@@ -148,7 +169,7 @@ export default function SettingsSection({ data }: { data: any }) {
                             <Button>Select Profile Image</Button>
                         </Upload>
                     </Form.Item>
-                    <Button htmlType="submit" size="large" style={{ borderRadius: "0px", padding: "8px 20px", fontWeight: 600 }}>Update Profile Image</Button>
+                    <Button htmlType="submit" size="large" loading={isUpdateProfileLoading} style={{ borderRadius: "0px", padding: "8px 20px", fontWeight: 600 }}>Update Profile Image</Button>
                 </Form>
             </Card>
 
@@ -159,8 +180,9 @@ export default function SettingsSection({ data }: { data: any }) {
                 title={<span className="font-semibold text-lg">Documents</span>}
                 style={{ borderRadius: "0px" }}
             >
-                <div className="flex items-center flex-wrap gap-2 mb-4">
-                    {Array.isArray(data?.documents) && data.documents.length > 0 ? (
+                <div className="flex flex-col gap-2">
+                    <h1 className="text-lg font-semibold">Upload Documents</h1>
+                    <div className="flex items-center flex-wrap gap-2 mb-4">{Array.isArray(data?.documents) && data.documents.length > 0 ? (
                         data.documents.map((url: string, index: number) => (
                             <Image
                                 key={index}
@@ -173,11 +195,11 @@ export default function SettingsSection({ data }: { data: any }) {
                     ) : (
                         <p className="text-center flex h-24 items-center justify-center">No documents submitted</p>
                     )}
+                    </div>
                 </div>
                 <Form layout="vertical" requiredMark={false} form={formDocs} onFinish={handleDocumentsUpdate}>
                     <Form.Item
                         name="documents"
-                        label="Upload Documents"
                         valuePropName="fileList"
                         getValueFromEvent={normFile}
                         rules={[{ required: true, message: 'Please select document files' }]}
@@ -186,7 +208,15 @@ export default function SettingsSection({ data }: { data: any }) {
                             <Button>Select Documents</Button>
                         </Upload>
                     </Form.Item>
-                    <Button htmlType="submit" size="large" style={{ borderRadius: "0px", padding: "8px 20px", fontWeight: 600 }}>Update Documents</Button>
+                    <Button htmlType="submit" size="large" loading={isUpdateProfileLoading}
+                        style={{
+                            borderRadius: "0px",
+                            padding: "8px 20px",
+                            fontWeight: 600,
+                            backgroundColor: "var(--purple-light)",
+                            color: "#fff",
+                            border: "none",
+                        }}>Update Documents</Button>
                 </Form>
             </Card>
             <Card
@@ -196,17 +226,21 @@ export default function SettingsSection({ data }: { data: any }) {
                 className="shadow-sm"
                 style={{ borderRadius: "0px" }}
             >
-                <Form requiredMark={false} layout="vertical">
+                <Form requiredMark={false} layout="vertical" form={formTax} onFinish={handleTaxIdUpdate}>
                     <Form.Item name="tax_id" label="Tax ID">
                         <Input style={{ borderRadius: "0px" }} size="large" placeholder="Enter your tax id" />
                     </Form.Item>
                     <Form.Item>
                         <Button
                             size="large" type="default"
+                            loading={isUpdateProfileLoading}
                             style={{
                                 borderRadius: "0px",
                                 padding: "8px 20px",
-                                fontWeight: "600",
+                                fontWeight: 600,
+                                backgroundColor: "var(--purple-light)",
+                                color: "#fff",
+                                border: "none",
                             }}
                             htmlType="submit">Submit</Button>
                     </Form.Item>
@@ -236,10 +270,14 @@ export default function SettingsSection({ data }: { data: any }) {
                         <Button
                             htmlType="submit"
                             size="large"
+                            loading={isUpdateProfileLoading}
                             style={{
                                 borderRadius: "0px",
                                 padding: "8px 20px",
-                                fontWeight: "600",
+                                fontWeight: 600,
+                                backgroundColor: "var(--purple-light)",
+                                color: "#fff",
+                                border: "none",
                             }}
                         >
                             Update Information
@@ -287,10 +325,14 @@ export default function SettingsSection({ data }: { data: any }) {
                         <Button
                             htmlType="submit"
                             size="large"
+                            loading={isChangePasswordLoading}
                             style={{
                                 borderRadius: "0px",
                                 padding: "8px 20px",
-                                fontWeight: "600",
+                                fontWeight: 600,
+                                backgroundColor: "var(--purple-light)",
+                                color: "#fff",
+                                border: "none",
                             }}
                         >
                             Change Password

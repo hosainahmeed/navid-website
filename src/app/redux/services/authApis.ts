@@ -1,5 +1,5 @@
 import baseApis from "../query/baseApis";
-
+import Cookies from "js-cookie";
 const authApis = baseApis.injectEndpoints({
     endpoints: (builder) => ({
         signUp: builder.mutation({
@@ -39,6 +39,9 @@ const authApis = baseApis.injectEndpoints({
                 url: '/auth/reset-password',
                 method: 'POST',
                 body: data,
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('resetToken')}`
+                }
             }),
             invalidatesTags: ['profile'],
         }),

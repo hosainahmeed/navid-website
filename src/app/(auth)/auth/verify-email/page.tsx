@@ -1,19 +1,18 @@
 'use client'
 import { useVerificationCreateMutation, useVerifyOtpMutation } from '@/app/redux/services/authApis';
 import { Button, Form, Input, Typography } from 'antd'
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 const { Title } = Typography
-
-function OneTimePassword() {
+function page() {
     const searchParams = useSearchParams();
     const email = searchParams.get('email');
-    const [verifyOtp, { isLoading: isVerifyOtpLoading }] = useVerifyOtpMutation()
-    const [verificationCreate, { isLoading: isVerificationCreating }] = useVerificationCreateMutation()
     const [form] = Form.useForm();
-    const router = useRouter()
+    const [verifyForgotOtp, { isLoading: isVerifyForgotOtpLoading }] = useVerifyOtpMutation()
+    const [verificationCreate, { isLoading: isVerificationCreating }] = useVerificationCreateMutation()
+    const router = useRouter();
     const onFinish = async (values: any) => {
         try {
             if (!email) {
@@ -26,16 +25,14 @@ function OneTimePassword() {
                 email,
                 code: values.code
             }
-            const res = await verifyOtp(data).unwrap();
+            const res = await verifyForgotOtp(data).unwrap();
             if (res?.success) {
-                console.log(res)
                 toast.success(res.message || 'Verification successful!');
-                if (Cookies.get('accessToken')) {
-                    Cookies.remove('accessToken');
-                }
+                Cookies.set('resetToken', res?.data?.resetToken);
                 Cookies.set('accessToken', res?.data?.token);
-                router.push('/');
-                return;
+                if (Cookies.get('resetToken')) {
+                    router.push('/auth/reset-password');
+                }
             }
         } catch (error: any) {
             console.log(error)
@@ -45,7 +42,7 @@ function OneTimePassword() {
                 'Something went wrong while verifying OTP!';
             toast.error(message);
         }
-    };
+    }
 
     const handleResend = async () => {
         try {
@@ -102,7 +99,7 @@ function OneTimePassword() {
                     </Form.Item>
                     <Form.Item className='w-full'>
                         <Button
-                            loading={isVerifyOtpLoading}
+                            loading={isVerifyForgotOtpLoading}
                             style={{
                                 width: '100%',
                                 backgroundColor: 'var(--purple-light)',
@@ -129,4 +126,4 @@ function OneTimePassword() {
     )
 }
 
-export default OneTimePassword
+export default page

@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { useSignUpMutation } from '@/app/redux/services/authApis';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import toast from 'react-hot-toast';
 const { Title } = Typography
 
 interface Isignupdata {
@@ -44,7 +45,7 @@ function SignUp() {
             const formattedValues = { name, email, password, confirm_password, date_of_birth: dayjs(values.date_of_birth).format('MM-DD-YYYY') };
             const res = await signUp(formattedValues).unwrap();
             if (res?.success && res?.data?.email) {
-                alert(res.message || 'Signup successful!');
+                toast.success(res.message || 'Signup successful!');
                 router.push(`/auth/one-time-password?email=${res.data.email}`);
                 return;
             }
@@ -55,7 +56,7 @@ function SignUp() {
                 error?.data?.message ||
                 error?.message ||
                 'Something went wrong while signing up!';
-            alert(message);
+            toast.error(message);
         }
     };
 
