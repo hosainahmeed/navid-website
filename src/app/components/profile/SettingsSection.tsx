@@ -13,7 +13,11 @@ export default function SettingsSection({ data }: { data: any }) {
     const [formImg] = Form.useForm();
     const [formDocs] = Form.useForm();
     const [formTax] = Form.useForm();
-    const [updateProfileMutation, { isLoading: isUpdateProfileLoading }] = useUpdateProfileMutation();
+    // Separate mutation instances so each button has its own loading state
+    const [updateInfoMutation, { isLoading: isInfoLoading }] = useUpdateProfileMutation();
+    const [updateImgMutation, { isLoading: isImgLoading }] = useUpdateProfileMutation();
+    const [updateDocsMutation, { isLoading: isDocsLoading }] = useUpdateProfileMutation();
+    const [updateTaxMutation, { isLoading: isTaxLoading }] = useUpdateProfileMutation();
     const [changePasswordMutation, { isLoading: isChangePasswordLoading }] = useChangePasswordMutation();
 
     useEffect(() => {
@@ -40,7 +44,7 @@ export default function SettingsSection({ data }: { data: any }) {
             const formData = new FormData();
             formData.append("name", values?.name ?? "");
             formData.append("phone", values?.phone ?? "");
-            const res = await updateProfileMutation(formData as any).unwrap();
+            const res = await updateInfoMutation(formData as any).unwrap();
             if (res?.success) {
                 toast.success(res?.message || "Information updated successfully!");
             } else {
@@ -61,7 +65,7 @@ export default function SettingsSection({ data }: { data: any }) {
                 toast.error("Please select an image");
                 return;
             }
-            const res = await updateProfileMutation(formData as any).unwrap();
+            const res = await updateImgMutation(formData as any).unwrap();
             if (res?.success) {
                 toast.success(res?.message || "Profile image updated successfully!");
                 formImg.resetFields();
@@ -86,7 +90,7 @@ export default function SettingsSection({ data }: { data: any }) {
                 toast.error("Please select document files");
                 return;
             }
-            const res = await updateProfileMutation(formData as any).unwrap();
+            const res = await updateDocsMutation(formData as any).unwrap();
             if (res?.success) {
                 toast.success(res?.message || "Documents updated successfully!");
                 formDocs.resetFields();
@@ -102,7 +106,7 @@ export default function SettingsSection({ data }: { data: any }) {
         try {
             const formData = new FormData();
             formData.append('tax_id', values?.tax_id ?? '');
-            const res = await updateProfileMutation(formData as any).unwrap();
+            const res = await updateTaxMutation(formData as any).unwrap();
             if (res?.success) {
                 toast.success(res?.message || 'Tax ID updated successfully!');
             } else {
@@ -169,7 +173,7 @@ export default function SettingsSection({ data }: { data: any }) {
                             <Button>Select Profile Image</Button>
                         </Upload>
                     </Form.Item>
-                    <Button htmlType="submit" size="large" loading={isUpdateProfileLoading} style={{ borderRadius: "0px", padding: "8px 20px", fontWeight: 600 }}>Update Profile Image</Button>
+                    <Button htmlType="submit" size="large" loading={isImgLoading} style={{ borderRadius: "0px", padding: "8px 20px", fontWeight: 600 }}>Update Profile Image</Button>
                 </Form>
             </Card>
 
@@ -208,7 +212,7 @@ export default function SettingsSection({ data }: { data: any }) {
                             <Button>Select Documents</Button>
                         </Upload>
                     </Form.Item>
-                    <Button htmlType="submit" size="large" loading={isUpdateProfileLoading}
+                    <Button htmlType="submit" size="large" loading={isDocsLoading}
                         style={{
                             borderRadius: "0px",
                             padding: "8px 20px",
@@ -233,7 +237,7 @@ export default function SettingsSection({ data }: { data: any }) {
                     <Form.Item>
                         <Button
                             size="large" type="default"
-                            loading={isUpdateProfileLoading}
+                            loading={isTaxLoading}
                             style={{
                                 borderRadius: "0px",
                                 padding: "8px 20px",
@@ -270,7 +274,7 @@ export default function SettingsSection({ data }: { data: any }) {
                         <Button
                             htmlType="submit"
                             size="large"
-                            loading={isUpdateProfileLoading}
+                            loading={isInfoLoading}
                             style={{
                                 borderRadius: "0px",
                                 padding: "8px 20px",
