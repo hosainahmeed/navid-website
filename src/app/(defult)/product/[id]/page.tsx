@@ -5,7 +5,6 @@ import { RelatedProducts } from "@/app/components/products/RelatedProducts"
 import { useGetSingleProductQuery } from "@/app/redux/services/productApis"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import ContentLoader from "react-content-loader"
 
 export default function ProductPage() {
     const [selectedVariantImage, setSelectedVariantImage] = useState<any>(null)

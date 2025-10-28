@@ -1,5 +1,4 @@
 'use client';
-import { mockProductData } from '@/app/lib/mockProductData';
 import { useGetAllProductQuery } from '@/app/redux/services/productApis';
 import { Iproduct } from '@/app/types/product';
 import { imageUrl } from '@/app/utils/imagePreview';
