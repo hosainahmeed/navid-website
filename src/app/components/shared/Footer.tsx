@@ -1,5 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
+import { FaFacebookSquare, FaInstagram } from 'react-icons/fa'
+import { BsTwitterX } from "react-icons/bs";
+import { AiFillTikTok } from "react-icons/ai";
 
 function Footer() {
     return (
@@ -47,8 +50,8 @@ function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <h3 className="text-sm font-semibold text-foreground bg-white p-4 border border-[var(--border-color)]">Company</h3>
-                        <ul className="border border-[var(--border-color)] space-y-2 p-4 text-sm text-muted-foreground">
+                        <h3 className="text-sm font-semibold text-foreground bg-white p-4 border border-[var(--border-color)]">Social</h3>
+                        {/* <ul className="border border-[var(--border-color)] space-y-2 p-4 text-sm text-muted-foreground">
                             <li>
                                 <Link href="#" className="hover:text-foreground">
                                     About Us
@@ -64,7 +67,14 @@ function Footer() {
                                     Privacy
                                 </Link>
                             </li>
-                        </ul>
+                        </ul> */}
+                        <div className='flex gap-3 my-3 ml-2'>
+                            <FaInstagram className="w-5 h-5" />
+                            <FaFacebookSquare className="w-5 h-5" />
+                            <BsTwitterX  className="w-5 h-5"/>
+                            <AiFillTikTok className="w-5 h-5" />
+                        </div>
+                        
                     </div>
                 </div>
                 <div className="border border-[var(--border-color)] p-8 text-center text-sm text-muted-foreground">
