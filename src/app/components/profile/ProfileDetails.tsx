@@ -6,6 +6,7 @@ import StatusBlock from "./StatusBlock";
 import cn from "@/app/utils/cn";
 import { imageUrl } from "@/app/utils/imagePreview";
 import { Image } from "antd";
+import { memo } from "react";
 
 interface Props {
   data: any;
@@ -16,7 +17,7 @@ function formatDate(value: string) {
   return d.toLocaleString();
 }
 
-export default function ProfileDetails({ data }: Props) {
+ function ProfileDetails({ data }: Props) {
   return (
     <div>
       <h2
@@ -64,3 +65,5 @@ export default function ProfileDetails({ data }: Props) {
     </div>
   );
 }
+
+export default memo(ProfileDetails)

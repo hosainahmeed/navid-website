@@ -1,12 +1,13 @@
 'use client';
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import ProfileSidebar from "../../components/profile/ProfileSidebar";
-import ProfileDetails from "../../components/profile/ProfileDetails";
-import OrdersSection from "../../components/profile/OrdersSection";
-import SettingsSection from "../../components/profile/SettingsSection";
 import { useProfileQuery } from "@/app/redux/services/profileApis";
 import { useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
+const ProfileSidebar = dynamic(() => import("../../components/profile/ProfileSidebar"));
+const ProfileDetails = dynamic(() => import("../../components/profile/ProfileDetails"));
+const OrdersSection = dynamic(() => import("../../components/profile/OrdersSection"));
+const SettingsSection = dynamic(() => import("../../components/profile/SettingsSection"));
 
 
 export default function ProfilePage() {

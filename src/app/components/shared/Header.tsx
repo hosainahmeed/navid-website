@@ -1,9 +1,8 @@
 'use client'
 import { AddToCartIcon, UserIcon } from '@/app/constants/icon.index'
 import { IMAGE } from '@/app/constants/Image.index'
-import { useCart } from '@/app/context/CartContext'
+import { useGetAllCartQuery } from '@/app/redux/services/cartApis'
 import { useProfileQuery } from '@/app/redux/services/profileApis'
-import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import { Button } from 'antd'
 import Image from 'next/image'
@@ -14,15 +13,15 @@ import { FaRegUserCircle } from 'react-icons/fa'
 
 function Header() {
     const { data: profileData } = useProfileQuery(undefined)
+    const { data: cartData } = useGetAllCartQuery(undefined)
     const router = useRouter()
-    const { totalQuantity } = useCart()
     const pathname = usePathname()
     const NavLink = [
         { href: '/shop', label: 'Shop' },
     ]
     return (
-        <header 
-        className="sticky top-0 z-[999] border-b border-[var(--border-color)] bg-white">
+        <header
+            className="sticky top-0 z-[999] border-b border-[var(--border-color)] bg-white">
             <div
                 className="max-w-screen-2xl  p-2 mx-auto flex h-16 items-center justify-between">
                 <div onClick={() => router.push('/')}
@@ -52,8 +51,11 @@ function Header() {
                             {item.label}
                         </Link>
                     ))}
-                    <Link href="/cart" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+                    <Link href="/cart" className="text-sm relative font-medium text-muted-foreground transition-colors hover:text-foreground">
                         <AddToCartIcon className="w-5 h-5" fill="black" />
+                        <div className="absolute -top-5 -right-3 p-1 text-xs text-white bg-black rounded-full">
+                            {cartData?.data?.total_quantity || 0}
+                        </div>
                     </Link>
                     {profileData ? (
                         <Link href="/profile" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">

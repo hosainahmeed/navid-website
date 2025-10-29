@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Card, Spin, Empty, Pagination } from "antd";
 import dayjs from "dayjs";
 import { useGetAllOrdersQuery } from "@/app/redux/services/orderApis";
@@ -37,7 +37,7 @@ interface Order {
   }[];
 }
 
-export default function OrdersSection() {
+function OrdersSection() {
   const [currentPage, setCurrentPage] = useState(1);
   const { data: orderResponse, isLoading, error } = useGetAllOrdersQuery(currentPage);
 
@@ -134,3 +134,4 @@ export default function OrdersSection() {
     </div>
   );
 }
+export default memo(OrdersSection)

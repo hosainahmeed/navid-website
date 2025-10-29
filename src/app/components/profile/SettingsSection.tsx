@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { Button, Card, Form, Image, Input, message, Upload } from "antd";
 import { imageUrl } from "@/app/utils/imagePreview";
 import { useUpdateProfileMutation } from "@/app/redux/services/profileApis";
 import { useChangePasswordMutation } from "@/app/redux/services/authApis";
 import toast from "react-hot-toast";
 
-export default function SettingsSection({ data }: { data: any }) {
+function SettingsSection({ data }: { data: any }) {
     const [formInfo] = Form.useForm();
     const [formPassword] = Form.useForm();
     const [formImg] = Form.useForm();
@@ -348,3 +348,4 @@ export default function SettingsSection({ data }: { data: any }) {
         </div>
     );
 }
+export default memo(SettingsSection)

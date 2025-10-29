@@ -5,7 +5,7 @@ import { User2, ShoppingCart, Settings, LogOut } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import { imageUrl } from "@/app/utils/imagePreview";
 import { Button } from "antd";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Cookies from "js-cookie";
@@ -22,7 +22,7 @@ interface SidebarProps {
     setActiveItem: (label: string) => void;
 }
 
-export default function ProfileSidebar({
+function ProfileSidebar({
     data,
     activeItem,
     setActiveItem,
@@ -46,7 +46,7 @@ export default function ProfileSidebar({
 
     return (
         <div className="overflow-hidden bg-white">
-            {/* Profile Section */}
+
             <div className="flex items-center gap-4 p-4">
                 {data?.img ? (
                     <Image
@@ -68,7 +68,7 @@ export default function ProfileSidebar({
                 </div>
             </div>
 
-            {/* Sign Out Button */}
+
             <Button
                 onClick={() => setShowLogoutModal(true)}
                 size="large"
@@ -85,11 +85,11 @@ export default function ProfileSidebar({
                 Sign Out
             </Button>
 
-            {/* Logout Modal with Backdrop */}
+
             <AnimatePresence>
                 {showLogoutModal && (
                     <>
-                        {/* Backdrop Blur */}
+
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -98,7 +98,7 @@ export default function ProfileSidebar({
                             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[998]"
                         />
 
-                        {/* Modal Content */}
+
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -149,7 +149,7 @@ export default function ProfileSidebar({
                 )}
             </AnimatePresence>
 
-            {/* Sidebar Items */}
+
             <div className="divide-y mt-4 border border-[var(--border-color)] flex w-full divide-gray-200">
                 {sideBarItem.map((item) => (
                     <div
@@ -168,3 +168,4 @@ export default function ProfileSidebar({
         </div>
     );
 }
+export default memo(ProfileSidebar)
