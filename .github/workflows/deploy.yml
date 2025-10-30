@@ -60,6 +60,7 @@ jobs:
           # Copy the website project to EC2 using `rsync`
           rsync -avz \
             --exclude='.git' \
+             --exclude='.next' \
             --exclude='node_modules' \
             --exclude='.github' \
             . $EC2_USER@$EC2_HOST:~/applications/website/  # Deploy only the backend files
@@ -74,4 +75,4 @@ jobs:
           ssh $EC2_USER@$EC2_HOST "pm2 delete website || true"  # Ensures no errors if the process doesn't exist
 
           # Start the backend application with PM2
-          ssh $EC2_USER@$EC2_HOST "cd ~/applications/website && pm2 start npm --name website -- run preview"
+          ssh $EC2_USER@$EC2_HOST "cd ~/applications/website && pm2 start npm --name website -- run start"
