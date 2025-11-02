@@ -26,7 +26,7 @@ const CategoryPage = () => {
   }
 
   return (
-    <div className="max-w-screen-2xl border-x border-[var(--border-color)] min-h-[calc(100vh-400px)] mx-auto px-2 py-8">
+    <div className="max-w-screen-2xl border-x-[0.2px] border-[var(--border-color)] min-h-[calc(100vh-400px)] mx-auto px-2 py-8">
       <SectionHeader
         title={
           selectedCategory
@@ -39,7 +39,7 @@ const CategoryPage = () => {
       {selectedCategory && (
         <div className="my-2">
           <Button
-            className="border border-[var(--border-color)] bg-[var(--purple-light)] text-white cursor-pointer rounded-none"
+            className="border-[0.2px] border-[var(--border-color)] bg-[var(--purple-light)] text-white cursor-pointer rounded-none"
             variant="outline"
             onClick={() => setSelectedCategory(null)}
           >

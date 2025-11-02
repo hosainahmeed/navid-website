@@ -39,6 +39,7 @@ const Page: React.FC = () => {
     const { data: productData, isLoading: productLoading } = useGetAllProductQuery({
         search: searchQuery,
         category: selectedCategory,
+        limit: 9999
     })
 
     const products = productData?.data || []
@@ -49,7 +50,7 @@ const Page: React.FC = () => {
         })) || []
 
     return (
-        <div className='max-w-screen-2xl border-x mx-auto p-2'>
+        <div className='max-w-screen-2xl border-x-[0.2px] mx-auto p-2'>
             <SectionHeader title='All Products' className='my-0 p-2' />
             <div className='flex justify-between items-center flex-row'>
                 <div className='relative w-full flex-1'>
@@ -59,7 +60,7 @@ const Page: React.FC = () => {
                         placeholder='Search products'
                         onChange={handleSearchChange}
                         defaultValue={searchQuery}
-                        className='border border-[var(--border-color)] p-4 py-6 font-bold text-[28px] rounded-none'
+                        className='border-[0.2px] border-[var(--border-color)] p-4 py-6 font-bold text-[28px] rounded-none'
                         style={{ height: '64px' }}
                     />
                 </div>
@@ -82,9 +83,9 @@ const Page: React.FC = () => {
 
             <div >
                 {productLoading || isFetching ? (
-                    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+                    <div className='w-full mx-auto grid grid-cols-2 border border-[var(--border-color)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 divide-x divide-y divide-gray-300'>
                         {Array.from({ length: 8 }).map((_, index) => (
-                            <div className='w-full p-2 border border-[var(--border-color)] min-h-64 bg-white' key={index} >
+                            <div className='w-full p-2 border-[0.2px] border-[var(--border-color)] min-h-64 bg-white' key={index} >
                                 <Image
                                     src={IMAGE.placeholderImg}
                                     alt='placeholder'
@@ -92,18 +93,18 @@ const Page: React.FC = () => {
                                     blurDataURL={IMAGE.placeholderImg.blurDataURL}
                                     width={IMAGE.placeholderImg.width}
                                     height={IMAGE.placeholderImg.height}
-                                    className='w-auto h-28 border border-[var(--border-color)]'
+                                    className='w-auto h-28 border-[0.2px] border-[var(--border-color)]'
                                 />
                                 <div className='flex flex-col items-start justify-center h-28'>
-                                    <div className='w-[90%] animate-pulse border border-[var(--border-color)] h-4 bg-gray-200 mb-2' />
-                                    <div className='w-[80%] animate-pulse border border-[var(--border-color)] h-4 bg-gray-200 mb-2' />
-                                    <div className='w-[20%] animate-pulse border border-[var(--border-color)] h-6 mt-2 bg-gray-200 mb-2' />
+                                    <div className='w-[90%] animate-pulse border-[0.2px] border-[var(--border-color)] h-4 bg-gray-200 mb-2' />
+                                    <div className='w-[80%] animate-pulse border-[0.2px] border-[var(--border-color)] h-4 bg-gray-200 mb-2' />
+                                    <div className='w-[20%] animate-pulse border-[0.2px] border-[var(--border-color)] h-6 mt-2 bg-gray-200 mb-2' />
                                 </div>
                             </div>
                         ))}
                     </div>
                 ) : products.length > 0 ? (
-                    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+                    <div className='w-full mx-auto grid grid-cols-2 border border-[var(--border-color)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 divide-x divide-y divide-gray-300'>
                         {products.map((item: Iproduct) => <ProductCard key={item?._id} item={item} />)}
                     </div>
                 ) : (

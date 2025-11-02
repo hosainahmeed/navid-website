@@ -22,7 +22,7 @@ export default function ProfilePage() {
             <section className="mx-auto w-full  max-w-screen-2xl min-h-[calc(100vh-25rem)]">
                 <div
                     className={cn(
-                        `bg-white mx-auto border-x py-12 border-[var(--border-color)] rounded-none`,
+                        `bg-white mx-auto border-x-[0.2px] py-12 border-[var(--border-color)] rounded-none`,
                     )}
                 >
                     <div>

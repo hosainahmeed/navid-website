@@ -117,7 +117,7 @@ const TopPageCategory = () => {
   }
 
   return (
-    <div className="relative  border border-[var(--border-color)] border-b bg-white">
+    <div className="relative hidden md:block border border-[var(--border-color)] border-b bg-white">
       {/* Category Navigation - Fixed 5 items per row with scroll */}
       <div
         ref={scrollRef}

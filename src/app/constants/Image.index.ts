@@ -10,6 +10,9 @@ import brandLogin from "@/app/assets/brand-login.svg"
 import emptyCart from "@/app/assets/empty-cart.png"
 import placeholderImg from "@/app/assets/placeholder-img.png"
 import nodata from "@/app/assets/nodata.png"
+import googlePlayBadge from "@/app/assets/icons/google-play-badge.svg"
+import applePlayBadge from "@/app/assets/icons/apple-play-badge.svg"
+import maskGroup from "@/app/assets/Mask group.png"
 export const IMAGE = {
     placeholderProductImage,
     placeholderBanner,
@@ -22,7 +25,10 @@ export const IMAGE = {
     brandLogin,
     emptyCart,
     placeholderImg,
-    nodata
+    nodata,
+    googlePlayBadge,
+    applePlayBadge,
+    maskGroup
 }
 import hookahBowlsPhunnels from "@/app/assets/category-image/hookah-bowls-phunnels_ab89e97e-274a-4733-9a65-e67d23810ff1_x800.webp"
 import hookahCoalsForSale from "@/app/assets/category-image/hookah-coals-for-sale_x800.webp"

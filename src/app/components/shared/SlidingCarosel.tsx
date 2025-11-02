@@ -43,14 +43,14 @@ function SlidingCarosel() {
                                         <Skeleton.Input />
                                     </div>
                                     : <div
-                                        className="flex gap-2 items-center justify-center mx-6"
+                                        className="flex gap-2 p-2 border-x border-[var(--border-color)] items-center justify-center px-12"
                                     >
                                         <Image
                                             src={imageUrl({ image: getDisplayImage(item) })}
                                             width={200}
                                             height={200}
                                             alt={item?.name || ''}
-                                            className="object-cover w-28 h-28 object-center aspect-square bg-gray-100 transition-all duration-500 ease-in-out"
+                                            className="object-contain w-28 h-28 object-center aspect-square transition-all duration-500 ease-in-out"
                                         />
                                         <div className="flex flex-col">
                                             <span className="text-2xl">{item?.name}</span>

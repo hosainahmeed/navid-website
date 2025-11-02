@@ -51,7 +51,7 @@ export default function ProductPage() {
     const images = isLoading ? [''] : productData?.data?.banner
     return (
         <div className="min-h-screen">
-            <main className="max-w-screen-2xl border-x border-[var(--border-color)] px-3 space-y-6 mx-auto py-6">
+            <main className="max-w-screen-2xl border-x-[0.2px] border-[var(--border-color)] px-3 space-y-6 mx-auto py-6">
                 <div className="grid lg:grid-cols-2">
                     <div className="lg:sticky lg:top-24 lg:self-start">
                         <ImageGallery isLoading={isLoading} setIsVideo={setIsVideo} isVideo={isVideo} setSelectedVariantImage={setSelectedVariantImage} selectedVariantImage={selectedVariantImage} images={images} productName={productData?.data?.name} />

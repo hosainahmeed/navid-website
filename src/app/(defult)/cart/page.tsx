@@ -144,13 +144,13 @@ const CartPage = () => {
 
   return (
     <>
-      <div className="max-w-screen-2xl border-x border-[var(--border-color)] mx-auto grid md:grid-cols-3 py-10">
+      <div className="max-w-screen-2xl border-x-[0.2px] border-[var(--border-color)] mx-auto grid md:grid-cols-3 py-10">
 
         <div
-          className={cn("md:col-span-2 bg-white border-y border-[var(--border-color)]",
+          className={cn("md:col-span-2 bg-white border-y-[0.2px] border-[var(--border-color)]",
             items.length === 0 && "md:col-span-3")
           }>
-          <h1 className="text-3xl font-bold mb-6 bg-[#EDEDED] border-b border-[var(--border-color)] p-6 uppercase text-gray-900">
+          <h1 className="text-3xl font-bold mb-6 bg-[#EDEDED] border-b-[0.2px] border-[var(--border-color)] p-6 uppercase text-gray-900">
             Shopping Cart
           </h1>
 
@@ -171,7 +171,7 @@ const CartPage = () => {
               items.map((item: any) => (
                 <div
                   key={item?._id}
-                  className="flex p-2 last:border-b-0 border-b flex-col sm:flex-row items-center sm:items-start gap-6 relative"
+                  className="flex p-2 last:border-b-0 border-b-[0.2px] flex-col sm:flex-row items-center sm:items-start gap-6 relative"
                 >
 
                   <button
@@ -212,7 +212,7 @@ const CartPage = () => {
                     <div className="flex items-center gap-3 mt-2">
                       <button
                         onClick={() => decreaseQuantity(item?._id)}
-                        className="p-1 rounded-full border border-[var(--border-color)] hover:bg-gray-200"
+                        className="p-1 rounded-full border-[0.2px] border-[var(--border-color)] hover:bg-gray-200"
                       >
                         <Minus className="w-4 h-4" />
                       </button>
@@ -221,7 +221,7 @@ const CartPage = () => {
                       </span>
                       <button
                         onClick={() => increaseQuantity(item?._id)}
-                        className="p-1 rounded-full border border-[var(--border-color)] hover:bg-gray-200"
+                        className="p-1 rounded-full border-[0.2px] border-[var(--border-color)] hover:bg-gray-200"
                       >
                         <Plus className="w-4 h-4" />
                       </button>
@@ -239,7 +239,7 @@ const CartPage = () => {
             )}
           </div>
         </div>
-        {items.length > 0 && <div className="bg-[#F2F2F2] p-6 border border-[var(--border-color)]">
+        {items.length > 0 && <div className="bg-[#F2F2F2] p-6 border-[0.2px] border-[var(--border-color)]">
           <h2 className="text-3xl font-bold uppercase mb-4 text-gray-900">
             Order Summary
           </h2>

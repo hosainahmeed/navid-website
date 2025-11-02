@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   images: {
     domains: [
-      'images.unsplash.com',
+      '18.219.241.81',
       'api.divandioneapp.com',
       'images.unsplash.com',
       'placehold.co',

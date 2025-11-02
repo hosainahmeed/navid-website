@@ -24,7 +24,7 @@ function ProductCardClientSide({ id, isHovered }: { id: string, isHovered?: bool
                         onClick={() => router.push(`/product/${id}`)}
                         title='View Details'
                         icon={<IoMdEye />}
-                        className='bg-white text-black hover:bg-[var(--purple-light)] hover:text-white rounded-none'
+                        className='bg-white border border-[var(--border-color)] shadow-sm text-black hover:bg-[var(--purple-light)] hover:text-white rounded-none'
                     />
                 </motion.div>
             }

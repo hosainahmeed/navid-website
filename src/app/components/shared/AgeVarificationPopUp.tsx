@@ -4,15 +4,17 @@ import Link from 'next/link';
 import Cookies from 'js-cookie';
 import PrimaryButton from '../buttons/PrimaryButton';
 import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 const AgeVerificationPopUp = ({ children }: { children: React.ReactNode }) => {
     // const [checked, setChecked] = useState(false);
     const [isVerified, setIsVerified] = useState<boolean | null>(null);
     const pathName = usePathname();
-
-
+    const [isMobile, setIsMobile] = useState(false)
 
     useEffect(() => {
+        const isMobile = window.innerWidth < 768;
+        setIsMobile(isMobile)
         const allowedPaths = ['/terms', '/privacy-policy'];
         const verified = Cookies.get('age_verified') === 'true';
         if (verified || allowedPaths.includes(pathName)) {
@@ -44,12 +46,14 @@ const AgeVerificationPopUp = ({ children }: { children: React.ReactNode }) => {
           linear-gradient(to bottom, #dadada 1px, transparent 1px)
         `,
                 backgroundSize: '120px 120px',
-                WebkitMaskImage:
-                    'radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)',
-                maskImage:
-                    'radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)',
+                ...isMobile && {
+                    WebkitMaskImage:
+                        'radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)',
+                    maskImage:
+                        'radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)',
+                }
             }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-white/60 backdrop-blur-md"
+            className={cn("fixed inset-0 z-50 flex items-center justify-center bg-white/60 backdrop-blur-md")}
         >
             <div className="bg-white border border-gray-300 max-w-md w-full mx-4 p-6 shadow-lg text-center">
                 <h2 className="text-xl font-semibold mb-3">Age Verification Required</h2>

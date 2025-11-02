@@ -99,7 +99,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                             <Image
                                 src={imageUrl({ image })}
                                 alt={`${productName} view ${index + 1}`}
-                                className="!object-fill !w-full !h-full !object-bottom"
+                                className="!object-fill aspect-square !w-full !h-full !object-bottom"
                                 preview={false}
                             />
                         </button>

@@ -220,10 +220,10 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             <VariantSelector setIsVideo={setIsVideo} setSelectedVariantImage={setSelectedVariantImage} variantImages={product?.variantImages} colors={product?.variantColors} sizes={availableSizes} onVariantChange={handleVariantChange} />
 
             {/* Quantity Selector */}
-            <div className="space-y-3 p-2 border-b border-[var(--border-color)]">
+            <div className="space-y-3 p-2 border-b-[0.2px] border-[var(--border-color)]">
                 <h3 className="text-sm font-medium text-foreground">Quantity</h3>
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center border border-[var(--border-color)]">
+                    <div className="flex items-center border-[0.2px] border-[var(--border-color)]">
                         <Button
                             variant="ghost"
                             size="lg"
@@ -233,7 +233,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
                         >
                             <Minus className="h-6 w-6" />
                         </Button>
-                        <span className="w-16 border-x border-[var(--border-color)] text-center text-xl font-medium">{quantity}</span>
+                        <span className="w-16 border-x-[0.2px] border-[var(--border-color)] text-center text-xl font-medium">{quantity}</span>
                         <Button
                             variant="ghost"
                             size="lg"
@@ -252,14 +252,14 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             <div className="flex flex-col gap-3 sm:flex-row">
                 <Button
                     onClick={() => handleAddToCart(product)}
-                    size="default" className="flex-1 text-xl border-[var(--border-color)] border h-16  hover:text-white transition-all duration-300 cursor-pointer rounded-none gap-2" disabled={product?.quantity === 0}>
+                    size="default" className="flex-1 text-xl border-[var(--border-color)] border-[0.2px] h-16  hover:text-white transition-all duration-300 cursor-pointer rounded-none gap-2" disabled={product?.quantity === 0}>
                     <ShoppingCart className="h-5 w-5" />
                     Add to Cart
                 </Button>
             </div>
 
             {/* Additional Info */}
-            <div className="space-y-2 p-2 border-b border-[var(--border-color)] text-sm">
+            <div className="space-y-2 p-2 border-b-[0.2px] border-[var(--border-color)] text-sm">
                 <div className="flex justify-between">
                     <span className="text-muted-foreground">SKU:</span>
                     <span className="font-medium text-foreground">{product?._id}</span>
