@@ -48,7 +48,7 @@ function ProductCard({ item }: { item: Iproduct }) {
                             width={500}
                             height={500}
                             alt={item?.name}
-                            className="object-cover w-full h-full object-center aspect-square bg-gray-100 transition-all duration-500 ease-in-out"
+                            className="object-fill w-full h-full object-center aspect-square bg-gray-100 transition-all duration-500 ease-in-out"
                         />
                     ) : (
                         <div className="w-full aspect-square bg-gray-200 flex items-center justify-center">
