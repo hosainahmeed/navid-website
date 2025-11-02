@@ -65,7 +65,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
 
                 {showMagnifier && !isVideo && !isLoading && (
                     <div
-                        className="absolute pointer-events-none border-2 border-white shadow-lg rounded-full hidden md:block"
+                        className="absolute  pointer-events-none border-2 border-white shadow-lg rounded-full hidden md:block"
                         style={{
                             width: "500px",
                             height: "500px",

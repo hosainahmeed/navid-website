@@ -9,6 +9,8 @@ import { VariantSelector } from "./VariantSelector"
 import { useRouter } from "next/navigation"
 import { useCreateCartMutation } from "@/app/redux/services/cartApis"
 import toast from "react-hot-toast"
+import { useProfileQuery } from "@/app/redux/services/profileApis"
+import { FaLock } from "react-icons/fa"
 
 interface ProductInfoProps {
     product: Product
@@ -24,23 +26,21 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
     const [selectedSize, setSelectedSize] = useState(product?.variantImages[product?.variantColors[0]]?.size[0])
     const [createCartMutation] = useCreateCartMutation()
     const router = useRouter()
+    const { data: profileData, isLoading, isError } = useProfileQuery(undefined)
 
-    // Set default variant and size when product changes
     useEffect(() => {
         if (product?.variantColors?.length > 0) {
             const defaultColor = product.variantColors[0]
             setSelectedColor(defaultColor)
-            
+
             if (product?.variantImages?.[defaultColor]?.size?.length > 0) {
                 setSelectedSize(product.variantImages[defaultColor].size[0])
             }
-            
-            // Set default variant image (first image of first color)
+
             if (product?.variantImages?.[defaultColor]?.img?.length > 0) {
                 const firstImage = product.variantImages[defaultColor].img[0]
                 setSelectedVariantImage(firstImage)
-                
-                // Check if it's a video
+
                 const videoExtensions = ["mp4", "mov", "wmv", "avi", "mkv", "webm", "flv"]
                 const fileExtension = firstImage.split(".").pop()?.toLowerCase()
                 setIsVideo(videoExtensions.includes(fileExtension || ""))
@@ -55,20 +55,12 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
         : 0
 
     const handleQuantityChange = async (delta: number) => {
-        // Calculate new quantity
         const newQuantity = Math.max(1, Math.min(quantity + delta, product?.quantity))
-        
-        // If quantity doesn't change, do nothing
         if (newQuantity === quantity) return
-        
-        // Store previous quantity for rollback
         const previousQuantity = quantity
-        
-        // Optimistic update - update UI immediately
         setQuantity(newQuantity)
-        
+
         try {
-            // Validate required fields
             if (!product) {
                 throw new Error("Product not found")
             }
@@ -95,16 +87,12 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             }
 
             const res = await createCartMutation(data).unwrap()
-           
+
             if (!res?.success) {
                 throw new Error(res?.message)
             }
-            // Optionally show a subtle success message
-            // toast.success("Cart updated")
         } catch (error: any) {
-            // Revert quantity on error
             setQuantity(previousQuantity)
-            
             if (error?.status === 403) {
                 toast.error("Session expired. Please login again.")
                 localStorage.removeItem("token")
@@ -120,11 +108,9 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
         setSelectedSize(size)
     }
 
-    // Update size when color changes to default to first size of new color
     useEffect(() => {
         if (selectedColor && product?.variantImages?.[selectedColor]?.size?.length > 0) {
             const sizesForColor = product.variantImages[selectedColor].size
-            // If current selected size is not available in new color, select first size
             if (!sizesForColor.includes(selectedSize)) {
                 setSelectedSize(sizesForColor[0])
             }
@@ -171,7 +157,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             }
 
             const res = await createCartMutation(data).unwrap()
-           
+
             if (!res?.success) {
                 throw new Error(res?.message)
             }
@@ -228,7 +214,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
                             variant="ghost"
                             size="lg"
                             onClick={() => handleQuantityChange(-1)}
-                            disabled={quantity <= 1}
+                            disabled={quantity <= 1 || !profileData || isError || isLoading}
                             className="rounded-none cursor-pointer h-16 w-16"
                         >
                             <Minus className="h-6 w-6" />
@@ -238,7 +224,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
                             variant="ghost"
                             size="lg"
                             onClick={() => handleQuantityChange(1)}
-                            disabled={quantity >= product?.quantity}
+                            disabled={quantity >= product?.quantity || !profileData || isError || isLoading}
                             className="rounded-none cursor-pointer h-16 w-16"
                         >
                             <Plus className="h-6 w-6" />
@@ -249,13 +235,22 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex relative flex-col gap-3 sm:flex-row">
                 <Button
                     onClick={() => handleAddToCart(product)}
-                    size="default" className="flex-1 text-xl border-[var(--border-color)] border-[0.2px] h-16  hover:text-white transition-all duration-300 cursor-pointer rounded-none gap-2" disabled={product?.quantity === 0}>
+                    size="default" className="flex-1 text-xl border-[var(--border-color)] border-[0.2px] h-16  hover:text-white transition-all duration-300 cursor-pointer rounded-none gap-2" disabled={product?.quantity === 0 || !profileData || isError || isLoading}>
                     <ShoppingCart className="h-5 w-5" />
                     Add to Cart
                 </Button>
+                {!profileData &&
+                    <div 
+                    onClick={()=>{
+                        router.push("/auth/sign-in")
+                    }}
+                    className="absolute cursor-pointer top-0 left-0 w-full flex items-center justify-center inset-0 h-full bg-black text-white gap-2 z-10">
+                        <FaLock /> please login for add to cart
+                    </div>
+                }
             </div>
 
             {/* Additional Info */}

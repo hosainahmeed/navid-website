@@ -53,8 +53,9 @@ function SlidingCarosel() {
                                             className="object-contain w-28 h-28 object-center aspect-square transition-all duration-500 ease-in-out"
                                         />
                                         <div className="flex flex-col">
-                                            <span className="text-2xl">{item?.name}</span>
-                                            <h1 className="text-black font-bold text-xl whitespace-nowrap">
+                                        <div className='px-2 py-1 bg-black text-white text-sm'>Trending</div>
+                                            <span className="text-sm line-clamp-1">{item?.name}</span>
+                                            <h1 className="text-black font-bold text-sm whitespace-nowrap">
                                                 $ {item?.price} USD
                                             </h1>
                                         </div>
