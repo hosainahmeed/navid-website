@@ -1,5 +1,5 @@
-export const url: string = 'https://api.divandioneapp.com'
-// export const url: string = 'http://18.219.241.81:5000'
+// export const url: string = 'https://api.divandioneapp.com'
+export const url: string = 'http://18.219.241.81:5000'
 // export const url: string = 'http://localhost:5000'
 // export const url: string = 'http://localhost:5000'
 

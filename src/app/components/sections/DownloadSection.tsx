@@ -88,7 +88,7 @@ function DownloadSection() {
               className="font-bold mb-4 text-2xl md:text-4xl leading-none tracking-normal"
               variants={itemVariants}
             >
-              Download Our App <span className="text-[var(--purple-light)]">DIVAN DIONE</span> & Feel The Hookahs Experience
+              Download Our App <span className="text-[var(--purple-light)]">DIVAN DIONE</span> & Feel The Experience
             </motion.h1>
 
             <motion.p

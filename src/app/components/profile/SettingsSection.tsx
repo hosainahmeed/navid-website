@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useEffect } from "react";
-import { Button, Card, Form, Image, Input, message, Upload } from "antd";
+import { Button, Card, Form, Image, Input, Upload } from "antd";
 import { imageUrl } from "@/app/utils/imagePreview";
 import { useUpdateProfileMutation } from "@/app/redux/services/profileApis";
 import { useChangePasswordMutation } from "@/app/redux/services/authApis";
@@ -13,7 +13,8 @@ function SettingsSection({ data }: { data: any }) {
     const [formImg] = Form.useForm();
     const [formDocs] = Form.useForm();
     const [formTax] = Form.useForm();
-    // Separate mutation instances so each button has its own loading state
+  
+
     const [updateInfoMutation, { isLoading: isInfoLoading }] = useUpdateProfileMutation();
     const [updateImgMutation, { isLoading: isImgLoading }] = useUpdateProfileMutation();
     const [updateDocsMutation, { isLoading: isDocsLoading }] = useUpdateProfileMutation();
@@ -30,7 +31,6 @@ function SettingsSection({ data }: { data: any }) {
             formTax.setFieldsValue({
                 tax_id: data?.tax_id ?? "",
             });
-
         }
     }, [data, formInfo, formTax]);
 

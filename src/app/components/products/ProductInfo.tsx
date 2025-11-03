@@ -11,6 +11,8 @@ import { useCreateCartMutation } from "@/app/redux/services/cartApis"
 import toast from "react-hot-toast"
 import { useProfileQuery } from "@/app/redux/services/profileApis"
 import { FaLock } from "react-icons/fa"
+import { motion } from "framer-motion"
+import UploadIdentity from "./UploadIdentity"
 
 interface ProductInfoProps {
     product: Product
@@ -27,6 +29,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
     const [createCartMutation] = useCreateCartMutation()
     const router = useRouter()
     const { data: profileData, isLoading, isError } = useProfileQuery(undefined)
+    const [isIdentityVerified, setIsIdentityVerified] = useState(false)
 
     useEffect(() => {
         if (product?.variantColors?.length > 0) {
@@ -48,12 +51,10 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
         }
     }, [product, setSelectedVariantImage, setIsVideo])
 
-
     const hasDiscount = product?.previous_price > product?.price
     const discountPercentage = hasDiscount
         ? Math.round(((product?.previous_price - product?.price) / product?.previous_price) * 100)
         : 0
-
     const handleQuantityChange = async (delta: number) => {
         const newQuantity = Math.max(1, Math.min(quantity + delta, product?.quantity))
         if (newQuantity === quantity) return
@@ -87,10 +88,11 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             }
 
             const res = await createCartMutation(data).unwrap()
-
             if (!res?.success) {
                 throw new Error(res?.message)
             }
+            toast.dismiss()
+            toast.success(res?.message || "Product added to cart successfully!")
         } catch (error: any) {
             setQuantity(previousQuantity)
             if (error?.status === 403) {
@@ -124,6 +126,10 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
 
     const handleAddToCart = async (product: Product) => {
         try {
+            if (profileData?.data?.documents?.length === 0) {
+                setIsIdentityVerified(true)
+                return false
+            }
             if (!product) {
                 throw new Error("Product not found")
             }
@@ -243,11 +249,11 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
                     Add to Cart
                 </Button>
                 {!profileData &&
-                    <div 
-                    onClick={()=>{
-                        router.push("/auth/sign-in")
-                    }}
-                    className="absolute cursor-pointer top-0 left-0 w-full flex items-center justify-center inset-0 h-full bg-black text-white gap-2 z-10">
+                    <div
+                        onClick={() => {
+                            router.push("/auth/sign-in")
+                        }}
+                        className="absolute cursor-pointer top-0 left-0 w-full flex items-center justify-center inset-0 h-full bg-black text-white gap-2 z-10">
                         <FaLock /> please login for add to cart
                     </div>
                 }
@@ -273,6 +279,25 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
                 <h1 className="text-2xl font-bold">Description</h1>
                 <div dangerouslySetInnerHTML={{ __html: product?.description }} />
             </div>
+            {
+                isIdentityVerified && (
+                    <div className="fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[500px]  bg-white p-4 z-[888]">
+                        <h1 className="text-2xl font-bold">Please verify your identity first</h1>
+                        <UploadIdentity />
+                    </div>
+                )
+            }
+            {
+                isIdentityVerified &&
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className='fixed inset-0 z-40 bg-black/50 backdrop-blur-sm'
+                    onClick={() => setIsIdentityVerified(false)}
+                />
+            }
         </div>
     )
 }

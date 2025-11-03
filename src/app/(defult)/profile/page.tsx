@@ -1,9 +1,10 @@
 'use client';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useProfileQuery } from "@/app/redux/services/profileApis";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
+import { Alert } from "antd";
 const ProfileSidebar = dynamic(() => import("../../components/profile/ProfileSidebar"));
 const ProfileDetails = dynamic(() => import("../../components/profile/ProfileDetails"));
 const OrdersSection = dynamic(() => import("../../components/profile/OrdersSection"));
@@ -14,12 +15,22 @@ export default function ProfilePage() {
     const params = useSearchParams()
     const { data } = useProfileQuery(undefined)
     const [activeItem, setActiveItem] = useState(params.get('tab') || "Profile");
-
-
+    const [helpPopup, setHelpPopup] = useState(false)
+    useEffect(() => {
+        if (params.get('tab')) {
+            setHelpPopup(true)
+        }
+    }, [params])
     return (
         <main
         >
             <section className="mx-auto w-full  max-w-screen-2xl min-h-[calc(100vh-25rem)]">
+                {
+                    helpPopup &&
+                    <Alert
+                        style={{ borderRadius: '0px' }}
+                        message="Please provide the tax id" type="warning" showIcon />
+                }
                 <div
                     className={cn(
                         `bg-white mx-auto border-x-[0.2px] py-12 border-[var(--border-color)] rounded-none`,

@@ -157,7 +157,7 @@ function SignUp() {
                             </Link>{' '}
                             and{' '}
                             <Link
-                                href="/privacy-policy"
+                                href="/privacy"
                                 className="text-blue-600 hover:underline"
                             >
                                 Privacy Policy

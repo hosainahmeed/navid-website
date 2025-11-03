@@ -16,6 +16,7 @@ import { message, Skeleton } from 'antd'
 import { useProfileQuery } from '@/app/redux/services/profileApis'
 import { cn } from '@/lib/utils'
 import { IMAGE } from '@/app/constants/Image.index'
+import toast from 'react-hot-toast'
 
 const SearchBar: React.FC = () => {
   const [search, setSearch] = useState('')
@@ -73,6 +74,7 @@ const SearchBar: React.FC = () => {
 
   const handleWholeSale = () => {
     if (profileData?.data?.tax_id === null) {
+      toast.error('Please provide the tax id')
       router.push('/profile?tab=Settings')
       return
     }
