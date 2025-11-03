@@ -3,8 +3,8 @@ import cn from '@/app/utils/cn'
 import { Tooltip } from 'antd'
 import React from 'react'
 
-function PrimaryButton({ className, title, tooltipTitle, onClick, icon, disabled = false }:
-    { className?: string, title?: string, tooltipTitle?: string, onClick: () => void, icon?: React.ReactNode, disabled?: boolean }) {
+function PrimaryButton({ className, title, tooltipTitle, onClick, icon, iconClassName, disabled = false }:
+    { className?: string, title?: string, tooltipTitle?: string, onClick: () => void, icon?: React.ReactNode, iconClassName?: string, disabled?: boolean }) {
     return (
         <Tooltip
          title={tooltipTitle}
@@ -17,7 +17,7 @@ function PrimaryButton({ className, title, tooltipTitle, onClick, icon, disabled
                     className,
                     disabled && "opacity-50 cursor-not-allowed"
                 )}>
-                {icon}
+                {icon && <span className={cn(iconClassName)}>{icon}</span>}
                 {title}
             </button>
         </Tooltip>

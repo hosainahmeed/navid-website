@@ -94,7 +94,7 @@ function ProductCard({ item }: { item: Iproduct }) {
                         </div>
                     </div>
                 </Link>
-                <ProductCardClientSide isHovered={isHovered} id={item?._id} />
+                <ProductCardClientSide className='md:block hidden' isHovered={isHovered} id={item?._id} />
             </CardContent>
         </div>
     )
