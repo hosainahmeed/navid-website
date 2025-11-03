@@ -189,7 +189,11 @@ const SearchBar: React.FC = () => {
                     className='sticky top-0 z-50 cursor-pointer text-xl text-white flex bg-[var(--purple-light)] p-1 items-center gap-2 flex-nowrap mb-2'><FaArrowLeft /> Back</h1>
                   {subCategoryData?.data.map((sub: Subcategory) => {
                     return (
-                      <div key={sub?._id} className='p-4 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer'>
+                      <div 
+                      onClick={() => {
+                        router.push(`/shop?subCategory=${sub?._id}`)
+                      }}
+                      key={sub?._id} className='p-4 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer'>
                         <div
                           className="flex hover:underline items-center gap-3 p-1 cursor-pointer transition-all"
                         >
