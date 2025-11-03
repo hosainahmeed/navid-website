@@ -43,8 +43,6 @@ const Page: React.FC = () => {
     useEffect(() => {
         if (profileData?.data?.tax_id === null || profileData?.data?.tax_id === '') {
             setWholeSale(false)
-        } else {
-            setWholeSale(true)
         }
     }, [profileData])
 
