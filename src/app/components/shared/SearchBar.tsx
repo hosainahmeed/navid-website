@@ -26,11 +26,11 @@ const SearchBar: React.FC = () => {
     ...(search !== '' && { search }),
   })
   const router = useRouter()
-  const { data: profileData, isLoading: profileLoading } = useProfileQuery(undefined)
+  const { data: profileData } = useProfileQuery(undefined)
   const [showCategory, setShowCategory] = useState(false)
   const { data: categoryData, isLoading: categoryLoading } = useGetAllCategoryQuery(undefined)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const { data: subCategoryData, isLoading: subCategoryLoading } = useGetAllSubCategoryQuery({
+  const { data: subCategoryData } = useGetAllSubCategoryQuery({
     category_id: selectedCategory
   }, { skip: selectedCategory === null })
 
@@ -73,12 +73,12 @@ const SearchBar: React.FC = () => {
   };
 
   const handleWholeSale = () => {
-    if (profileData?.data?.tax_id === null) {
+    if (profileData?.data?.tax_id === null || profileData?.data?.tax_id === '') {
       toast.error('Please provide the tax id')
       router.push('/profile?tab=Settings')
       return
     }
-    router.push('/wholesale')
+    router.push('/shop?whole_sale=true')
   }
 
   return (
