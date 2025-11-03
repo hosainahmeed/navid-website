@@ -62,7 +62,7 @@ function Footer() {
                             </li>
                         </ul>
                     </div>
-                    <div className='sm:col-span-2 col-span-1 '>
+                    <div className='lg:col-span-1 col-span-2'>
                         <h3 className="text-sm font-semibold text-foreground bg-white p-4">Social</h3>
                         <div className='flex gap-3 my-3 ml-2'>
                             <FaInstagram onClick={() => handleSocialClick("instagram")} className="w-5 hover:text-pink-500 cursor-pointer h-5" />
