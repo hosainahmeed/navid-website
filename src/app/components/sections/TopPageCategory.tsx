@@ -9,6 +9,7 @@ import Image from 'next/image'
 import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
 import { useGetAllSubCategoryQuery } from '@/app/redux/services/subcategoryApis'
 import { cn } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
 
 interface CategoryItemProps {
   item: Category
@@ -65,7 +66,7 @@ const TopPageCategory = () => {
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-
+  const router = useRouter()
   const { data: categoryData, isLoading, isError } = useGetAllCategoryQuery(undefined)
   const { data: subCategoryData, isLoading: subLoading, isFetching } = useGetAllSubCategoryQuery(
     { category_id: selectedCategory || '' },
@@ -191,7 +192,11 @@ const TopPageCategory = () => {
                         key={sub._id}
                         className="flex hover:underline items-center gap-3 p-1 cursor-pointer transition-all"
                       >
-                        <span className="text-sm px-2 line-clamp-1 font-medium text-center text-gray-700">
+                        <span
+                          onClick={() => {
+                            router.push(`/shop?subCategory=${sub._id}`)
+                          }}
+                          className="text-sm px-2 line-clamp-1 font-medium text-center text-gray-700">
                           {sub.name}
                         </span>
                       </div>

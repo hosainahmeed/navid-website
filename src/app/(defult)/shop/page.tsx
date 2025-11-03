@@ -17,10 +17,13 @@ const Page: React.FC = () => {
     const searchParams = useSearchParams()
     const initialSearch = searchParams.get('productName') || ''
     const initialWholeSale = searchParams.get('whole_sale') || ''
+    const initialSubCategory = searchParams.get('subCategory') || ''
 
     const [searchQuery, setSearchQuery] = useState<string>(initialSearch)
     const [selectedCategory, setSelectedCategory] = useState<string>('')
     const [wholeSale, setWholeSale] = useState<boolean>(initialWholeSale === 'true')
+    const [subCategory] = useState<string>(initialSubCategory)
+
     const { data: profileData } = useProfileQuery(undefined)
     const debouncedSearch = useMemo(
         () =>
@@ -48,9 +51,10 @@ const Page: React.FC = () => {
     const { data: categoryData, isLoading: categoryLoading, isFetching } = useGetAllCategoryQuery(undefined)
     const { data: productData, isLoading: productLoading } = useGetAllProductQuery({
         search: searchQuery,
-        category: selectedCategory,
+        ...(selectedCategory !== '' && { category: selectedCategory }),
         limit: 9999,
-        whole_sale: wholeSale
+        ...(wholeSale && { whole_sale: wholeSale }),
+        ...(subCategory !== '' && { sub_category: subCategory })
     })
 
     const products = productData?.data || []
