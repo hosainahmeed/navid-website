@@ -15,6 +15,7 @@ import { Subcategory } from '@/app/types/subcategory'
 import { message, Skeleton } from 'antd'
 import { useProfileQuery } from '@/app/redux/services/profileApis'
 import { cn } from '@/lib/utils'
+import { IMAGE } from '@/app/constants/Image.index'
 
 const SearchBar: React.FC = () => {
   const [search, setSearch] = useState('')
@@ -80,22 +81,25 @@ const SearchBar: React.FC = () => {
 
   return (
     <div className='flex relative md:flex-row flex-col w-full mx-auto items-center border border-[var(--border-color)] my-4'>
-      <div className={cn('w-full z-50 relative flex flex-col md:flex-row gap-2',
+      <div className={cn('w-full z-50 relative flex flex-col md:flex-row',
         showResults ? 'z-50' : 'z-0'
       )}>
-        <div className='flex items-center w-full md:w-fit'>
+        <div className='flex bg-white items-center justify-between border-b md:border-b-0 border-[var(--border-color)] w-full md:w-fit'>
           <button
             onClick={() => setShowCategory(!showCategory)}
-            className='bg-[var(--purple-light)] border-r border-[var(--border-color)]  w-fit h-10 flex items-center cursor-pointer text-white px-4 py-2'>
+            className='border-r border-[var(--border-color)]  w-fit h-[80px] md:h-fit flex items-center cursor-pointer text-black px-4 py-2'>
             {showCategory ? <IoMdClose /> : <IoMdMenu />}
           </button>
+          <div className='w-[80px] md:hidden block h-[80px] md:h-fit py-1'>
+            <Image src={IMAGE.brand} alt="Whole sale" width={80} height={80} className='h-full w-auto' />
+          </div>
           <div
             onClick={handleWholeSale}
-            className='h-10 text-white w-full  md:w-fit flex-nowrap text-nowrap bg-[var(--purple-light)] flex items-center justify-center px-4 cursor-pointer'>
+            className='h-[80px] md:h-fit text-black border-l md:border-l-0 md:border-r border-[var(--border-color)] w-fit flex-nowrap text-nowrap flex items-center justify-center px-4 cursor-pointer'>
             Whole sale
           </div>
         </div>
-        <div className='flex w-full items-center gap-2'>
+        <div className='flex w-full items-center'>
           <input
             type='text'
             placeholder='Search'
@@ -126,7 +130,7 @@ const SearchBar: React.FC = () => {
         />
       }
 
-      {showResults && <div className='absolute md:block hidden top-12 rounded z-[888] left-0 w-full h-72 p-3 shadow-2xl border overflow-y-auto bg-white'>
+      {showResults && <div className='absolute md:top-12 top-32 rounded z-[888] left-0 w-full h-72 p-3 shadow-2xl border overflow-y-auto bg-white'>
         {productData?.data?.length === 0 ?
           <div className='flex items-center justify-center h-full flex-col gap-2'>
             <p className='text-gray-500'>No results found</p>
@@ -168,11 +172,11 @@ const SearchBar: React.FC = () => {
       {showCategory &&
         <AnimatePresence>
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, width: 0 }}
+            animate={{ opacity: 1, width: '100%' }}
+            exit={{ opacity: 0, width: 0 }}
             transition={{ duration: 0.3 }}
-            className='absolute top-12 rounded z-[999] left-0 w-full h-72 border border-[var(--border-color)] shadow-2xl overflow-y-auto bg-white'>
+            className='absolute top-12 z-[999] left-0 w-full h-96 pb-4 border border-[var(--border-color)] shadow-2xl overflow-y-auto bg-white'>
             {categoryData?.data.length === 0 ?
               <div className='flex items-center justify-center h-full flex-col gap-2'>
                 <p className='text-gray-500'>No results found</p>
@@ -180,13 +184,19 @@ const SearchBar: React.FC = () => {
               : showSubCategory ?
                 <>
                   <h1 onClick={() => setShowSubCategory(false)}
-                    className='cursor-pointer text-xl text-white flex bg-[var(--purple-light)] p-1 items-center gap-2 flex-nowrap mb-2'><FaArrowLeft /> Back</h1>
+                    className='sticky top-0 z-50 cursor-pointer text-xl text-white flex bg-[var(--purple-light)] p-1 items-center gap-2 flex-nowrap mb-2'><FaArrowLeft /> Back</h1>
                   {subCategoryData?.data.map((sub: Subcategory) => {
                     return (
-                      <div key={sub?._id}>
+                      <div key={sub?._id} className='p-4 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer'>
                         <div
                           className="flex hover:underline items-center gap-3 p-1 cursor-pointer transition-all"
                         >
+                          <Image
+                            src={imageUrl({ image: sub?.img })}
+                            alt={sub?.name}
+                            width={50}
+                            height={50}
+                          />
                           <span className="text-xl px-2 line-clamp-1 font-medium text-center text-gray-700">
                             {sub?.name}
                           </span>
@@ -195,29 +205,39 @@ const SearchBar: React.FC = () => {
                     )
                   })}
                 </>
-
-                : categoryLoading ? <Skeleton /> : categoryData?.data?.map((category: Category) => (
-                  <div
-                    onClick={() => {
-                      setShowSubCategory(true)
-                      setSelectedCategory(category?._id)
-                    }}
-                    key={category?._id}
-                    className='p-4 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer'
-                  >
-                    <div className='flex items-center gap-4'>
-                      {getFirstImage(category) && <Image
-                        src={imageUrl({ image: getFirstImage(category) })}
-                        alt={category?.name}
-                        width={50}
-                        height={50}
-                      />}
-                      <div className='flex items-center gap-2 w-full justify-between'>
-                        <span className='font-semibold text-xl'>{category?.name}</span> {">"}
-                      </div>
+                :
+                categoryLoading ?
+                  <Skeleton />
+                  :
+                  <>
+                    <div className='flex items-center border-b border-black sticky top-0 z-50 bg-white justify-between'>
+                      <h1 className='text-2xl font-semibold py-4 px-3'>Categories</h1>
+                      <IoMdClose onClick={() => setShowCategory(false)} className='cursor-pointer text-2xl' />
                     </div>
-                  </div>
-                ))}
+                    {categoryData?.data?.map((category: Category) => (
+                      <div
+                        onClick={() => {
+                          setShowSubCategory(true)
+                          setSelectedCategory(category?._id)
+                        }}
+                        key={category?._id}
+                        className='p-4 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer'
+                      >
+                        <div className='flex items-center gap-4'>
+                          <Image
+                            src={imageUrl({ image: category?.img })}
+                            alt={category?.name}
+                            width={50}
+                            height={50}
+                          />
+                          <div className='flex items-center gap-2 w-full justify-between'>
+                            <span className='font-semibold text-xl'>{category?.name}</span> {">"}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+
+                  </>}
           </motion.div>
         </AnimatePresence>
       }
