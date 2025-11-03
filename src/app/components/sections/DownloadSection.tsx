@@ -122,7 +122,7 @@ function DownloadSection() {
                 </Link>
               </motion.div>
               <Link
-                href="https://apps.apple.com/us/app/betwisepicks/id6747808426"
+                href="/"
                 target="_blank"
               >
                 <motion.div

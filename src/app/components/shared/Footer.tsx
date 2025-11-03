@@ -5,8 +5,29 @@ import { FaFacebookSquare, FaInstagram } from 'react-icons/fa'
 import { BsTwitterX } from "react-icons/bs";
 import { AiFillTikTok } from "react-icons/ai";
 import { IoIosArrowDropup } from 'react-icons/io';
+import { useRouter } from 'next/navigation';
 
 function Footer() {
+    const router = useRouter()
+
+    const handleSocialClick = (type: string) => {
+        switch (type) {
+            case "instagram":
+                router.push("https://www.instagram.com/divan_dione")
+                break;
+            case "facebook":
+                router.push("https://www.facebook.com/divan.dione")
+                break;
+            case "twitter":
+                router.push("https://twitter.com/divan_dione")
+                break;
+            case "tiktok":
+                router.push("https://www.tiktok.com/@divan_dione")
+                break;
+            default:
+                break;
+        }
+    }
     return (
         <footer className="border-t border-[var(--border-color)] bg-[#EDEDED] min-h-[200px]">
             <div className="max-w-screen-2xl mx-auto py-12">
@@ -71,10 +92,10 @@ function Footer() {
                             </li>
                         </ul> */}
                         <div className='flex gap-3 my-3 ml-2'>
-                            <FaInstagram className="w-5 h-5" />
-                            <FaFacebookSquare className="w-5 h-5" />
-                            <BsTwitterX className="w-5 h-5" />
-                            <AiFillTikTok className="w-5 h-5" />
+                            <FaInstagram onClick={() => handleSocialClick("instagram")} className="w-5 hover:text-pink-500 cursor-pointer h-5" />
+                            <FaFacebookSquare onClick={() => handleSocialClick("facebook")} className="w-5 hover:text-blue-500 cursor-pointer h-5" />
+                            <BsTwitterX onClick={() => handleSocialClick("twitter")} className="w-5 hover:text-gray-500 cursor-pointer h-5" />
+                            <AiFillTikTok onClick={() => handleSocialClick("tiktok")} className="w-5 hover:text-gray-500 cursor-pointer h-5" />
                         </div>
 
                     </div>
@@ -91,7 +112,7 @@ function Footer() {
                             })
                         }
                     }}
-                    className="border flex flex-col items-center justify-center border-[var(--border-color)] p-8 text-center text-sm text-muted-foreground">
+                    className="border cursor-pointer flex flex-col items-center justify-center border-[var(--border-color)] p-8 text-center text-sm text-muted-foreground">
                     <IoIosArrowDropup className="w-5 h-5" />
                     Back to Top
                 </div>
