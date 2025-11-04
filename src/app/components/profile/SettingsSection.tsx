@@ -13,7 +13,7 @@ function SettingsSection({ data }: { data: any }) {
     const [formImg] = Form.useForm();
     const [formDocs] = Form.useForm();
     const [formTax] = Form.useForm();
-  
+
 
     const [updateInfoMutation, { isLoading: isInfoLoading }] = useUpdateProfileMutation();
     const [updateImgMutation, { isLoading: isImgLoading }] = useUpdateProfileMutation();
@@ -173,7 +173,13 @@ function SettingsSection({ data }: { data: any }) {
                             <Button>Select Profile Image</Button>
                         </Upload>
                     </Form.Item>
-                    <Button htmlType="submit" size="large" loading={isImgLoading} style={{ borderRadius: "0px", padding: "8px 20px", fontWeight: 600 }}>Update Profile Image</Button>
+                    <Button
+                        htmlType="submit"
+                        size="large"
+                        loading={isImgLoading}
+                        style={{ borderRadius: "0px", padding: "8px 20px", fontWeight: 600 }}
+                        className="!bg-[var(--purple-light)] !text-white"
+                    >Update Profile Image</Button>
                 </Form>
             </Card>
 
@@ -212,7 +218,11 @@ function SettingsSection({ data }: { data: any }) {
                             <Button>Select Documents</Button>
                         </Upload>
                     </Form.Item>
-                    <Button htmlType="submit" size="large" loading={isDocsLoading}
+                    <Button
+                        htmlType="submit"
+                        size="large"
+                        className="!bg-[var(--purple-light)] !text-white"
+                        loading={isDocsLoading}
                         style={{
                             borderRadius: "0px",
                             padding: "8px 20px",
@@ -238,6 +248,7 @@ function SettingsSection({ data }: { data: any }) {
                         <Button
                             size="large" type="default"
                             loading={isTaxLoading}
+                            className="!bg-[var(--purple-light)] !text-white"
                             style={{
                                 borderRadius: "0px",
                                 padding: "8px 20px",
@@ -275,6 +286,7 @@ function SettingsSection({ data }: { data: any }) {
                             htmlType="submit"
                             size="large"
                             loading={isInfoLoading}
+                            className="!bg-[var(--purple-light)] !text-white"
                             style={{
                                 borderRadius: "0px",
                                 padding: "8px 20px",
@@ -330,6 +342,7 @@ function SettingsSection({ data }: { data: any }) {
                             htmlType="submit"
                             size="large"
                             loading={isChangePasswordLoading}
+                            className="!bg-[var(--purple-light)] !text-white"
                             style={{
                                 borderRadius: "0px",
                                 padding: "8px 20px",
