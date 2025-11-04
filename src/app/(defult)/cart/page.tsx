@@ -59,11 +59,11 @@ const CartPage = () => {
     const item = items.find((i: any) => i?._id === itemId);
     if (!item) return;
 
-    const currentQuantity = item.quantity;
+    const currentQuantity = item?.quantity;
     const newQuantity = currentQuantity + 1;
 
     // Check if exceeds available stock
-    if (newQuantity > item.product_id?.quantity) {
+    if (newQuantity > item?.product_id?.quantity) {
       toast.error("Cannot exceed available stock");
       return;
     }
@@ -72,11 +72,11 @@ const CartPage = () => {
       const data = {
         items: [
           {
-            product_id: item.product_id._id,
+            product_id: item?.product_id._id,
             quantity: newQuantity,
-            price: item.product_id.price,
-            variant: item.variant,
-            size: item.size
+            price: item?.product_id.price,
+            variant: item?.variant,
+            size: item?.size
           }
         ]
       };
@@ -97,10 +97,10 @@ const CartPage = () => {
   };
 
   const decreaseQuantity = async (itemId: string) => {
-    const item = items.find((i: any) => i._id === itemId);
+    const item = items.find((i: any) => i?._id === itemId);
     if (!item) return;
 
-    const currentQuantity = item.quantity;
+    const currentQuantity = item?.quantity;
     const newQuantity = Math.max(1, currentQuantity - 1);
 
     if (newQuantity === currentQuantity) return;
@@ -108,11 +108,11 @@ const CartPage = () => {
       const data = {
         items: [
           {
-            product_id: item.product_id._id,
+            product_id: item?.product_id._id,
             quantity: newQuantity,
-            price: item.product_id.price,
-            variant: item.variant,
-            size: item.size
+            price: item?.product_id.price,
+            variant: item?.variant,
+            size: item?.size
           }
         ]
       };
@@ -140,7 +140,8 @@ const CartPage = () => {
     setCheckoutModalOpen(true);
   };
 
-  const shippingCharge = cartData?.total_price < 50 ? 0 : 15;
+  const shippingCharge = cartData?.total_price >= 100 ? 0 : 15;
+  console.log(shippingCharge)
 
   return (
     <>
@@ -264,14 +265,14 @@ const CartPage = () => {
           </div>
 
           <div className="flex justify-between text-gray-700 text-sm mt-1">
-            <span>Sales Tax (Included)</span>
-            <span>$0</span>
+            <span>Sales Tax (Included 6.625%)</span>
+            <span>${((cartData?.total_price / 100) * 6.625).toFixed(2)}</span>
           </div>
 
           <div
             className={cn(
               "flex justify-between text-lg mt-2 font-semibold",
-              cartData?.total_price < 50 && "line-through text-gray-500"
+              cartData?.total_price >= 100 && "line-through text-gray-500"
             )}
           >
             <span>Shipping Charge</span>
@@ -282,7 +283,7 @@ const CartPage = () => {
 
           <div className="flex justify-between text-2xl font-bold text-gray-900 mt-3">
             <span>Total</span>
-            <span>${(cartData?.total_price + shippingCharge)?.toFixed(2)}</span>
+            <span>${(cartData?.total_price + shippingCharge + ((cartData?.total_price / 100) * 6.625))?.toFixed(2)}</span>
           </div>
 
           <button
@@ -299,7 +300,7 @@ const CartPage = () => {
         open={checkoutModalOpen}
         onClose={() => setCheckoutModalOpen(false)}
         cartItems={items}
-        totalAmount={cartData?.total_price || 0}
+        totalAmount={cartData?.total_price + shippingCharge + ((cartData?.total_price / 100) * 6.625) || 0}
       />
     </>
   );

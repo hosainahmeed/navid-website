@@ -1,19 +1,17 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import Cookies from 'js-cookie';
 import PrimaryButton from '../buttons/PrimaryButton';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 const AgeVerificationPopUp = ({ children }: { children: React.ReactNode }) => {
-    // const [checked, setChecked] = useState(false);
     const [isVerified, setIsVerified] = useState<boolean | null>(null);
     const pathName = usePathname();
     const [isMobile, setIsMobile] = useState(false)
 
     useEffect(() => {
-        const isMobile = window.innerWidth < 768;
+        const isMobile = window.innerWidth > 768;
         setIsMobile(isMobile)
         const allowedPaths = ['/terms', '/privacy-policy'];
         const verified = Cookies.get('age_verified') === 'true';
@@ -41,18 +39,19 @@ const AgeVerificationPopUp = ({ children }: { children: React.ReactNode }) => {
         <div
             id='age-verification-pop-up'
             style={{
-                backgroundImage: `
+                ...isMobile && {
+                    backgroundImage: `
           linear-gradient(to right, #dadada 1px, transparent 1px),
           linear-gradient(to bottom, #dadada 1px, transparent 1px)
         `,
-                backgroundSize: '120px 120px',
-                ...isMobile && {
+                    backgroundSize: '120px 120px',
                     WebkitMaskImage:
                         'radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)',
                     maskImage:
-                        'radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)',
+                            'radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)',
+                    }
                 }
-            }}
+            }
             className={cn("fixed inset-0 z-50 flex items-center justify-center bg-white/60 backdrop-blur-md")}
         >
             <div className="bg-white border border-gray-300 max-w-md w-full mx-4 p-6 shadow-lg text-center">

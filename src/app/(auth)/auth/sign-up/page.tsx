@@ -22,6 +22,7 @@ function SignUp() {
     const [isCheck, setIsCheck] = React.useState(false);
     const [signUp, { isLoading: isSignUping }] = useSignUpMutation()
     const router = useRouter()
+    
 
     const onFinish = async (values: Isignupdata) => {
         try {
@@ -51,7 +52,7 @@ function SignUp() {
             }
 
         } catch (error: any) {
-          
+
             const message =
                 error?.data?.message ||
                 error?.message ||
@@ -64,7 +65,7 @@ function SignUp() {
     return (
         <div className='flex relative items-center justify-center h-screen'>
             <div
-                className="absolute inset-0 z-0"
+                className="absolute hidden md:block inset-0 z-0"
                 style={{
                     backgroundImage: `
         linear-gradient(to right, #dadada 1px, transparent 1px),
@@ -184,6 +185,7 @@ function SignUp() {
                             loading={isSignUping}
                             type="primary"
                             htmlType="submit"
+                            className="!bg-[#D59FF0] !text-white"
                         >
                             Sign Up
                         </Button>

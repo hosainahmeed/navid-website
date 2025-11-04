@@ -91,7 +91,9 @@ function SignIn() {
                                 borderRadius: '0px',
                             }}
                             size='large'
-                            type="primary" htmlType="submit">
+                            type="primary" htmlType="submit"
+                            className="!bg-[#D59FF0] !text-white"
+                            >
                             Sign In
                         </Button>
                     </Form.Item>
