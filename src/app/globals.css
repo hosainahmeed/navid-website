@@ -66,6 +66,28 @@
   }
 
 }
+@media (prefers-color-scheme: light) {
+  :root {
+    /* --color-primary: #ae12e2; */
+    --color-primary: #1F2937;
+    /* Vibrant Pink — Main Brand Color */
+    --color-primary-dark: #1F2937;
+    /* --color-primary-dark: #C2185B; */
+    /* Dark Pink — Hover / Active State */
+    --color-primary-light: #7a4494;
+    --purple-light: #cc83ee;
+    /* Soft Pink — Highlights / Light BG */
+    --color-accent: #D4AF37;
+    /* Gold — Luxury Accent */
+    --color-bg: #FAFAFA;
+    /* Light Gray — Background */
+    --color-text: #1F2937;
+    /* Dark Gray — Main Text */
+    --color-text-light: #6B7280;
+    --border-color: #CBCBCB;
+    /* Medium Gray — Secondary Text */
+  }
+}
 
 :root {
   --radius: 0.625rem;
