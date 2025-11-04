@@ -26,7 +26,7 @@ function ProductCardClientSide({ id, isHovered, className }: { id: string, isHov
                         title='View Details'
                         icon={<IoMdEye />}
                         iconClassName='md:block hidden'
-                        className='bg-white border border-[var(--border-color)] shadow-sm text-black hover:bg-[var(--purple-light)] hover:text-white rounded-none'
+                        className='!bg-white !border !border-[var(--border-color)] !shadow-sm !text-black hover:!bg-[var(--purple-light)] hover:text-white rounded-none'
                     />
                 </motion.div>
             }

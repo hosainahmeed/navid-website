@@ -14,7 +14,7 @@ const SubCategoryCard: React.FC<SubCategoryCardProps> = ({
 }) => {
     return (
         <div
-            className="relative w-full h-[278px] bg-[var(--purple-light)] overflow-hidden rounded flex items-end justify-end p-2"
+            className="relative w-full h-[278px] !bg-[var(--purple-light)] overflow-hidden rounded flex items-end justify-end p-2"
         >
             <div className="relative z-10 flex items-end justify-end flex-col gap-3">
                 <h1 className="text-white text-2xl uppercase font-bold text-start">{item.name}</h1>

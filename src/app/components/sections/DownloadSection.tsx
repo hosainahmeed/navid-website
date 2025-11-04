@@ -160,7 +160,7 @@ function DownloadSection() {
                   {[...Array(64)].map((_, i) => (
                     <motion.div
                       key={i}
-                      className="w-1 h-1 bg-[var(--purple-light)] rounded-full"
+                      className="w-1 h-1 !bg-[var(--purple-light)] rounded-full"
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
                       transition={{ delay: 1.2 + i * 0.01, duration: 0.3 }}

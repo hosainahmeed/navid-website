@@ -113,7 +113,7 @@ const SearchBar: React.FC = () => {
           />
           <button
             onClick={handleSearch}
-            className='bg-[var(--purple-light)] w-fit flex items-center gap-2 cursor-pointer text-white px-4 py-2'
+            className='!bg-[var(--purple-light)] w-fit flex items-center gap-2 cursor-pointer text-white px-4 py-2'
           >
             <FaSearch />
             Search
@@ -186,7 +186,7 @@ const SearchBar: React.FC = () => {
               : showSubCategory ?
                 <>
                   <h1 onClick={() => setShowSubCategory(false)}
-                    className='sticky top-0 z-50 cursor-pointer text-xl text-white flex bg-[var(--purple-light)] p-1 items-center gap-2 flex-nowrap mb-2'><FaArrowLeft /> Back</h1>
+                    className='sticky top-0 z-50 cursor-pointer text-xl text-white flex !bg-[var(--purple-light)] p-1 items-center gap-2 flex-nowrap mb-2'><FaArrowLeft /> Back</h1>
                   {subCategoryData?.data.map((sub: Subcategory) => {
                     return (
                       <div 
