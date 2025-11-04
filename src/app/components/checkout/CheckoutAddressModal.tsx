@@ -344,7 +344,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
             <Button
               onClick={handleProceed}
               disabled={!selectedAddressId || orderLoading}
-              className="flex-1 !h-12 !rounded-none !bg-[var(--purple-light)] hover:!bg-[var(--color-primary)]"
+              className="flex-1 !h-12 !rounded-none !bg-[#cc83ee] hover:!bg-[var(--color-primary)]"
             >
               {orderLoading ? (
                 <>

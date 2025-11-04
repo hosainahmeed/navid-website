@@ -88,7 +88,7 @@ function DownloadSection() {
               className="font-bold mb-4 text-2xl md:text-4xl leading-none tracking-normal"
               variants={itemVariants}
             >
-              Download Our App <span className="text-[var(--purple-light)]">DIVAN DIONE</span> & Feel The Experience
+              Download Our App <span className="text-[#cc83ee]">DIVAN DIONE</span> & Feel The Experience
             </motion.h1>
 
             <motion.p
@@ -160,7 +160,7 @@ function DownloadSection() {
                   {[...Array(64)].map((_, i) => (
                     <motion.div
                       key={i}
-                      className="w-1 h-1 !bg-[var(--purple-light)] rounded-full"
+                      className="w-1 h-1 !bg-[#cc83ee] rounded-full"
                       initial={{ scale: 0 }}
                       whileInView={{ scale: 1 }}
                       transition={{ delay: 1.2 + i * 0.01, duration: 0.3 }}

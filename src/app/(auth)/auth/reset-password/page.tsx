@@ -85,7 +85,7 @@ function ResetPassword() {
                     </Form.Item>
                     <Form.Item className='w-full'>
                         <Button
-                            className='!bg-[var(--purple-light)] !text-white'
+                            className='!bg-[#cc83ee] !text-white'
                             loading={isLoading}
                             style={{
                                 width: '100%',

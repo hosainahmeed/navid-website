@@ -58,7 +58,7 @@ function SectionHeader(
                                         animate={{ width: '100%' }}
                                         exit={{ width: 0 }}
                                         transition={{ duration: 0.2 }}
-                                        className='w-full absolute h-[2px] !bg-[var(--purple-light)]'
+                                        className='w-full absolute h-[2px] !bg-[#cc83ee]'
                                     ></motion.div>
                                 </AnimatePresence>
                             }

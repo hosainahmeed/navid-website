@@ -100,7 +100,7 @@ function OneTimePassword() {
                     <Form.Item className='w-full'>
                         <Button
                             loading={isVerifyOtpLoading}
-                            className='!bg-[var(--purple-light)] !text-white'
+                            className='!bg-[#cc83ee] !text-white'
                             style={{
                                 width: '100%',
                                 backgroundColor: 'var(--purple-light)',
@@ -121,7 +121,7 @@ function OneTimePassword() {
                 </Form>
                 <span
                     onClick={handleResend}
-                    className='text-[var(--purple-light)] hover:underline cursor-pointer'>{isVerificationCreating ? 'Resending...' : 'Resend code'}</span>
+                    className='text-[#cc83ee] hover:underline cursor-pointer'>{isVerificationCreating ? 'Resending...' : 'Resend code'}</span>
             </div>
         </div>
     )

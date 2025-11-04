@@ -114,7 +114,7 @@ function page() {
                             }}
                             size='large'
                             type="primary" htmlType="submit"
-                            className='!bg-[var(--purple-light)] !text-white'
+                            className='!bg-[#cc83ee] !text-white'
                             >
                             Submit
                         </Button>
@@ -122,7 +122,7 @@ function page() {
                 </Form>
                 <span
                     onClick={handleResend}
-                    className='text-[var(--purple-light)] hover:underline cursor-pointer'>{isVerificationCreating ? 'Resending...' : 'Resend code'}</span>
+                    className='text-[#cc83ee] hover:underline cursor-pointer'>{isVerificationCreating ? 'Resending...' : 'Resend code'}</span>
             </div>
         </div>
     )

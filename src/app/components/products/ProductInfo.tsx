@@ -221,7 +221,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
                             size="lg"
                             onClick={() => handleQuantityChange(-1)}
                             disabled={quantity <= 1 || !profileData || isError || isLoading}
-                            className="rounded-none !bg-[var(--purple-light)] !text-white cursor-pointer h-16 w-16"
+                            className="rounded-none !bg-[#cc83ee] !text-white cursor-pointer h-16 w-16"
                         >
                             <Minus className="h-6 w-6" />
                         </Button>
@@ -231,7 +231,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
                             size="lg"
                             onClick={() => handleQuantityChange(1)}
                             disabled={quantity >= product?.quantity || !profileData || isError || isLoading}
-                            className="rounded-none !bg-[var(--purple-light)] !text-white cursor-pointer h-16 w-16"
+                            className="rounded-none !bg-[#cc83ee] !text-white cursor-pointer h-16 w-16"
                         >
                             <Plus className="h-6 w-6" />
                         </Button>
@@ -244,7 +244,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             <div className="flex relative flex-col gap-3 sm:flex-row">
                 <Button
                     onClick={() => handleAddToCart(product)}
-                    size="default" className="flex-1 text-xl border-[var(--border-color)] !bg-[var(--purple-light)] !text-white border-[0.2px] h-16  hover:text-white transition-all duration-300 cursor-pointer rounded-none gap-2" disabled={product?.quantity === 0 || !profileData || isError || isLoading}>
+                    size="default" className="flex-1 text-xl border-[var(--border-color)] !bg-[#cc83ee] !text-white border-[0.2px] h-16  hover:text-white transition-all duration-300 cursor-pointer rounded-none gap-2" disabled={product?.quantity === 0 || !profileData || isError || isLoading}>
                     <ShoppingCart className="h-5 w-5" />
                     Add to Cart
                 </Button>

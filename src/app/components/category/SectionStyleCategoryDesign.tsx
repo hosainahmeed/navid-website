@@ -33,7 +33,7 @@ const SectionStyleCategoryDesign: React.FC<CategoryItemProps> = ({
       <button
         className="flex flex-col w-full items-center justify-center text-center px-4 py-3 
                    border border-[var(--border-color)] rounded-none 
-                   bg-white hover:bg-[#EDEDED] cursor-pointer hover:text-[var(--purple-light)] 
+                   bg-white hover:bg-[#EDEDED] cursor-pointer hover:text-[#cc83ee] 
                    min-w-[140px] transition-all duration-300"
         onClick={handleClick}
       >

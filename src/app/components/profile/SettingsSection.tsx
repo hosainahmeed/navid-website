@@ -178,7 +178,7 @@ function SettingsSection({ data }: { data: any }) {
                         size="large"
                         loading={isImgLoading}
                         style={{ borderRadius: "0px", padding: "8px 20px", fontWeight: 600 }}
-                        className="!bg-[var(--purple-light)] !text-white"
+                        className="!bg-[#cc83ee] !text-white"
                     >Update Profile Image</Button>
                 </Form>
             </Card>
@@ -221,7 +221,7 @@ function SettingsSection({ data }: { data: any }) {
                     <Button
                         htmlType="submit"
                         size="large"
-                        className="!bg-[var(--purple-light)] !text-white"
+                        className="!bg-[#cc83ee] !text-white"
                         loading={isDocsLoading}
                         style={{
                             borderRadius: "0px",
@@ -248,7 +248,7 @@ function SettingsSection({ data }: { data: any }) {
                         <Button
                             size="large" type="default"
                             loading={isTaxLoading}
-                            className="!bg-[var(--purple-light)] !text-white"
+                            className="!bg-[#cc83ee] !text-white"
                             style={{
                                 borderRadius: "0px",
                                 padding: "8px 20px",
@@ -286,7 +286,7 @@ function SettingsSection({ data }: { data: any }) {
                             htmlType="submit"
                             size="large"
                             loading={isInfoLoading}
-                            className="!bg-[var(--purple-light)] !text-white"
+                            className="!bg-[#cc83ee] !text-white"
                             style={{
                                 borderRadius: "0px",
                                 padding: "8px 20px",
@@ -342,7 +342,7 @@ function SettingsSection({ data }: { data: any }) {
                             htmlType="submit"
                             size="large"
                             loading={isChangePasswordLoading}
-                            className="!bg-[var(--purple-light)] !text-white"
+                            className="!bg-[#cc83ee] !text-white"
                             style={{
                                 borderRadius: "0px",
                                 padding: "8px 20px",

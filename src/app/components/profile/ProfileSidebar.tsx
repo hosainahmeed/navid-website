@@ -81,7 +81,7 @@ function ProfileSidebar({
                     padding: "0.5rem 1.2rem",
                     alignSelf: "end",
                 }}
-                className="!bg-[var(--purple-light)] !text-white"
+                className="!bg-[#cc83ee] !text-white"
             >
                 Sign Out
             </Button>
@@ -126,7 +126,7 @@ function ProfileSidebar({
                                         padding: "0.5rem 1rem",
                                         border: "1px solid var(--border-color)",
                                     }}
-                                    className="!bg-[var(--purple-light)] !text-white"
+                                    className="!bg-[#cc83ee] !text-white"
                                 >
                                     Cancel
                                 </Button>
@@ -145,7 +145,7 @@ function ProfileSidebar({
                                         color: "white",
                                         padding: "0.5rem 1rem",
                                     }}
-                                    className='!bg-[var(--purple-light)] !text-white !rounded-none'
+                                    className='!bg-[#cc83ee] !text-white !rounded-none'
                                 >
                                     Sign Out
                                 </Button>
@@ -162,7 +162,7 @@ function ProfileSidebar({
                         key={item.label}
                         onClick={() => setActiveItem(item.label)}
                         className={`flex items-center gap-3 py-3 px-4 cursor-pointer transition ${activeItem === item.label
-                            ? "!bg-[var(--purple-light)] !text-white !font-semibold"
+                            ? "!bg-[#cc83ee] !text-white !font-semibold"
                             : "hover:!bg-gray-50"
                             }`}
                     >
