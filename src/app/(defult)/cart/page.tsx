@@ -163,7 +163,8 @@ const CartPage = () => {
                   Your cart is empty
                 </p>
                 <Link href={"/shop"}>
-                  <Button className="rounded-none bg-[var(--purple-light)] hover:bg-[var(--color-primary)]">
+                  <Button
+                  className="!rounded-none !bg-[var(--purple-light)] hover:!bg-[var(--color-primary)]">
                     Continue Shopping
                   </Button>
                 </Link>

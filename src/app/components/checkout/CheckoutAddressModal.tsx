@@ -170,7 +170,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
                   setAddressType("shipping");
                   setSelectedAddressId("");
                 }}
-                className="h-12 rounded-none"
+                className="!h-12 !rounded-none"
               >
                 Shipping Address
               </Button>
@@ -181,7 +181,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
                   setSelectedAddressId("");
                   setShowCreateForm(false);
                 }}
-                className="h-12 rounded-none"
+                className="!h-12 !rounded-none"
               >
                 Pickup Address
               </Button>
@@ -222,7 +222,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
                       <Button
                         variant="outline"
                         onClick={() => setShowCreateForm(true)}
-                        className="w-full h-12 rounded-none mt-4"
+                        className="w-full !h-12 !rounded-none mt-4"
                       >
                         + Add New Shipping Address
                       </Button>
@@ -244,7 +244,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
                           onChange={(e) =>
                             setNewAddress({ ...newAddress, name: e.target.value })
                           }
-                          className="rounded-none"
+                          className="!rounded-none"
                         />
                       </div>
 
@@ -279,7 +279,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
                         <Button
                           onClick={handleCreateAddress}
                           disabled={createLoading}
-                          className="flex-1 rounded-none h-12"
+                          className="flex-1 !rounded-none !h-12"
                         >
                           {createLoading ? (
                             <>
@@ -296,7 +296,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
                             setShowCreateForm(false);
                             setNewAddress({ name: "", phone: "", address: "" });
                           }}
-                          className="flex-1 rounded-none h-12"
+                          className="flex-1 !rounded-none !h-12"
                         >
                           Cancel
                         </Button>
@@ -344,7 +344,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
             <Button
               onClick={handleProceed}
               disabled={!selectedAddressId || orderLoading}
-              className="flex-1 h-12 rounded-none bg-[var(--purple-light)] hover:bg-[var(--color-primary)]"
+              className="flex-1 !h-12 !rounded-none !bg-[var(--purple-light)] hover:!bg-[var(--color-primary)]"
             >
               {orderLoading ? (
                 <>
@@ -358,7 +358,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
             <Button
               variant="outline"
               onClick={onClose}
-              className="flex-1 h-12 rounded-none"
+              className="flex-1 !h-12 !rounded-none"
             >
               Cancel
             </Button>

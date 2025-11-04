@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Minus, Plus, ShoppingCart, Heart } from "lucide-react"
+import { Minus, Plus, ShoppingCart } from "lucide-react"
 import { Product } from "@/app/types/product"
 import { VariantSelector } from "./VariantSelector"
 import { useRouter } from "next/navigation"

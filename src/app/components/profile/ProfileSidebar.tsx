@@ -132,6 +132,9 @@ function ProfileSidebar({
                                     onClick={() => {
                                         Cookies.remove("accessToken")
                                         router.push("/")
+                                        if (window !== undefined) {
+                                            window.location.reload()
+                                        }
                                         setShowLogoutModal(false);
                                     }}
                                     style={{
@@ -140,6 +143,7 @@ function ProfileSidebar({
                                         color: "white",
                                         padding: "0.5rem 1rem",
                                     }}
+                                    className='!bg-[var(--purple-light)] !text-white !rounded-none'
                                 >
                                     Sign Out
                                 </Button>

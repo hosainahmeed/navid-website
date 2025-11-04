@@ -39,7 +39,7 @@ const CategoryPage = () => {
       {selectedCategory && (
         <div className="my-2">
           <Button
-            className="border-[0.2px] border-[var(--border-color)] bg-[var(--purple-light)] text-white cursor-pointer rounded-none"
+            className="!border-[0.2px] !border-[var(--border-color)] !bg-[var(--purple-light)] !text-white !cursor-pointer !rounded-none"
             variant="outline"
             onClick={() => setSelectedCategory(null)}
           >

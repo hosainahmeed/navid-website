@@ -73,6 +73,7 @@ function ForgotPassword() {
                 cursor: 'pointer',
                 borderRadius: '0px',
               }}
+              className='!bg-[var(--purple-light)] !text-white'
               size='large'
               type="primary" htmlType="submit">
               Send OTP

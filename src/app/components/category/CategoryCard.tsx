@@ -47,7 +47,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                 >
                     <Button
                         onClick={() => onSelectCategory(item._id)}
-                        className="bg-white cursor-pointer hover:bg-white/90 hover:text-black rounded text-black"
+                        className="!bg-white !cursor-pointer hover:!bg-white/90 hover:!text-black !rounded !text-black"
                     >
                         See Subcategories
                     </Button>
@@ -57,7 +57,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                 <div className="flex sm:hidden items-center gap-2">
                     <Button
                         onClick={() => onSelectCategory(item._id)}
-                        className="bg-white cursor-pointer hover:bg-white/90 hover:text-black rounded text-black"
+                        className="!bg-white !cursor-pointer hover:!bg-white/90 hover:!text-black !rounded !text-black"
                     >
                         See Subcategories
                     </Button>

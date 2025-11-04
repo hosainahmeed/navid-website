@@ -7,6 +7,7 @@ import { useSignUpMutation } from '@/app/redux/services/authApis';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
+import { cn } from '@/lib/utils';
 const { Title } = Typography
 
 interface Isignupdata {
@@ -185,7 +186,7 @@ function SignUp() {
                             loading={isSignUping}
                             type="primary"
                             htmlType="submit"
-                            className="!bg-[#D59FF0] !text-white"
+                            className={cn("!bg-[#D59FF0] !text-white", !isCheck && "!bg-gray-400 !text-black")}
                         >
                             Sign Up
                         </Button>

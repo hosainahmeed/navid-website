@@ -69,6 +69,7 @@ function UploadIdentity() {
             color: "#fff",
             border: "none",
           }}
+          className='!bg-[var(--purple-light)] !text-white !rounded-none'
         >
           {isDocsLoading ? "Uploading..." : "Submit Documents"}
         </Button>

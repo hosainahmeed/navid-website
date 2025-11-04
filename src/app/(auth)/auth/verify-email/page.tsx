@@ -113,7 +113,9 @@ function page() {
                                 marginTop: '1rem'
                             }}
                             size='large'
-                            type="primary" htmlType="submit">
+                            type="primary" htmlType="submit"
+                            className='!bg-[var(--purple-light)] !text-white'
+                            >
                             Submit
                         </Button>
                     </Form.Item>

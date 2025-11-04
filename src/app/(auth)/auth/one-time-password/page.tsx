@@ -100,6 +100,7 @@ function OneTimePassword() {
                     <Form.Item className='w-full'>
                         <Button
                             loading={isVerifyOtpLoading}
+                            className='!bg-[var(--purple-light)] !text-white'
                             style={{
                                 width: '100%',
                                 backgroundColor: 'var(--purple-light)',
