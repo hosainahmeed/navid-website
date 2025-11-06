@@ -64,7 +64,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
 }
 
 
-const TopPageCategory = () => {
+const TopPageCategory = ({ isUserGuide = false }: { isUserGuide?: boolean }) => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
@@ -123,7 +123,7 @@ const TopPageCategory = () => {
 
   return (
     <>
-      <small className='items-center hidden md:flex justify-end font-semibold my-1 gap-2'>Swipe to Explore More <FaArrowRight /></small>
+      {isUserGuide && <small className='items-center hidden md:flex justify-end font-semibold my-1 gap-2'>Swipe to Explore More <FaArrowRight /></small>}
       <div className="relative hidden md:block border border-[var(--border-color)] border-b bg-white">
         {/* Category Navigation - Fixed 5 items per row with scroll */}
         <div

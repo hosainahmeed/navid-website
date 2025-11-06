@@ -12,6 +12,8 @@ import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
 import Image from 'next/image'
 import { IMAGE } from '@/app/constants/Image.index'
 import { useProfileQuery } from '@/app/redux/services/profileApis'
+import TopPageCategory from '@/app/components/sections/TopPageCategory'
+import { useGetAllSubCategoryQuery } from '@/app/redux/services/subcategoryApis'
 
 const Page: React.FC = () => {
     const searchParams = useSearchParams()
@@ -22,7 +24,7 @@ const Page: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState<string>(initialSearch)
     const [selectedCategory, setSelectedCategory] = useState<string>('')
     const [wholeSale, setWholeSale] = useState<boolean>(initialWholeSale === 'true')
-    const [subCategory] = useState<string>(initialSubCategory)
+    const [subCategory, setSubCategory] = useState<string>(initialSubCategory)
 
     const { data: profileData } = useProfileQuery(undefined)
     const debouncedSearch = useMemo(
@@ -47,6 +49,8 @@ const Page: React.FC = () => {
     }, [profileData])
 
     const { data: categoryData, isLoading: categoryLoading, isFetching } = useGetAllCategoryQuery(undefined)
+    const { data: subcategoryData, isLoading: subCategoryLoading } = useGetAllSubCategoryQuery({ category_id: selectedCategory }, { skip: !selectedCategory })
+
     const { data: productData, isLoading: productLoading } = useGetAllProductQuery({
         search: searchQuery,
         ...(selectedCategory !== '' && { category: selectedCategory }),
@@ -61,19 +65,32 @@ const Page: React.FC = () => {
             value: item?._id,
             label: item?.name,
         })) || []
+    const subCategories =
+        subcategoryData?.data?.map((item: any) => ({
+            value: item?._id,
+            label: item?.name,
+        })) || []
+
+    console.log(subCategories)
+
+
+
 
     return (
         <Spin spinning={productLoading || categoryLoading || isFetching}>
             <div className='max-w-screen-2xl border-x-[0.2px] mx-auto p-2'>
                 <SectionHeader title='All Products' className='my-0 p-2' />
                 <div className='grid grid-cols-2 lg:grid-cols-3'>
-                    <div className='flex items-center border justify-center'>
-                        <Radio.Group onChange={(e) => setWholeSale(e.target.value)} value={wholeSale}>
+                    <div className='flex items-center col-span-2 md:col-span-1 border justify-center'>
+                        <Radio.Group onChange={(e) => {
+                            setSubCategory('')
+                            setWholeSale(e.target.value)
+                        }} value={wholeSale}>
                             <Radio value={false}>All</Radio>
                             <Radio disabled={profileData?.data?.tax_id === null || profileData?.data?.tax_id === ''} value={true}>Whole Sale</Radio>
                         </Radio.Group>
                     </div>
-                    <div className='relative w-full lg:order-2 order-3 lg:col-span-1 col-span-2 flex-1'>
+                    <div className='relative w-full lg:order-2 order-3 lg:col-span-3 col-span-2 flex-1'>
                         <Input
                             prefix={isFetching ? <Spin size='small' /> : <SearchOutlined />}
                             allowClear
@@ -84,12 +101,30 @@ const Page: React.FC = () => {
                             style={{ height: '64px' }}
                         />
                     </div>
-                    <div className='lg:order-1 w-full order-2  flex-1'>
+                    <div className='lg:order-1 w-full flex md:flex-row flex-col items-center justify-center order-2 col-span-2  flex-1'>
                         <Select
                             loading={categoryLoading || isFetching}
                             options={categories}
-                            onChange={(value) => setSelectedCategory(value)}
+                            onChange={(value) => {
+                                setSubCategory('')
+                                setSelectedCategory(value)
+                            }}
                             placeholder='Select category'
+                            style={{
+                                height: '64px',
+                                fontSize: '20px',
+                                width: '100%',
+                                fontWeight: 'bold',
+                            }}
+                            className=''
+                            allowClear
+                        />
+                        <Select
+                            loading={subCategoryLoading}
+                            disabled={selectedCategory === ''}
+                            options={subCategories}
+                            onChange={(value) => setSubCategory(value)}
+                            placeholder='Select sub category'
                             style={{
                                 height: '64px',
                                 fontSize: '20px',
