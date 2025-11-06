@@ -26,8 +26,12 @@ function SignIn() {
             if (res?.success) {
                 Cookies.set('accessToken', res.token);
                 toast.success(res.message || 'Sign in successful!');
+                if (window !== undefined) {
+                    window.location.href === '/'
+                    return false
+                }
                 router.push('/');
-                return;
+                return false;
             }
         } catch (error: any) {
             const message =
@@ -93,7 +97,7 @@ function SignIn() {
                             size='large'
                             type="primary" htmlType="submit"
                             className="!bg-[#D59FF0] !text-white"
-                            >
+                        >
                             Sign In
                         </Button>
                     </Form.Item>
