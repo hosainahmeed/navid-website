@@ -12,7 +12,7 @@ import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useGetAllSubCategoryQuery } from '@/app/redux/services/subcategoryApis'
 import { Subcategory } from '@/app/types/subcategory'
-import { message, Skeleton } from 'antd'
+import { Skeleton } from 'antd'
 import { useProfileQuery } from '@/app/redux/services/profileApis'
 import { cn } from '@/lib/utils'
 import { IMAGE } from '@/app/constants/Image.index'
@@ -178,7 +178,7 @@ const SearchBar: React.FC = () => {
             animate={{ opacity: 1, width: '100%' }}
             exit={{ opacity: 0, width: 0 }}
             transition={{ duration: 0.3 }}
-            className='absolute top-12 z-[999] left-0 w-full h-96 pb-4 border border-[var(--border-color)] shadow-2xl overflow-y-auto bg-white'>
+            className='fixed top-0 z-[999] left-0 w-full h-dvh pb-4 border border-[var(--border-color)] shadow-2xl overflow-y-auto bg-white'>
             {categoryData?.data.length === 0 ?
               <div className='flex items-center justify-center h-full flex-col gap-2'>
                 <p className='text-gray-500'>No results found</p>
@@ -189,11 +189,11 @@ const SearchBar: React.FC = () => {
                     className='sticky top-0 z-50 cursor-pointer text-xl text-white flex !bg-[#cc83ee] p-1 items-center gap-2 flex-nowrap mb-2'><FaArrowLeft /> Back</h1>
                   {subCategoryData?.data.map((sub: Subcategory) => {
                     return (
-                      <div 
-                      onClick={() => {
-                        router.push(`/shop?subCategory=${sub?._id}`)
-                      }}
-                      key={sub?._id} className='p-4 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer'>
+                      <div
+                        onClick={() => {
+                          router.push(`/shop?subCategory=${sub?._id}`)
+                        }}
+                        key={sub?._id} className='p-4 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer'>
                         <div
                           className="flex hover:underline items-center gap-3 p-1 cursor-pointer transition-all"
                         >
@@ -223,6 +223,9 @@ const SearchBar: React.FC = () => {
                     {categoryData?.data?.map((category: Category) => (
                       <div
                         onClick={() => {
+                          if (!category?.is_service) {
+                            return false
+                          }
                           setShowSubCategory(true)
                           setSelectedCategory(category?._id)
                         }}
@@ -237,7 +240,7 @@ const SearchBar: React.FC = () => {
                             height={50}
                           />
                           <div className='flex items-center gap-2 w-full justify-between'>
-                            <span className='font-semibold text-xl'>{category?.name}</span> {">"}
+                            <span className='font-semibold text-xl'>{category?.name}</span> <p className={cn("block", !category?.is_service && 'hidden')}>{">"}</p>
                           </div>
                         </div>
                       </div>

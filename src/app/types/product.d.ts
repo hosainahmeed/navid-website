@@ -35,7 +35,8 @@ export interface Category {
     _id: string,
     name: string,
     img: string,
-    is_active: boolean,
+    is_service: boolean,
+    // is_active: boolean,
 }
 
 export interface VariantImage {
