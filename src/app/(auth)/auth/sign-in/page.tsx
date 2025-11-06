@@ -5,7 +5,6 @@ import React from 'react'
 import { useSignInMutation } from '@/app/redux/services/authApis';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
 const { Title, Text } = Typography
 
