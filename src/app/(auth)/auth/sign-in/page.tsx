@@ -25,15 +25,7 @@ function SignIn() {
             if (res?.success) {
                 Cookies.set('accessToken', res.token);
                 toast.success(res.message || 'Sign in successful!');
-                setTimeout(() => {
-                    if (typeof window !== 'undefined') {
-                        window.location.href = '/';
-                    } else {
-                        router.push('/');
-                    }
-                }, 1000);
-                router.push('/');
-                return false;
+                window.location.href = '/';
             }
         } catch (error: any) {
             const message =
