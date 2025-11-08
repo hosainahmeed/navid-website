@@ -26,6 +26,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
     const [quantity, setQuantity] = useState(1)
     const [selectedColor, setSelectedColor] = useState(product?.variantColors[0])
     const [selectedSize, setSelectedSize] = useState(product?.variantImages[product?.variantColors[0]]?.size[0])
+    const [selectedQuantity, setSelectedQuantity] = useState(0)
     const [createCartMutation] = useCreateCartMutation()
     const router = useRouter()
     const { data: profileData, isLoading, isError } = useProfileQuery(undefined)
@@ -39,6 +40,8 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             if (product?.variantImages?.[defaultColor]?.size?.length > 0) {
                 setSelectedSize(product.variantImages[defaultColor].size[0])
             }
+
+            setSelectedQuantity(product?.variantImages[defaultColor]?.quantity)
 
             if (product?.variantImages?.[defaultColor]?.img?.length > 0) {
                 const firstImage = product.variantImages[defaultColor].img[0]
@@ -209,7 +212,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
                     </>
                 )}
             </div>
-            <VariantSelector setIsVideo={setIsVideo} setSelectedVariantImage={setSelectedVariantImage} variantImages={product?.variantImages} colors={product?.variantColors} sizes={availableSizes} onVariantChange={handleVariantChange} />
+            <VariantSelector product={product} setSelectedQuantity={setSelectedQuantity} setIsVideo={setIsVideo} setSelectedVariantImage={setSelectedVariantImage} variantImages={product?.variantImages} colors={product?.variantColors} sizes={availableSizes} onVariantChange={handleVariantChange} />
 
             {/* Quantity Selector */}
             <div className="space-y-3 p-2 border-b-[0.2px] border-[var(--border-color)]">
@@ -236,7 +239,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
                             <Plus className="h-6 w-6" />
                         </Button>
                     </div>
-                    <span className="text-sm text-muted-foreground">{product?.quantity} available</span>
+                    <span className="text-sm text-muted-foreground">{selectedQuantity} available</span>
                 </div>
             </div>
 

@@ -34,7 +34,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
 
 
   return (
-    <div className="w-1/5 min-w-[140px] flex-shrink-0">
+    <div className="w-full flex items-center justify-center flex-shrink-0">
       <button
         className={cn(`flex flex-col items-center justify-center text-center px-4 py-4 w-full h-full
                    border-r border-gray-200 bg-white hover:bg-gray-50
@@ -64,7 +64,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
 }
 
 
-const TopPageCategory = ({ isUserGuide = false }: { isUserGuide?: boolean }) => {
+const TopPageCategory = () => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
@@ -123,7 +123,7 @@ const TopPageCategory = ({ isUserGuide = false }: { isUserGuide?: boolean }) => 
 
   return (
     <>
-      {isUserGuide && <small className='items-center hidden md:flex justify-end font-semibold my-1 gap-2'>Swipe to Explore More <FaArrowRight /></small>}
+      {/* {isUserGuide && <small className='items-center hidden md:flex justify-end font-semibold my-1 gap-2'>Swipe to Explore More <FaArrowRight /></small>} */}
       <div className="relative hidden md:block border border-[var(--border-color)] border-b bg-white">
         {/* Category Navigation - Fixed 5 items per row with scroll */}
         <div
@@ -132,17 +132,17 @@ const TopPageCategory = ({ isUserGuide = false }: { isUserGuide?: boolean }) => 
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
-          className={`flex  flex-nowrap overflow-x-auto overflow-y-visible
-                   select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}
-                   hide-scrollbar scroll-smooth`}
-          style={{
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            // display: 'grid',
-            // gridTemplateColumns: `repeat(${categories?.length || 1}, 1fr)`,
-          }}
+          // className={`flex  flex-nowrap overflow-x-auto overflow-y-visible
+          //          select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}
+          //          hide-scrollbar scroll-smooth`}
+          // style={{
+          //   // scrollbarWidth: 'none',
+          //   // msOverflowStyle: 'none',
+          //   display: 'grid',
+          //   gridTemplateColumns: `repeat(${categories?.length || 1}, 1fr)`,
+          // }}
 
-        // className={cn(`grid grid-cols-${categories?.length}`)}
+          className={cn(`grid grid-cols-${categories?.length}`)}
         >
           {categories
             .map((item) => (

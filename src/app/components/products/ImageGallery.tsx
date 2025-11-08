@@ -38,7 +38,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
             {/* Main Image */}
             <div
                 ref={imageRef}
-                className={cn("relative border border-[var(--border-color)] aspect-square w-full overflow-hidden bg-muted",
+                className={cn("relative border border-[var(--border-color)] aspect-square w-full overflow-hidden bg-white",
                     isVideo ? "cursor-auto" : "cursor-crosshair",
                 )}
                 onMouseEnter={() => setShowMagnifier(true)}
@@ -60,7 +60,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                         : <Image
                             src={imageUrl({ image: selectedVariantImage || images[selectedImage] })}
                             alt={productName}
-                            className="object-fill aspect-square"
+                            className="object-contain aspect-square"
                         />}
 
                 {showMagnifier && !isVideo && !isLoading && (
@@ -92,7 +92,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                                 setIsVideo(false)
                             }}
                             className={cn(
-                                "relative aspect-square border border-[var(--border-color)] overflow-hidden bg-muted transition-all",
+                                "relative aspect-square border border-[var(--border-color)] overflow-hidden bg-white transition-all",
                                 selectedImage === index ? "border-primary" : "opacity-70 hover:opacity-100",
                             )}
                         >
@@ -105,7 +105,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                         </button>
                     ))}
 
-                    {images.length > 3 && <div className="relative flex-col aspect-square overflow-hidden bg-muted transition-all flex items-center justify-center text-3xl">
+                    {images.length > 3 && <div className="relative flex-col aspect-square overflow-hidden bg-white transition-all flex items-center justify-center text-3xl">
                         + {images.length - 3}
                         <Dialog>
                             <DialogTrigger asChild>
@@ -123,7 +123,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                                                 setSelectedImage(index)
                                             }}
                                             className={cn(
-                                                "relative aspect-square overflow-hidden rounded-md bg-muted transition-all",
+                                                "relative aspect-square overflow-hidden rounded-md bg-white transition-all",
                                                 selectedImage === index ? "ring-2 ring-primary ring-offset-2" : "opacity-70 hover:opacity-100",
                                             )}
                                         >

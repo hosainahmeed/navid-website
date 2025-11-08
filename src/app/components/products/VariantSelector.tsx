@@ -8,34 +8,33 @@ import { colorOptions } from "@/app/constants/constData"
 import { FaVideo } from "react-icons/fa"
 
 interface VariantSelectorProps {
+    product: any,
     variantImages: any
     colors: string[]
     setSelectedVariantImage: (image: string) => void
+    setSelectedQuantity: (quantity: number) => void,
     setIsVideo: (value: boolean) => void
     sizes: string[]
     onVariantChange?: (color: string, size: string) => void
 }
 
-export function VariantSelector({ setSelectedVariantImage, setIsVideo, variantImages, colors, sizes, onVariantChange }: VariantSelectorProps) {
+export function VariantSelector({ product, setSelectedQuantity, setSelectedVariantImage, setIsVideo, variantImages, colors, sizes, onVariantChange }: VariantSelectorProps) {
     let image = ["mp4", "mov", "wmv", "avi", "mkv", "webm", "flv"]
     const [selectedColor, setSelectedColor] = useState<any>(colors?.length && colors[0])
     const [selectedSize, setSelectedSize] = useState<any>(sizes?.length && sizes[0])
 
-    // Initialize selectedColor when colors prop changes
     useEffect(() => {
         if (colors?.length > 0) {
             setSelectedColor(colors[0])
-            // Trigger variant change with first color and size
             if (sizes?.length > 0) {
                 onVariantChange?.(colors[0], sizes[0] || selectedSize)
             }
         }
     }, [colors])
 
-    // Update selectedSize when sizes prop changes (e.g., when color changes)
+
     useEffect(() => {
         if (sizes?.length > 0) {
-            // If current size is not in available sizes, select first size
             if (!sizes.includes(selectedSize)) {
                 setSelectedSize(sizes[0])
                 onVariantChange?.(selectedColor, sizes[0])
@@ -89,7 +88,10 @@ export function VariantSelector({ setSelectedVariantImage, setIsVideo, variantIm
                     {colors?.map((color) => (
                         <button
                             key={color}
-                            onClick={() => handleColorChange(color)}
+                            onClick={() => {
+                                handleColorChange(color)
+                                setSelectedQuantity(product?.variantImages[color]?.quantity)
+                            }}
                             style={{ backgroundColor: color.toLocaleLowerCase() }}
                             className={cn(
                                 "relative h-10 w-10 rounded-full border-2 transition-all",
