@@ -12,17 +12,6 @@ function SlidingCarosel() {
     const { data: productData, isLoading } = useGetAllProductQuery(undefined)
     const item = productData?.data
 
-    const getDisplayImage = (item: Iproduct) => {
-        if (!item?.variantImages || !item?.variantColors?.length) return ''
-
-        const colorList = item.variantColors
-        const colorKey = colorList[0]
-
-        const variant = item.variantImages[colorKey]
-        const imgList = variant?.img || []
-        return imgList[0] || ''
-    }
-
     return (
         <div className='border border-[var(--border-color)]'>
             <Marquee
@@ -46,7 +35,7 @@ function SlidingCarosel() {
                                         className="flex gap-2 p-2 border-x border-[var(--border-color)] items-center justify-center px-12"
                                     >
                                         <Image
-                                            src={imageUrl({ image: getDisplayImage(item) })}
+                                            src={imageUrl({ image: item?.img })}
                                             width={200}
                                             height={200}
                                             alt={item?.name || ''}

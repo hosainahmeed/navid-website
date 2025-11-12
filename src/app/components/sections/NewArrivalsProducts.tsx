@@ -7,6 +7,7 @@ import { useGetAllProductQuery } from '@/app/redux/services/productApis'
 
 function NewArrivalsProducts() {
     const { data: productData } = useGetAllProductQuery({ limit: 12 })
+    console.log(productData)
     return (
         <>
             <SectionHeader

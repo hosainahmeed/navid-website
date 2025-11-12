@@ -10,27 +10,7 @@ import { Tooltip } from 'antd'
 
 function ProductCard({ item }: { item: Iproduct }) {
     const [isHovered, setIsHovered] = useState(false)
-    const hasDiscount = item?.previous_price > item?.price
-    const getDisplayImage = () => {
-        if (Array.isArray(item?.banner) && item?.banner.length <= 0) return ''
-        if (Array.isArray(item?.banner) && item?.banner.length === 1) return item?.banner[0]
-        let index = 0;
-        isHovered
-            ? index = 1
-            : index = 0
-        return item?.banner[index]
-    }
-
-    const image = useMemo(() => getDisplayImage(), [isHovered])
-    
-    const getDisplaySize = () => {
-        if (!item?.variantColors?.length) return []
-        const sizeList = item?.variantColors || []
-        return sizeList || []
-    }
-
-    const productImage = image
-    const productSize = getDisplaySize()
+    console.log(item?.img)
     return (
         <div
             className="w-full last:border-r shadow transition-transform duration-300 group"
@@ -39,9 +19,9 @@ function ProductCard({ item }: { item: Iproduct }) {
         >
             <Link href={`/product/${item?._id}`}>
                 <figure className="overflow-hidden h-fit md:h-64 aspect-square w-full relative">
-                    {productImage ? (
+                    {item?.img ? (
                         <Image
-                            src={imageUrl({ image: productImage })}
+                            src={imageUrl({ image: item?.img })}
                             width={500}
                             height={500}
                             alt={item?.name}
@@ -53,44 +33,23 @@ function ProductCard({ item }: { item: Iproduct }) {
                         </div>
                     )}
 
-                    {/* category badge */}
+
                     <span className="absolute top-2 left-2 px-3 py-1 line-clamp-1 bg-gray-950/70 backdrop-blur-sm text-xs rounded-full text-gray-50">
                         {item?.category?.name}
                     </span>
                 </figure>
             </Link>
             <CardContent className="p-4 relative bg-[#EDEDED] border-t-[0.2px] border-[var(--border-color)]">
-                <div className='w-fit flex gap-1'>
-                    {productSize.map((size, index) =>
-                        <Tooltip
-                            key={index}
-                            title={size}
-                        >
-                            <div
-                                style={{
-                                    backgroundColor: size,
-                                    border: '1px solid gray',
-                                }}
-                                className='w-4 h-4 rounded-full'
-                            />
-                        </Tooltip>
-                    )}
-                </div>
                 <Link href={`/product/${item?._id}`}>
                     <div className="space-y-2">
                         <h3 className="font-semibold text-foreground line-clamp-1">
                             {item?.name}
                         </h3>
-                        {/* price section */}
+
                         <div className="flex items-baseline gap-2">
                             <span className="text-lg font-bold text-foreground">
                                 ${item?.price.toFixed(2)}
                             </span>
-                            {hasDiscount && (
-                                <span className="text-sm text-red-500 line-through">
-                                    ${item?.previous_price.toFixed(2)}
-                                </span>
-                            )}
                         </div>
                     </div>
                 </Link>

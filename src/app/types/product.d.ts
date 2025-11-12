@@ -7,22 +7,25 @@ export interface IVariant {
 }
 
 export interface Iproduct {
-    _id: string;
-    name: string;
-    wholesaleAvailable: boolean;
-    previous_price: number;
-    description: string;
-    price: number;
+    _id: string,
+    name: string,
+    description: string,
     category: {
-        name: string;
-        img: string;
-    };
-    quantity: number;
-    banner: string[];
-    variantImages: {
-        [key: string]: IVariant;
-    };
-    variantColors: string[];
+        name: string,
+        img: string
+    },
+    sub_category: string,
+    whole_sale: boolean,
+    sub_categories: {
+        name: string,
+        img: string
+    },
+    img: string,
+    price: number,
+    discount: number,
+    colors: [string],
+    size: [string],
+    price_after_discount: number
 }
 
 export interface IBanner {
