@@ -48,19 +48,6 @@ export interface VariantImage {
     quantity: number
 }
 
-export interface Product {
-    _id: string
-    name: string
-    description: string
-    price: number
-    category: Category
-    whole_sale: boolean
-    quantity: number
-    previous_price: number
-    variantImages: Record<string, VariantImage>
-    banner: string[]
-    variantColors: string[]
-}
 
 export interface RelatedProduct {
     _id: string

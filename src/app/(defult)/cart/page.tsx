@@ -3,6 +3,17 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { X, Plus, Minus, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+type CartItem = {
+  id: string;
+  product: {
+    name: string;
+  };
+  variant: {
+    price: number;
+  };
+  quantity: number;
+};
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
@@ -15,6 +26,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { CheckoutAddressModal } from "@/app/components/checkout/CheckoutAddressModal";
 import { IMAGE } from "@/app/constants/Image.index";
+import { useProfileQuery } from "@/app/redux/services/profileApis";
 
 const Divider = ({ className }: { className?: string }) => (
   <div className={cn("h-[1px] w-full bg-gray-300 my-3", className)} />
@@ -22,6 +34,7 @@ const Divider = ({ className }: { className?: string }) => (
 
 const CartPage = () => {
   const { data: cartResponse, isLoading } = useGetAllCartQuery(undefined);
+  const { data: profileData } = useProfileQuery(undefined)
   const [deleteCartMutation, { isLoading: deleteLoading }] = useDeleteCartMutation();
   const [createCartMutation] = useCreateCartMutation();
   const router = useRouter();
@@ -35,8 +48,7 @@ const CartPage = () => {
     );
   }
 
-  const cartData = cartResponse?.data;
-  const items = cartData?.items || [];
+  const items = cartResponse?.data || [];
 
   const removeItem = async (id: string) => {
     try {
@@ -58,11 +70,9 @@ const CartPage = () => {
   const increaseQuantity = async (itemId: string) => {
     const item = items.find((i: any) => i?._id === itemId);
     if (!item) return;
-
     const currentQuantity = item?.quantity;
     const newQuantity = currentQuantity + 1;
 
-    // Check if exceeds available stock
     if (newQuantity > item?.product_id?.quantity) {
       toast.error("Cannot exceed available stock");
       return;
@@ -70,21 +80,17 @@ const CartPage = () => {
 
     try {
       const data = {
-        items: [
-          {
-            product_id: item?.product_id._id,
-            quantity: newQuantity,
-            price: item?.product_id.price,
-            variant: item?.variant,
-            size: item?.size
-          }
-        ]
-      };
+        user: profileData?.data?._id,
+        product_id: item?.product?._id,
+        variant: item?.variant?._id,
+        quantity: newQuantity
+      }
 
       const res = await createCartMutation(data).unwrap();
       if (!res?.success) {
         throw new Error(res?.message);
       }
+      toast.success(res?.message || "Quantity updated successfully");
     } catch (error: any) {
       if (error?.status === 403) {
         toast.error("Session expired. Please login again.");
@@ -106,21 +112,18 @@ const CartPage = () => {
     if (newQuantity === currentQuantity) return;
     try {
       const data = {
-        items: [
-          {
-            product_id: item?.product_id._id,
-            quantity: newQuantity,
-            price: item?.product_id.price,
-            variant: item?.variant,
-            size: item?.size
-          }
-        ]
+        user: profileData?.data?._id,
+        product_id: item?.product?._id,
+        variant: item?.variant?._id,
+        quantity: newQuantity,
+        size: item?.size
       };
 
       const res = await createCartMutation(data).unwrap();
       if (!res?.success) {
         throw new Error(res?.message);
       }
+      toast.success(res?.message || "Quantity updated successfully");
     } catch (error: any) {
       if (error?.status === 403) {
         toast.error("Session expired. Please login again.");
@@ -140,7 +143,22 @@ const CartPage = () => {
     setCheckoutModalOpen(true);
   };
 
-  const shippingCharge = cartData?.total_price >= 100 ? 0 : 15;
+  interface CartItem {
+    _id: string;
+    variant: {
+      _id: string;
+      price: number;
+      img: string[];
+    };
+    quantity: number;
+    product: {
+      _id: string;
+      name: string;
+    };
+  }
+
+  const subtotal = (items || []).reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0);
+  const shippingCharge = subtotal >= 100 ? 0 : 15;
   console.log(shippingCharge)
 
   return (
@@ -164,7 +182,7 @@ const CartPage = () => {
                 </p>
                 <Link href={"/shop"}>
                   <Button
-                  className="!rounded-none !bg-[#cc83ee] hover:!bg-[var(--color-primary)]">
+                    className="!rounded-none !bg-[#cc83ee] hover:!bg-[var(--color-primary)]">
                     Continue Shopping
                   </Button>
                 </Link>
@@ -177,7 +195,7 @@ const CartPage = () => {
                 >
 
                   <button
-                    onClick={() => removeItem(item?.product_id?._id)}
+                    onClick={() => removeItem(item?._id)}
                     className="absolute top-2 right-2 p-2 rounded-full bg-gray-900 hover:bg-[var(--color-primary)] transition"
                   >
                     {deleteLoading ? <Loader2 className="text-white w-4 h-4 animate-spin" /> : <X className="text-white w-4 h-4" />}
@@ -185,8 +203,8 @@ const CartPage = () => {
 
 
                   <Image
-                    src={imageUrl({ image: item?.variant })}
-                    alt={item?.product_id?.name}
+                    src={imageUrl({ image: item?.variant?.img?.[0] || '' })}
+                    alt={item?.product?.name}
                     width={200}
                     height={200}
                     className="w-40 h-40 object-cover"
@@ -195,7 +213,7 @@ const CartPage = () => {
 
                   <div className="flex flex-col gap-2 w-full">
                     <h2 className="text-2xl font-bold text-gray-900 uppercase">
-                      {item?.product_id?.name}
+                      {item?.product?.name}
                     </h2>
                     <p className="text-gray-700 font-medium">
                       Size:{" "}
@@ -206,7 +224,7 @@ const CartPage = () => {
                     <p className="text-gray-700 font-medium">
                       Price:{" "}
                       <span className="font-semibold text-gray-900">
-                        ${item?.product_id?.price?.toFixed(2)}
+                        ${item?.variant?.price?.toFixed(2)}
                       </span>
                     </p>
 
@@ -232,7 +250,7 @@ const CartPage = () => {
                     <p className="text-gray-700 font-medium mt-1">
                       Item Total:{" "}
                       <span className="font-semibold text-gray-900">
-                        ${item?.price?.toFixed(2)}
+                        ${(item?.variant?.price * item?.quantity)?.toFixed(2)}
                       </span>
                     </p>
                   </div>
@@ -252,8 +270,8 @@ const CartPage = () => {
                 key={item?._id}
                 className="flex justify-between text-lg text-gray-800"
               >
-                <span>{item?.product_id?.name}</span>
-                <span>${item?.price?.toFixed(2)}</span>
+                <span>{item?.product?.name}</span>
+                <span>${(item?.variant?.price * item?.quantity)?.toFixed(2)}</span>
               </div>
             ))}
           </div>
@@ -262,18 +280,18 @@ const CartPage = () => {
 
           <div className="flex justify-between text-lg font-semibold text-gray-800">
             <span>Subtotal</span>
-            <span>${cartData?.total_price?.toFixed(2)}</span>
+            <span>${(items?.reduce((sum: number, item: any) => sum + ((item?.variant?.price || 0) * (item?.quantity || 0)), 0) || 0).toFixed(2)}</span>
           </div>
 
           <div className="flex justify-between text-gray-700 text-sm mt-1">
             <span>Sales Tax (Included 6.625%)</span>
-            <span>${((cartData?.total_price / 100) * 6.625).toFixed(2)}</span>
+            <span>${((items?.reduce((sum: number, item: any) => sum + ((item?.variant?.price || 0) * (item?.quantity || 0)), 0) / 100) * 6.625).toFixed(2)}</span>
           </div>
 
           <div
             className={cn(
               "flex justify-between text-lg mt-2 font-semibold",
-              cartData?.total_price >= 100 && "line-through text-gray-500"
+              subtotal >= 100 && "line-through text-gray-500"
             )}
           >
             <span>Shipping Charge</span>
@@ -284,7 +302,7 @@ const CartPage = () => {
 
           <div className="flex justify-between text-2xl font-bold text-gray-900 mt-3">
             <span>Total</span>
-            <span>${(cartData?.total_price + shippingCharge + ((cartData?.total_price / 100) * 6.625))?.toFixed(2)}</span>
+            <span>${(items?.reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0) + shippingCharge + ((items?.reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0) / 100) * 6.625))?.toFixed(2)}</span>
           </div>
 
           <button
@@ -301,7 +319,7 @@ const CartPage = () => {
         open={checkoutModalOpen}
         onClose={() => setCheckoutModalOpen(false)}
         cartItems={items}
-        totalAmount={cartData?.total_price + shippingCharge + ((cartData?.total_price / 100) * 6.625) || 0}
+        totalAmount={items?.reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0) + shippingCharge + ((items?.reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0) / 100) * 6.625) || 0}
       />
     </>
   );

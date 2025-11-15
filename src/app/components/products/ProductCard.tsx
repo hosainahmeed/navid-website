@@ -48,7 +48,7 @@ function ProductCard({ item }: { item: Iproduct }) {
 
                         <div className="flex items-baseline gap-2">
                             <span className="text-lg font-bold text-foreground">
-                                ${item?.price.toFixed(2)}
+                                ${item?.price && item?.price.toFixed(2)}
                             </span>
                         </div>
                     </div>

@@ -7,66 +7,94 @@ import { Check } from "lucide-react"
 import { colorOptions } from "@/app/constants/constData"
 import { FaVideo } from "react-icons/fa"
 
+import { Variant } from './ProductInfo'
+
 interface VariantSelectorProps {
-    product: any,
+    product: any
+    variants: Variant[]
+    selectedVariant: Variant | null
+    onVariantSelect: (variant: Variant) => void
     variantImages: any
     colors: string[]
-    setSelectedVariantImage: (image: string) => void
-    setSelectedQuantity: (quantity: number) => void,
-    setIsVideo: (value: boolean) => void
     sizes: string[]
     onVariantChange?: (color: string, size: string) => void
 }
 
-export function VariantSelector({ product, setSelectedQuantity, setSelectedVariantImage, setIsVideo, variantImages, colors, sizes, onVariantChange }: VariantSelectorProps) {
-    let image = ["mp4", "mov", "wmv", "avi", "mkv", "webm", "flv"]
-    const [selectedColor, setSelectedColor] = useState<any>(colors?.length && colors[0])
-    const [selectedSize, setSelectedSize] = useState<any>(sizes?.length && sizes[0])
+const videoExtensions = ["mp4", "mov", "wmv", "avi", "mkv", "webm", "flv"]
+
+export function VariantSelector({
+    product,
+    variants,
+    selectedVariant,
+    onVariantSelect,
+    variantImages,
+    colors,
+    sizes,
+    onVariantChange
+}: VariantSelectorProps) {
+    const [selectedColor, setSelectedColor] = useState<string>(colors?.[0] || '')
+    const [selectedSize, setSelectedSize] = useState<string>(sizes?.[0] || '')
+
+
+    const availableSizes = Array.from(
+        new Set(
+            variants
+                .filter(v => v.color === selectedColor)
+                .map(v => v.size)
+        )
+    )
+
 
     useEffect(() => {
-        if (colors?.length > 0) {
-            setSelectedColor(colors[0])
-            if (sizes?.length > 0) {
-                onVariantChange?.(colors[0], sizes[0] || selectedSize)
+        if (selectedColor && selectedSize) {
+            const variant = variants.find(
+                v => v.color === selectedColor && v.size === selectedSize
+            )
+            if (variant) {
+                onVariantSelect(variant)
             }
         }
-    }, [colors])
+    }, [selectedColor, selectedSize, variants, onVariantSelect])
 
-
-    useEffect(() => {
-        if (sizes?.length > 0) {
-            if (!sizes.includes(selectedSize)) {
-                setSelectedSize(sizes[0])
-                onVariantChange?.(selectedColor, sizes[0])
-            }
-        }
-    }, [sizes])
-
-    useEffect(() => {
-        if (variantImages) {
-            Object.entries(variantImages).forEach(([color, images]: any) => {
-                if (color === selectedColor) {
-                    if (image.includes(images?.img[0].split(".")[1])) {
-                        setIsVideo(true)
-                        setSelectedVariantImage(images?.img[0])
-                    }
-                    else {
-                        setSelectedVariantImage(images?.img[0])
-                        setIsVideo(false)
-                    }
-                }
-            })
-        }
-    }, [selectedColor, variantImages])
 
     const handleColorChange = (color: string) => {
         setSelectedColor(color)
-        onVariantChange?.(color, selectedSize)
+
+        const newSizes = variants
+            .filter(v => v.color === color)
+            .map(v => v.size)
+        if (newSizes.length > 0 && !newSizes.includes(selectedSize)) {
+            setSelectedSize(newSizes[0])
+        }
     }
+
 
     const handleSizeChange = (size: string) => {
         setSelectedSize(size)
-        onVariantChange?.(selectedColor, size)
+        
+        // If no color is selected or the current color is not available for this size,
+        // select the first available color for this size
+        const availableColorsForSize = Array.from(
+            new Set(
+                variants
+                    .filter(v => v.size === size)
+                    .map(v => v.color)
+            )
+        )
+        
+        let newColor = selectedColor
+        if (!availableColorsForSize.includes(selectedColor) && availableColorsForSize.length > 0) {
+            newColor = availableColorsForSize[0]
+            setSelectedColor(newColor)
+        }
+        
+        // Find the variant with the selected color and size
+        const variant = variants.find(v => v.color === newColor && v.size === size)
+        if (variant) {
+            onVariantSelect(variant)
+        }
+        
+        onVariantChange?.(newColor, size)
     }
 
     const getColorClass = (color: string) => {
@@ -85,12 +113,15 @@ export function VariantSelector({ product, setSelectedQuantity, setSelectedVaria
                     <span className="text-sm text-muted-foreground capitalize">{selectedColor}</span>
                 </div>
                 <div className="flex p-2 flex-wrap gap-3">
-                    {colors?.map((color) => (
+                    {colors?.map((color, index) => (
                         <button
-                            key={color}
+                            key={index}
                             onClick={() => {
                                 handleColorChange(color)
-                                setSelectedQuantity(product?.variantImages[color]?.quantity)
+                                const variant = variants.find(v => v.color === color)
+                                if (variant) {
+                                    onVariantSelect(variant)
+                                }
                             }}
                             style={{ backgroundColor: color.toLocaleLowerCase() }}
                             className={cn(

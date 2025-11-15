@@ -54,7 +54,7 @@ function Header() {
                     <Link href="/cart" className="text-sm relative font-medium text-muted-foreground transition-colors hover:text-foreground">
                         <AddToCartIcon className="w-5 h-5" fill="black" />
                         <div className="absolute -top-5 -right-3 p-1 text-xs text-white bg-black rounded-full">
-                            {cartData?.data?.total_quantity || 0}
+                            {cartData?.data?.length || 0}
                         </div>
                     </Link>
                     {profileData ? (

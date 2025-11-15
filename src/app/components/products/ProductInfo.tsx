@@ -3,101 +3,120 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Minus, Plus, ShoppingCart } from "lucide-react"
-import { Product } from "@/app/types/product"
+import { Input } from "@/components/ui/input"
 import { VariantSelector } from "./VariantSelector"
 import { useRouter } from "next/navigation"
 import { useCreateCartMutation } from "@/app/redux/services/cartApis"
 import toast from "react-hot-toast"
 import { useProfileQuery } from "@/app/redux/services/profileApis"
-import { FaLock } from "react-icons/fa"
+import { FaLock, FaShoppingCart } from "react-icons/fa"
 import { motion } from "framer-motion"
+import { Loader2, Plus, Minus } from "lucide-react"
 import UploadIdentity from "./UploadIdentity"
 
-interface ProductInfoProps {
-    product: Product
-    selectedVariantImage: string
-    isVideo: boolean
-    setIsVideo: (value: boolean) => void
-    setSelectedVariantImage: (image: string) => void
+export interface Variant {
+    _id: string
+    img: string[]
+    color: string
+    size: string
+    quantity: number
+    price: number
+    discount: number
+    price_after_discount: number
 }
 
-export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo, setSelectedVariantImage }: ProductInfoProps) {
+interface ProductInfoProps {
+    product: any
+    selectedVariantImage: string
+    isVideo: boolean
+    selectedVariant: Variant
+    setIsVideo: (value: boolean) => void
+    setSelectedVariantImage: (image: string) => void
+    onVariantChange?: (variant: Variant) => void
+}
+
+export function ProductInfo({
+    product,
+    selectedVariantImage,
+    isVideo,
+    selectedVariant,
+    setIsVideo,
+    setSelectedVariantImage,
+    onVariantChange
+}: ProductInfoProps) {
     const [quantity, setQuantity] = useState(1)
-    const [selectedColor, setSelectedColor] = useState(product?.variantColors[0])
-    const [selectedSize, setSelectedSize] = useState(product?.variantImages[product?.variantColors[0]]?.size[0])
-    const [selectedQuantity, setSelectedQuantity] = useState(0)
     const [createCartMutation] = useCreateCartMutation()
     const router = useRouter()
-    const { data: profileData, isLoading, isError } = useProfileQuery(undefined)
-    const [isIdentityVerified, setIsIdentityVerified] = useState(false)
+    const { data: profileData, isLoading: isProfileLoading, isError: isProfileError } = useProfileQuery(undefined)
+    console.log(profileData)
+    const availableVariants: Variant[] = product?.variants || []
+    const availableSizes: string[] = Array.from(new Set(availableVariants.map((v) => v.size)))
+    const availableColors: string[] = Array.from(new Set(availableVariants.map((v) => v.color)))
+
+
+    const handleVariantSelect = (variant: Variant) => {
+        if (onVariantChange) {
+            onVariantChange(variant)
+        }
+    }
+
 
     useEffect(() => {
-        if (product?.variantColors?.length > 0) {
-            const defaultColor = product.variantColors[0]
-            setSelectedColor(defaultColor)
-
-            if (product?.variantImages?.[defaultColor]?.size?.length > 0) {
-                setSelectedSize(product.variantImages[defaultColor].size[0])
-            }
-
-            setSelectedQuantity(product?.variantImages[defaultColor]?.quantity)
-
-            if (product?.variantImages?.[defaultColor]?.img?.length > 0) {
-                const firstImage = product.variantImages[defaultColor].img[0]
-                setSelectedVariantImage(firstImage)
-
-                const videoExtensions = ["mp4", "mov", "wmv", "avi", "mkv", "webm", "flv"]
-                const fileExtension = firstImage.split(".").pop()?.toLowerCase()
-                setIsVideo(videoExtensions.includes(fileExtension || ""))
-            }
+        if (availableVariants.length > 0 && !selectedVariant) {
+            const firstVariant = availableVariants[0]
+            onVariantChange?.(firstVariant)
+            setSelectedVariantImage(firstVariant.img[0])
+            setIsVideo(firstVariant.img[0]?.includes('.mp4'))
         }
-    }, [product, setSelectedVariantImage, setIsVideo])
+    }, [availableVariants, selectedVariant])
 
-    const hasDiscount = product?.previous_price > product?.price
-    const discountPercentage = hasDiscount
-        ? Math.round(((product?.previous_price - product?.price) / product?.previous_price) * 100)
-        : 0
-    const handleQuantityChange = async (delta: number) => {
-        const newQuantity = Math.max(1, Math.min(quantity + delta, product?.quantity))
-        if (newQuantity === quantity) return
-        const previousQuantity = quantity
+    useEffect(() => {
+        return () => {
+
+        }
+    }, [])
+
+
+    const handleQuantityChange = (value: number) => {
+        if (!selectedVariant) return
+        const newQuantity = Math.max(1, Math.min(selectedVariant.quantity || 1, quantity + value))
         setQuantity(newQuantity)
+    }
 
+    const handleAddToCart = async (product: any) => {
         try {
             if (!product) {
                 throw new Error("Product not found")
             }
-            if (!selectedVariantImage) {
-                throw new Error("Please select a variant image")
-            }
-            if (!selectedSize) {
-                throw new Error("Please select a size")
-            }
-            if (!selectedColor) {
-                throw new Error("Please select a color")
+
+            if (!selectedVariant) {
+                throw new Error("Please select a variant")
             }
 
-            const data = {
-                items: [
-                    {
-                        product_id: product?._id,
-                        quantity: newQuantity,
-                        price: product?.price,
-                        variant: selectedVariantImage as string,
-                        size: selectedSize
-                    }
-                ]
+            if (quantity < 1) {
+                throw new Error("Quantity must be at least 1")
+            }
+            if (!profileData) {
+                router.push("/auth/sign-in")
+                return
             }
 
-            const res = await createCartMutation(data).unwrap()
+            const cartData = {
+                user: profileData?.data?._id,
+                product_id: product._id,
+                variant: selectedVariant._id,
+                quantity: quantity
+            }
+
+            const res = await createCartMutation(cartData).unwrap()
+
             if (!res?.success) {
-                throw new Error(res?.message)
+                throw new Error(res?.message || 'Failed to update cart')
             }
-            toast.dismiss()
-            toast.success(res?.message || "Product added to cart successfully!")
+
+            toast.success(res?.message || "Cart updated successfully")
         } catch (error: any) {
-            setQuantity(previousQuantity)
+            console.error("Error updating cart:", error)
             if (error?.status === 403) {
                 toast.error("Session expired. Please login again.")
                 localStorage.removeItem("token")
@@ -108,79 +127,6 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
         }
     }
 
-    const handleVariantChange = (color: string, size: string) => {
-        setSelectedColor(color)
-        setSelectedSize(size)
-    }
-
-    useEffect(() => {
-        if (selectedColor && product?.variantImages?.[selectedColor]?.size?.length > 0) {
-            const sizesForColor = product.variantImages[selectedColor].size
-            if (!sizesForColor.includes(selectedSize)) {
-                setSelectedSize(sizesForColor[0])
-            }
-        }
-    }, [selectedColor, product])
-
-    const currentVariant = product?.variantImages[selectedColor]
-    const availableSizes = currentVariant?.size || []
-
-
-
-    const handleAddToCart = async (product: Product) => {
-        try {
-            if (profileData?.data?.documents?.length === 0) {
-                setIsIdentityVerified(true)
-                return false
-            }
-            if (!product) {
-                throw new Error("Product not found")
-            }
-            if (quantity < 0) {
-                throw new Error("Quantity cannot be less than 0")
-            }
-            if (quantity > product?.quantity) {
-                throw new Error("Quantity cannot be greater than available quantity")
-            }
-            if (!selectedVariantImage) {
-                throw new Error("Please select a variant image")
-            }
-            if (!selectedSize) {
-                throw new Error("Please select a size")
-            }
-            if (!selectedColor) {
-                throw new Error("Please select a color")
-            }
-
-
-            const data = {
-                items: [
-                    {
-                        product_id: product?._id,
-                        quantity: quantity,
-                        price: product?.price,
-                        variant: selectedVariantImage as string,
-                        size: selectedSize
-                    }
-                ]
-            }
-
-            const res = await createCartMutation(data).unwrap()
-
-            if (!res?.success) {
-                throw new Error(res?.message)
-            }
-            toast.success(res?.message || "Product added to cart successfully!")
-        } catch (error: any) {
-            if (error?.status === 403) {
-                toast.error("Session expired. Please login again.")
-                localStorage.removeItem("token")
-                router.push("/auth/sign-in")
-            } else {
-                toast.error(error?.message || error?.data?.message || "Failed to add product to cart")
-            }
-        }
-    }
     return (
         <div className="flex flex-col border border-[var(--border-color)]">
             <div>
@@ -188,7 +134,7 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
                 <h1 className="text-3xl font-bold p-2 border-b border-[var(--border-color)] tracking-tight text-foreground sm:text-4xl">{product?.name}</h1>
                 <div className="flex items-center gap-2 p-2 border-b border-[var(--border-color)]">
 
-                    {product?.quantity > 0 ? (
+                    {selectedVariant?.quantity > 0 ? (
                         <Badge variant="outline" className="text-green-600 rounded-none border-green-600">
                             In Stock
                         </Badge>
@@ -202,44 +148,75 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
 
             {/* Price */}
             <div className="flex items-baseline gap-3">
-                <span className="text-4xl border-b border-[var(--border-color)] w-full p-2 font-bold text-foreground">${product?.price.toFixed(2)}</span>
-                {hasDiscount && (
+                <span className="text-4xl w-full p-2 font-bold text-foreground">
+                    ${(selectedVariant.price_after_discount || selectedVariant.price || 0).toFixed(2)}
+                </span>
+                {selectedVariant.discount > 0 && selectedVariant.price && selectedVariant.price_after_discount && (
                     <>
-                        <span className="text-xl text-muted-foreground line-through">${product?.previous_price.toFixed(2)}</span>
+                        {/* <span className="text-xl text-muted-foreground line-through">
+                            ${selectedVariant.price.toFixed(2)}
+                        </span> */}
                         <Badge variant="destructive" className="text-sm">
-                            {discountPercentage}% OFF
+                            {Math.round(((selectedVariant.price - selectedVariant.price_after_discount) / selectedVariant.price) * 100)}% OFF
                         </Badge>
                     </>
                 )}
             </div>
-            <VariantSelector product={product} setSelectedQuantity={setSelectedQuantity} setIsVideo={setIsVideo} setSelectedVariantImage={setSelectedVariantImage} variantImages={product?.variantImages} colors={product?.variantColors} sizes={availableSizes} onVariantChange={handleVariantChange} />
+            {selectedVariant && (
+                <VariantSelector
+                    product={product}
+                    variants={availableVariants}
+                    selectedVariant={selectedVariant}
+                    onVariantSelect={handleVariantSelect}
+                    variantImages={product?.variantImages}
+                    colors={availableColors}
+                    sizes={availableSizes}
+                    onVariantChange={(color: string, size: string) => {
+                        const variant = availableVariants.find(v => v.color === color && v.size === size)
+                        if (variant) {
+                            handleVariantSelect(variant)
+                        }
+                    }}
+                />
+            )}
 
             {/* Quantity Selector */}
             <div className="space-y-3 p-2 border-b-[0.2px] border-[var(--border-color)]">
-                <h3 className="text-sm font-medium text-foreground">Quantity</h3>
+                <div className="flex justify-between items-center">
+                    <h3 className="text-sm font-medium text-foreground">Quantity</h3>
+                    <span className="text-sm text-muted-foreground">
+                        {selectedVariant.quantity} available
+                    </span>
+                </div>
                 <div className="flex items-center gap-3">
-                    <div className="flex items-center border-[0.2px] border-[var(--border-color)]">
+                    <div className="flex items-center justify-between border border-[var(--border-color)] rounded-md">
                         <Button
                             variant="ghost"
-                            size="lg"
+                            size="sm"
+                            className="h-10 w-10 rounded-r-none text-foreground hover:bg-transparent hover:text-[#cc83ee]"
                             onClick={() => handleQuantityChange(-1)}
-                            disabled={quantity <= 1 || !profileData || isError || isLoading}
-                            className="rounded-none !bg-[#cc83ee] !text-white cursor-pointer h-16 w-16"
+                            disabled={quantity <= 1}
                         >
-                            <Minus className="h-6 w-6" />
+                            <Minus className="h-4 w-4" />
                         </Button>
-                        <span className="w-16 border-x-[0.2px] border-[var(--border-color)] text-center text-xl font-medium">{quantity}</span>
+                        <Input
+                            type="number"
+                            min={1}
+                            max={selectedVariant?.quantity || 1}
+                            value={quantity}
+                            onChange={(e) => setQuantity(Number(e.target.value))}
+                            className="h-10 w-12 border-0 text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        />
                         <Button
                             variant="ghost"
-                            size="lg"
+                            size="sm"
+                            className="h-10 w-10 rounded-l-none text-foreground hover:bg-transparent hover:text-[#cc83ee]"
                             onClick={() => handleQuantityChange(1)}
-                            disabled={quantity >= product?.quantity || !profileData || isError || isLoading}
-                            className="rounded-none !bg-[#cc83ee] !text-white cursor-pointer h-16 w-16"
+                            disabled={selectedVariant ? quantity >= (selectedVariant.quantity || 1) : true}
                         >
-                            <Plus className="h-6 w-6" />
+                            <Plus className="h-4 w-4" />
                         </Button>
                     </div>
-                    <span className="text-sm text-muted-foreground">{selectedQuantity} available</span>
                 </div>
             </div>
 
@@ -247,9 +224,17 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
             <div className="flex relative flex-col gap-3 sm:flex-row">
                 <Button
                     onClick={() => handleAddToCart(product)}
-                    size="default" className="flex-1 text-xl border-[var(--border-color)] !bg-[#cc83ee] !text-white border-[0.2px] h-16  hover:text-white transition-all duration-300 cursor-pointer rounded-none gap-2" disabled={product?.quantity === 0 || !profileData || isError || isLoading}>
-                    <ShoppingCart className="h-5 w-5" />
-                    Add to Cart
+                    disabled={selectedVariant.quantity <= 0 || isProfileLoading || isProfileError}
+                    className="w-full h-16 rounded-none bg-[#cc83ee] hover:bg-[#cc83ee]/90 text-white text-lg font-medium flex items-center justify-center gap-2"
+                >
+                    {isProfileLoading ? (
+                        <Loader2 className="h-6 w-6 animate-spin" />
+                    ) : (
+                        <>
+                            <FaShoppingCart className="h-6 w-6" />
+                            {selectedVariant.quantity > 0 ? 'Add to Cart' : 'Out of Stock'}
+                        </>
+                    )}
                 </Button>
                 {!profileData &&
                     <div
@@ -282,25 +267,6 @@ export function ProductInfo({ product, selectedVariantImage, isVideo, setIsVideo
                 <h1 className="text-2xl font-bold">Description</h1>
                 <div dangerouslySetInnerHTML={{ __html: product?.description }} />
             </div>
-            {
-                isIdentityVerified && (
-                    <div className="fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-[500px]  bg-white p-4 z-[888]">
-                        <h1 className="text-2xl font-bold">Please verify your identity first</h1>
-                        <UploadIdentity />
-                    </div>
-                )
-            }
-            {
-                isIdentityVerified &&
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className='fixed inset-0 z-40 bg-black/50 backdrop-blur-sm'
-                    onClick={() => setIsIdentityVerified(false)}
-                />
-            }
         </div>
     )
 }
