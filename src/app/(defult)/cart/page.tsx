@@ -218,7 +218,7 @@ const CartPage = () => {
                     <p className="text-gray-700 font-medium">
                       Size:{" "}
                       <span className="font-semibold text-gray-900">
-                        {item?.size}
+                        {item?.variant?.size}
                       </span>
                     </p>
                     <p className="text-gray-700 font-medium">

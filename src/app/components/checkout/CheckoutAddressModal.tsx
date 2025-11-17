@@ -20,7 +20,8 @@ import { useCreateOrderMutation } from "@/app/redux/services/orderApis";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-
+import { useProfileQuery } from "@/app/redux/services/profileApis";
+import Cookies from "js-cookie";
 interface CheckoutAddressModalProps {
   open: boolean;
   onClose: () => void;
@@ -36,6 +37,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
   const [selectedAddressId, setSelectedAddressId] = useState<string>("");
   const [showCreateForm, setShowCreateForm] = useState(false);
   const router = useRouter();
+  const { data: profileData } = useProfileQuery({});
 
 
   const [newAddress, setNewAddress] = useState({
@@ -88,30 +90,29 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
   };
 
   const handleProceed = async () => {
+    console.log(profileData)
+    if (!profileData?.data?._id) {
+      toast.error("Please login to proceed");
+      return;
+    }
     if (!selectedAddressId) {
       toast.error("Please select an address");
       return;
     }
 
     try {
-
       const orderItems = cartItems.map((item: any) => ({
-        product: item?.product?._id,
+        product: item?.product?._id || "",
+        variant: item?.variant?._id || "",
         quantity: item?.quantity,
-        color: item?.variant || "",
-        size: item?.size || ""
       }));
 
       const orderPayload: any = {
+        user: profileData?.data?._id || "",
         items: orderItems,
-        total_amount: totalAmount,
+        ...(addressType === "shipping" && { delivery_address: selectedAddressId }),
+        ...(addressType === "pickup" && { pick_up_address: selectedAddressId }),
       };
-
-      if (addressType === "shipping") {
-        orderPayload.delivery_address = selectedAddressId;
-      } else {
-        orderPayload.pick_up_address = selectedAddressId;
-      }
 
       const res = await createOrder(orderPayload).unwrap();
 
