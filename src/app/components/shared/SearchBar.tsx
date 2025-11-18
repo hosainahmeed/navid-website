@@ -156,7 +156,6 @@ const SearchBar: React.FC = () => {
                 />}
                 <div className='flex items-start gap-2 flex-col'>
                   <span className='font-semibold'>{product?.name}</span>
-                  <span className='text-gray-700 flex items-center gap-2 font-semibold'>{product?.price}{product?.previous_price && <small className='line-through'>{product?.previous_price}</small>}</span>
                 </div>
               </div>
             </div>
