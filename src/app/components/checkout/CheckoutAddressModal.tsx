@@ -112,6 +112,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
         items: orderItems,
         ...(addressType === "shipping" && { delivery_address: selectedAddressId }),
         ...(addressType === "pickup" && { pick_up_address: selectedAddressId }),
+        totalAmount: totalAmount
       };
 
       const res = await createOrder(orderPayload).unwrap();

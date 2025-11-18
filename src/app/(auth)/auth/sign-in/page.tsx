@@ -22,6 +22,7 @@ function SignIn() {
                 Cookies.remove('accessToken');
             }
             const res = await signIn(data).unwrap();
+            if(!res?.success) throw new Error(res?.message)
             if (res?.success) {
                 Cookies.set('accessToken', res.token);
                 toast.success(res.message || 'Sign in successful!');

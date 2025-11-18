@@ -159,8 +159,8 @@ const CartPage = () => {
 
   const subtotal = (items || []).reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0);
   const shippingCharge = subtotal >= 100 ? 0 : 15;
-  console.log(shippingCharge)
 
+  const totalAmount = (items?.reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0) + shippingCharge + ((items?.reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0) / 100) * 6.625))?.toFixed(2)
   return (
     <>
       <div className="max-w-screen-2xl border-x-[0.2px] border-[var(--border-color)] mx-auto grid md:grid-cols-3 py-10">
@@ -302,7 +302,7 @@ const CartPage = () => {
 
           <div className="flex justify-between text-2xl font-bold text-gray-900 mt-3">
             <span>Total</span>
-            <span>${(items?.reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0) + shippingCharge + ((items?.reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0) / 100) * 6.625))?.toFixed(2)}</span>
+            <span>${totalAmount}</span>
           </div>
 
           <button
@@ -319,7 +319,7 @@ const CartPage = () => {
         open={checkoutModalOpen}
         onClose={() => setCheckoutModalOpen(false)}
         cartItems={items}
-        totalAmount={items?.reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0) + shippingCharge + ((items?.reduce((sum: number, item: CartItem) => sum + (item?.variant?.price * item?.quantity || 0), 0) / 100) * 6.625) || 0}
+        totalAmount={totalAmount}
       />
     </>
   );

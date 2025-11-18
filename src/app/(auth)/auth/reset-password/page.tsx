@@ -25,11 +25,9 @@ function ResetPassword() {
             if (Cookies.get('accessToken')) Cookies.remove('accessToken');
 
             const res = await resetPassword(data).unwrap();
+            if (!res?.success) throw new Error(res?.message)
             if (res?.success) {
-                if (Cookies.get('resetToken')) Cookies.remove('resetToken');
-                if (res?.token) Cookies.set('accessToken', res.token);
-                if (res?.data?.resetToken) {
-                    Cookies.set('resetToken', res?.data?.resetToken);
+                if (res?.data?.token) {
                     Cookies.set('accessToken', res?.data?.token);
                     toast.success(res.message || 'Password reset successful!');
                     router.push('/');
