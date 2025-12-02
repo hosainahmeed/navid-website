@@ -4,32 +4,43 @@ import { ProductInfo, Variant } from "@/app/components/products/ProductInfo"
 import { RelatedProducts } from "@/app/components/products/RelatedProducts"
 import { useGetSingleProductQuery } from "@/app/redux/services/productApis"
 import { usePathname } from "next/navigation"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
+import { getProductImages, getMainImage } from "@/app/utils/productUtils"
 
 export default function ProductPage() {
     const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null)
-    const [selectedVariantImage, setSelectedVariantImage] = useState<string>('')
+    const [selectedImage, setSelectedImage] = useState<string>('')
     const pathname = usePathname()
     const id = pathname.split('/').pop()
     const [isVideo, setIsVideo] = useState<boolean>(false)
     const { data: productData, isLoading } = useGetSingleProductQuery(id as string, { skip: !id })
+
+    // Update selected image when variant changes
+    useEffect(() => {
+        if (selectedVariant?.img?.length) {
+            const mainImg = getMainImage(selectedVariant.img);
+            setSelectedImage(mainImg);
+            setIsVideo(mainImg?.includes('.mp4') || false);
+        } else if (productData?.data?.banners?.length) {
+            const mainBanner = getMainImage(productData.data.banners);
+            setSelectedImage(mainBanner);
+            setIsVideo(mainBanner?.includes('.mp4') || false);
+        } else {
+            setSelectedImage('');
+            setIsVideo(false);
+        }
+    }, [selectedVariant, productData?.data?.banners]);
 
     const product = useMemo(() => {
         if (!productData?.data) return null
 
         const product = productData.data
 
-        if (product.variants?.length > 0) {
-            const firstVariant = product.variants[0]
-            if (!selectedVariant) {
-                setSelectedVariant(firstVariant)
-                setSelectedVariantImage(firstVariant.img?.[0] || '')
-                setIsVideo(firstVariant.img?.[0]?.includes('.mp4') || false)
-            }
-        } else {
+        // Set first variant as default if none selected
+        if (product.variants?.length > 0 && !selectedVariant) {
+            setSelectedVariant(product.variants[0])
+        } else if (product.variants?.length === 0) {
             setSelectedVariant(null)
-            setSelectedVariantImage('')
-            setIsVideo(false)
         }
 
         const variantImages: Record<string, any> = {}
@@ -41,11 +52,11 @@ export default function ProductPage() {
                 variantColors.push(color)
                 variantImages[color] = {
                     img: variant.img || [],
-                    size: [variant.size],
+                    size: variant.size ? [variant.size] : [],
                     quantity: variant.quantity,
                     price: variant.price,
                     discount: variant.discount,
-                    price_after_discount: variant.price_after_discount
+                    price_after_discount: variant.price_after_discount || variant.price
                 }
             }
         })
@@ -68,8 +79,11 @@ export default function ProductPage() {
 
     const images = useMemo(() => {
         if (isLoading) return ['']
-        return product?.banners || []
-    }, [isLoading, product])
+        if (!product) return []
+        
+        // Get images from selected variant first, then fall back to product banners
+        return getProductImages(product, selectedVariant) || product.banners || []
+    }, [isLoading, product, selectedVariant])
     return (
         <div className="min-h-screen">
             <main className="max-w-screen-2xl border-x-[0.2px] border-[var(--border-color)] px-3 space-y-6 mx-auto py-6">
@@ -79,8 +93,8 @@ export default function ProductPage() {
                             isLoading={isLoading}
                             setIsVideo={setIsVideo}
                             isVideo={isVideo}
-                            setSelectedVariantImage={setSelectedVariantImage}
-                            selectedVariantImage={selectedVariantImage}
+                            selectedVariantImage={selectedImage}
+                            setSelectedVariantImage={setSelectedImage}
                             images={images}
                             productName={product?.name || ''}
                         />
@@ -90,15 +104,13 @@ export default function ProductPage() {
                             <ProductInfo
                                 isVideo={isVideo}
                                 setIsVideo={setIsVideo}
-                                selectedVariantImage={selectedVariantImage}
+                                selectedVariantImage={selectedImage}
                                 product={product}
                                 selectedVariant={selectedVariant}
                                 onVariantChange={(variant: Variant) => {
                                     setSelectedVariant(variant)
-                                    setSelectedVariantImage(variant.img?.[0] || '')
-                                    setIsVideo(variant.img?.[0]?.includes('.mp4') || false)
                                 }}
-                                setSelectedVariantImage={setSelectedVariantImage}
+                                setSelectedVariantImage={setSelectedImage}
                             />
                         )}
                     </div>

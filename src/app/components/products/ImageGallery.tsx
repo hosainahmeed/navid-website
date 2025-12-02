@@ -54,14 +54,21 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                         </div>
                     :
                     isLoading ?
-                        <div className="aspect-square w-full h-full">
-                            <Skeleton.Image className="!aspect-square !w-full !h-full" />
+                        <div className="w-full h-full">
+                            <Skeleton.Image className="!w-full !h-full" />
                         </div>
-                        : <Image
-                            src={imageUrl({ image: selectedVariantImage || images[selectedImage] })}
-                            alt={productName}
-                            className="object-contain aspect-square"
-                        />}
+                        : <div className="w-full h-full flex items-center justify-center">
+                            <Image
+                                src={imageUrl({ image: selectedVariantImage || images[selectedImage] })}
+                                alt={productName}
+                                width={800}
+                                height={800}
+                                className="object-contain max-w-full max-h-full w-auto h-auto"
+                                style={{
+                                    aspectRatio: '1/1'
+                                }}
+                            />
+                        </div>}
 
                 {showMagnifier && !isVideo && !isLoading && (
                     <div
