@@ -4,14 +4,12 @@ import Link from 'next/link';
 import React from 'react'
 import { useSignInMutation } from '@/app/redux/services/authApis';
 import Cookies from 'js-cookie';
-import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 const { Title, Text } = Typography
 
 function SignIn() {
     const [form] = Form.useForm();
     const [signIn, { isLoading: isSignInLoading }] = useSignInMutation()
-    const router = useRouter()
     const onFinish = async (values: any) => {
         try {
             const data = {

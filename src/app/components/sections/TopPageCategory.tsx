@@ -1,5 +1,5 @@
 'use client'
-import React, { memo, useRef, useState } from 'react'
+import React, { memo, useMemo, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { Category } from '@/app/types/product'
@@ -10,7 +10,6 @@ import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
 import { useGetAllSubCategoryQuery } from '@/app/redux/services/subcategoryApis'
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
-import { FaArrowRight } from 'react-icons/fa'
 
 interface CategoryItemProps {
   item: Category
@@ -30,35 +29,43 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
       return false
     }
     setSelectedCategory(isOpen ? null : item?._id)
+
   }
 
 
+  const image = useMemo(() => {
+    return (
+      <Image
+        src={imageUrl({ image: item?.img })}
+        alt={item?.name}
+        width={64}
+        height={64}
+        className="w-12 h-12 object-contain mb-2"
+        onError={(e) => {
+          e.currentTarget.src = 'https://via.placeholder.com/48?text=No+Image'
+        }}
+      />
+    )
+  }, [])
+
   return (
-    <div className="w-full flex items-center justify-center flex-shrink-0">
-      <button
-        className={cn(`flex flex-col items-center justify-center text-center px-4 py-4 w-full h-full
-                   border-r border-gray-200 bg-white hover:bg-gray-50
+    <div className="w-full flex border items-center  justify-center flex-shrink-0">
+      <div className='w-full h-full'>
+        <button
+          className={cn(`flex  flex-col items-center justify-center text-center px-4 py-4 w-full h-full
+                    bg-white hover:bg-gray-50
                    transition-all duration-200
                    ${isOpen ? 'bg-[#EDEDED] text-purple-600' : 'text-gray-700'}`)}
-        onClick={handleClick}
-      >
-        <Image
-          src={imageUrl({ image: item?.img })}
-          alt={item?.name}
-          width={64}
-          height={64}
-          className="w-12 h-12 object-contain mb-2"
-          onError={(e) => {
-            e.currentTarget.src = 'https://via.placeholder.com/48?text=No+Image'
-          }}
-        />
-        <span className="text-sm font-semibold mb-1 line-clamp-1">{item?.name}</span>
-        {isOpen ? (
-          item?.is_service && <ChevronUp className="w-5 h-5 text-purple-600" />
-        ) : (
-          item?.is_service && <ChevronDown className="w-5 h-5" />
-        )}
-      </button>
+        >
+          {image}
+          <span className="text-sm font-semibold mb-1 line-clamp-1">{item?.name}</span>
+          {isOpen ? (
+            item?.is_service && <ChevronUp onMouseOver={handleClick} className="w-5 h-5 text-purple-600" />
+          ) : (
+            item?.is_service && <ChevronDown onMouseOver={handleClick} className="w-5 h-5" />
+          )}
+        </button>
+      </div>
     </div>
   )
 }
@@ -123,26 +130,15 @@ const TopPageCategory = () => {
 
   return (
     <>
-      {/* {isUserGuide && <small className='items-center hidden md:flex justify-end font-semibold my-1 gap-2'>Swipe to Explore More <FaArrowRight /></small>} */}
-      <div className="relative hidden md:block border border-[var(--border-color)] border-b bg-white">
-        {/* Category Navigation - Fixed 5 items per row with scroll */}
+      <div className="relative hidden xl:block border border-[var(--border-color)] border-b bg-white">
         <div
           ref={scrollRef}
           onMouseDown={handleMouseDown}
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
-          // className={`flex  flex-nowrap overflow-x-auto overflow-y-visible
-          //          select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}
-          //          hide-scrollbar scroll-smooth`}
-          // style={{
-          //   // scrollbarWidth: 'none',
-          //   // msOverflowStyle: 'none',
-          //   display: 'grid',
-          //   gridTemplateColumns: `repeat(${categories?.length || 1}, 1fr)`,
-          // }}
 
-          className={cn(`grid grid-cols-${categories?.length}`)}
+          className={cn(`grid grid-cols-7 grid-wrap`)}
         >
           {categories
             .map((item) => (
@@ -154,16 +150,18 @@ const TopPageCategory = () => {
               />
             ))}
         </div>
-        {selectedCategory && <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className='fixed inset-0 z-40 bg-black/50 backdrop-blur-sm'
-          onClick={() => setSelectedCategory(null)}
-        />}
-
-        {/* Subcategory Dropdown */}
+        <AnimatePresence>
+          {selectedCategory && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 bg-black/50 z-40"
+              onClick={() => setSelectedCategory(null)}
+            />
+          )}
+        </AnimatePresence>
         <AnimatePresence>
           {selectedCategory && (
             <motion.div
@@ -177,7 +175,7 @@ const TopPageCategory = () => {
                 initial={{ y: -20 }}
                 animate={{ y: 0 }}
                 exit={{ y: -20 }}
-                className="container mx-auto p-2"
+                className=""
               >
                 <h2 className="text-lg line-clamp-2 text-wrap font-bold bg-[var(--color-primary-light)] px-2 text-white mb-4">
                   {selectedCategoryName} Subcategories ({subcategories?.length || 0})
@@ -194,19 +192,19 @@ const TopPageCategory = () => {
                     No subcategories available for this category
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 max-h-[200px] md:max-h-[400px] overflow-y-scroll  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  <div className="grid grid-cols-1 max-h-[200px] xl:max-h-[400px] overflow-y-auto min-h-[200px]  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {subcategories.map((sub) => {
                       return (
                         <div
-                          key={sub._id}
-                          className="flex hover:underline items-center gap-3 p-1 cursor-pointer transition-all"
+                          key={sub?._id}
+                          className="flex hover:underline items-start gap-3 p-1 cursor-pointer transition-all"
                         >
                           <span
                             onClick={() => {
-                              router.push(`/shop?subCategory=${sub._id}`)
+                              router.push(`/shop?subCategory=${sub?._id}`)
                             }}
-                            className="text-sm px-2 line-clamp-1 font-medium text-center text-gray-700">
-                            {sub.name}
+                            className="text-2xl uppercase px-2 line-clamp-1 font-medium text-center text-gray-700">
+                            {sub?.name}
                           </span>
                         </div>
                       )
@@ -229,7 +227,7 @@ const TopPageCategory = () => {
           -webkit-line-clamp: 1;
         }
       `}</style>
-      </div>
+      </div >
     </>
   )
 }
