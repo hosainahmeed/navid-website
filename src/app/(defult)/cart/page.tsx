@@ -70,11 +70,14 @@ const CartPage = () => {
   const increaseQuantity = async (itemId: string) => {
     const item = items.find((i: any) => i?._id === itemId);
     if (!item) return;
+    
     const currentQuantity = item?.quantity;
+    const variantAvailableQuantity = item?.variant?.quantity;
     const newQuantity = currentQuantity + 1;
 
-    if (newQuantity > item?.product_id?.quantity) {
-      toast.error("Cannot exceed available stock");
+    if (newQuantity > variantAvailableQuantity) {
+      toast.dismiss()
+      toast.error(`Only ${variantAvailableQuantity} items available in stock`);
       return;
     }
 

@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useProfileQuery } from "@/app/redux/services/profileApis";
 import Cookies from "js-cookie";
+import { useCreatePaymentMutation } from "@/app/redux/services/paymentApis";
 interface CheckoutAddressModalProps {
   open: boolean;
   onClose: () => void;
@@ -38,7 +39,8 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
   const [showCreateForm, setShowCreateForm] = useState(false);
   const router = useRouter();
   const { data: profileData } = useProfileQuery({});
-
+  const [createPayment, { isLoading: isPaymentCreating }] = useCreatePaymentMutation()
+  const [successModal, setSuccsessModal] = useState(false)
 
   const [newAddress, setNewAddress] = useState({
     name: "",
@@ -90,7 +92,6 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
   };
 
   const handleProceed = async () => {
-    console.log(profileData)
     if (!profileData?.data?._id) {
       toast.error("Please login to proceed");
       return;
@@ -120,9 +121,9 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
       if (!res?.success) {
         throw new Error(res?.message);
       }
-
       toast.success(res?.message || "Order created successfully!");
       onClose();
+      setSuccsessModal(true)
     } catch (error: any) {
       if (error?.status === 403) {
         toast.error("Session expired. Please login again.");
@@ -359,6 +360,58 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
                 className="flex-1 !h-12 !rounded-none"
               >
                 Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={successModal} onOpenChange={setSuccsessModal}>
+        <DialogContent className="sm:max-w-[500px] p-8 text-center">
+          <div className="flex flex-col items-center">
+            {/* Success Icon */}
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+              <svg
+                className="w-10 h-10 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+
+            {/* Title */}
+            <h2 className="text-2xl font-bold text-gray-900 mb-3">Order Placed Successfully!</h2>
+
+            {/* Message */}
+            <p className="text-gray-600 mb-6">
+              Your order has been received! The payment is currently pending. You can complete the payment from your order history.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col gap-3 w-full">
+              <Button
+                type="button"
+                onClick={() => router.push('/shop')}
+                className="w-full bg-primary hover:bg-primary/90 text-white"
+              >
+                Continue Shopping
+              </Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  setSuccsessModal(false);
+                  router.push('/profile?tab=Orders');
+                }}
+                className="w-full bg-primary hover:bg-primary/90 text-white"
+              >
+                View Order
               </Button>
             </div>
           </div>

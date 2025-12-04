@@ -20,8 +20,6 @@ interface VariantSelectorProps {
     onVariantChange?: (color: string, size: string) => void
 }
 
-const videoExtensions = ["mp4", "mov", "wmv", "avi", "mkv", "webm", "flv"]
-
 export function VariantSelector({
     product,
     variants,
@@ -163,7 +161,7 @@ export function VariantSelector({
                             onPointerDown={() => handleSizeChange(size)}
                             className="min-w-[6rem] h-10 hover:bg-primary text-xl hover:text-white rounded-none"
                         >
-                            {size}
+                            {size || 'N/A'}
                         </Button>
                     ))}
                 </div>

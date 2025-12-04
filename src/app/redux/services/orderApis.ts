@@ -22,9 +22,10 @@ const orderApis = baseApis.injectEndpoints({
             invalidatesTags: ['cart', 'order']
         }),
         getAllOrders: builder.query({
-            query: (page: number = 1) => ({
-                url: `/order/get-all?page=${page}`,
-                method: 'GET'
+            query: (params) => ({
+                url: `/order/get-all`,
+                method: 'GET',
+                params
             }),
             providesTags: ['order']
         })
