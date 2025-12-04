@@ -83,12 +83,12 @@ const AgeVerificationPopUp = ({ children }: { children: React.ReactNode }) => {
                     <PrimaryButton
                         className="rounded-none"
                         // disabled={!checked}
-                        onClick={handleAccept}
+                        onPointerDown={handleAccept}
                         title="Yes, I’m 21+"
                     />
                     <PrimaryButton
                         className="rounded-none"
-                        onClick={handleExit}
+                        onPointerDown={handleExit}
                         title="Exit"
                     />
                 </div>

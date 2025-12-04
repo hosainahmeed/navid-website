@@ -194,7 +194,7 @@ export function ProductInfo({
                             variant="ghost"
                             size="sm"
                             className="h-10 w-10 rounded-r-none text-foreground hover:bg-transparent hover:text-[#cc83ee]"
-                            onClick={() => handleQuantityChange(-1)}
+                            onPointerDown={() => handleQuantityChange(-1)}
                             disabled={quantity <= 1}
                         >
                             <Minus className="h-4 w-4" />
@@ -211,7 +211,7 @@ export function ProductInfo({
                             variant="ghost"
                             size="sm"
                             className="h-10 w-10 rounded-l-none text-foreground hover:bg-transparent hover:text-[#cc83ee]"
-                            onClick={() => handleQuantityChange(1)}
+                            onPointerDown={() => handleQuantityChange(1)}
                             disabled={selectedVariant ? quantity >= (selectedVariant.quantity || 1) : true}
                         >
                             <Plus className="h-4 w-4" />
@@ -223,7 +223,7 @@ export function ProductInfo({
             {/* Action Buttons */}
             <div className="flex relative flex-col gap-3 sm:flex-row">
                 <Button
-                    onClick={() => handleAddToCart(product)}
+                    onPointerDown={() => handleAddToCart(product)}
                     disabled={selectedVariant.quantity <= 0 || isProfileLoading || isProfileError}
                     className="w-full h-16 rounded-none bg-[#cc83ee] hover:bg-[#cc83ee]/90 text-white text-lg font-medium flex items-center justify-center gap-2"
                 >
@@ -238,7 +238,7 @@ export function ProductInfo({
                 </Button>
                 {!profileData &&
                     <div
-                        onClick={() => {
+                        onPointerDown={() => {
                             router.push("/auth/sign-in")
                         }}
                         className="absolute cursor-pointer top-0 left-0 w-full flex items-center justify-center inset-0 h-full bg-black text-white gap-2 z-10">

@@ -116,7 +116,7 @@ export function VariantSelector({
                     {colors?.map((color, index) => (
                         <button
                             key={index}
-                            onClick={() => {
+                            onPointerDown={() => {
                                 handleColorChange(color)
                                 const variant = variants.find(v => v.color === color)
                                 if (variant) {
@@ -160,7 +160,7 @@ export function VariantSelector({
                             key={size}
                             variant={selectedSize === size ? "default" : "outline"}
                             size="sm"
-                            onClick={() => handleSizeChange(size)}
+                            onPointerDown={() => handleSizeChange(size)}
                             className="min-w-[6rem] h-10 hover:bg-primary text-xl hover:text-white rounded-none"
                         >
                             {size}

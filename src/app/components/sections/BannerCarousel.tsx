@@ -82,7 +82,7 @@ const BannerCarousel = () => {
             <div className="w-full mx-auto text-white">
                 <div className="relative w-full h-[250px] md:h-[400px] xl:h-[600px] flex items-center justify-center">
                     <button
-                        onClick={handlePrev}
+                        onPointerDown={handlePrev}
                         aria-label="Previous slide"
                         className="absolute left-2 sm:left-4 z-20 p-2 sm:p-3 rounded-full bg-white/10 border border-white/20 backdrop-blur-md hover:bg-white/20 hover:scale-110 active:scale-95 transition-all duration-300"
                     >
@@ -119,7 +119,7 @@ const BannerCarousel = () => {
                         </AnimatePresence>
                     </div>
                     <button
-                        onClick={handleNext}
+                        onPointerDown={handleNext}
                         aria-label="Next slide"
                         className="absolute right-2 sm:right-4 z-20 p-2 sm:p-3 rounded-full bg-white/10 border border-white/20 backdrop-blur-md hover:bg-white/20 hover:scale-110 active:scale-95 transition-all duration-300"
                     >

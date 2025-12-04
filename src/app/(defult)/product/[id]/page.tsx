@@ -4,7 +4,7 @@ import { ProductInfo, Variant } from "@/app/components/products/ProductInfo"
 import { RelatedProducts } from "@/app/components/products/RelatedProducts"
 import { useGetSingleProductQuery } from "@/app/redux/services/productApis"
 import { usePathname } from "next/navigation"
-import { useState, useMemo, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { getProductImages, getMainImage } from "@/app/utils/productUtils"
 
 export default function ProductPage() {
@@ -15,21 +15,32 @@ export default function ProductPage() {
     const [isVideo, setIsVideo] = useState<boolean>(false)
     const { data: productData, isLoading } = useGetSingleProductQuery(id as string, { skip: !id })
 
-    // Update selected image when variant changes
+    // Update selected image when variant changes or when product data loads
     useEffect(() => {
+        // Check for video first
+        const videoUrl = productData?.data?.video;
+        if (videoUrl) {
+            setSelectedImage(videoUrl);
+            setIsVideo(true);
+            return;
+        }
+
+        // If no video, check for variant images
         if (selectedVariant?.img?.length) {
             const mainImg = getMainImage(selectedVariant.img);
             setSelectedImage(mainImg);
-            setIsVideo(mainImg?.includes('.mp4') || false);
-        } else if (productData?.data?.banners?.length) {
+            setIsVideo(mainImg?.toLowerCase()?.includes('.mp4') || false);
+        } 
+        // Then check for banners
+        else if (productData?.data?.banners?.length) {
             const mainBanner = getMainImage(productData.data.banners);
             setSelectedImage(mainBanner);
-            setIsVideo(mainBanner?.includes('.mp4') || false);
+            setIsVideo(mainBanner?.toLowerCase()?.includes('.mp4') || false);
         } else {
             setSelectedImage('');
             setIsVideo(false);
         }
-    }, [selectedVariant, productData?.data?.banners]);
+    }, [selectedVariant, productData?.data?.banners, productData?.data?.video]);
 
     const product = useMemo(() => {
         if (!productData?.data) return null
@@ -82,8 +93,16 @@ export default function ProductPage() {
         if (!product) return []
         
         // Get images from selected variant first, then fall back to product banners
-        return getProductImages(product, selectedVariant) || product.banners || []
-    }, [isLoading, product, selectedVariant])
+        const variantImages = getProductImages(product, selectedVariant) || product.banners || [];
+        
+        // Add video URL to the beginning of the images array if it exists and not already included
+        const videoUrl = productData?.data?.video;
+        if (videoUrl && !variantImages.includes(videoUrl)) {
+            return [videoUrl, ...variantImages];
+        }
+        
+        return variantImages;
+    }, [isLoading, product, selectedVariant, productData?.data?.video])
     return (
         <div className="min-h-screen">
             <main className="max-w-screen-2xl border-x-[0.2px] border-[var(--border-color)] px-3 space-y-6 mx-auto py-6">

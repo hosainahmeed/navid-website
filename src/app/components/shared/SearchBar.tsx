@@ -88,7 +88,7 @@ const SearchBar: React.FC = () => {
       )}>
         <div className='flex bg-white items-center justify-between border-b md:border-b-0 border-[var(--border-color)] w-full md:w-fit'>
           <button
-            onClick={() => setShowCategory(!showCategory)}
+            onPointerDown={() => setShowCategory(!showCategory)}
             className='border-r border-[var(--border-color)]  w-fit h-[80px] md:h-fit flex items-center cursor-pointer text-black px-4 py-2'>
             {showCategory ? <IoMdClose /> : <IoMdMenu />}
           </button>
@@ -96,7 +96,7 @@ const SearchBar: React.FC = () => {
             <Image src={IMAGE.brand} alt="Whole sale" width={80} height={80} className='h-full w-auto' />
           </div>
           <div
-            onClick={handleWholeSale}
+            onPointerDown={handleWholeSale}
             className='h-[80px] md:h-fit text-black border-l md:border-l-0 md:border-r border-[var(--border-color)] w-fit flex-nowrap text-nowrap flex items-center justify-center px-4 cursor-pointer'>
             Whole sale
           </div>
@@ -112,7 +112,7 @@ const SearchBar: React.FC = () => {
             onBlur={() => setShowResults(false)}
           />
           <button
-            onClick={handleSearch}
+            onPointerDown={handleSearch}
             className='!bg-[#cc83ee] w-fit flex items-center gap-2 cursor-pointer text-white px-4 py-2'
           >
             <FaSearch />
@@ -128,7 +128,7 @@ const SearchBar: React.FC = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
           className='fixed inset-0 z-40 bg-black/50 backdrop-blur-sm'
-          onClick={() => setShowResults(false)}
+          onPointerDown={() => setShowResults(false)}
         />
       }
 
@@ -168,7 +168,7 @@ const SearchBar: React.FC = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
           className='fixed inset-0 z-40 bg-black/50 backdrop-blur-sm'
-          onClick={() => setShowCategory(false)}
+          onPointerDown={() => setShowCategory(false)}
         />}
       {showCategory &&
         <AnimatePresence>
@@ -184,12 +184,12 @@ const SearchBar: React.FC = () => {
               </div>
               : showSubCategory ?
                 <>
-                  <h1 onClick={() => setShowSubCategory(false)}
+                  <h1 onPointerDown={() => setShowSubCategory(false)}
                     className='sticky top-0 z-50 cursor-pointer text-xl text-white flex !bg-[#cc83ee] p-1 items-center gap-2 flex-nowrap mb-2'><FaArrowLeft /> Back</h1>
                   {subCategoryData?.data.map((sub: Subcategory) => {
                     return (
                       <div
-                        onClick={() => {
+                        onPointerDown={() => {
                           router.push(`/shop?subCategory=${sub?._id}`)
                         }}
                         key={sub?._id} className='p-4 border-b last:border-b-0 hover:bg-gray-100 cursor-pointer'>
@@ -217,11 +217,11 @@ const SearchBar: React.FC = () => {
                   <>
                     <div className='flex items-center border-b border-black sticky top-0 z-50 bg-white justify-between'>
                       <h1 className='text-2xl font-semibold py-4 px-3'>Categories</h1>
-                      <IoMdClose onClick={() => setShowCategory(false)} className='cursor-pointer text-2xl' />
+                      <IoMdClose onPointerDown={() => setShowCategory(false)} className='cursor-pointer text-2xl' />
                     </div>
                     {categoryData?.data?.map((category: Category) => (
                       <div
-                        onClick={() => {
+                        onPointerDown={() => {
                           if (!category?.is_service) {
                             return false
                           }

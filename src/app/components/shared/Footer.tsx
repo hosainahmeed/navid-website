@@ -65,10 +65,10 @@ function Footer() {
                     <div className='lg:col-span-1 col-span-2'>
                         <h3 className="text-sm font-semibold text-foreground bg-white p-4">Social</h3>
                         <div className='flex gap-3 my-3 ml-2'>
-                            <FaInstagram onClick={() => handleSocialClick("instagram")} className="w-5 hover:text-pink-500 cursor-pointer h-5" />
-                            <FaFacebookSquare onClick={() => handleSocialClick("facebook")} className="w-5 hover:text-blue-500 cursor-pointer h-5" />
-                            <BsTwitterX onClick={() => handleSocialClick("twitter")} className="w-5 hover:text-gray-500 cursor-pointer h-5" />
-                            <AiFillTikTok onClick={() => handleSocialClick("tiktok")} className="w-5 hover:text-gray-500 cursor-pointer h-5" />
+                            <FaInstagram onPointerDown={() => handleSocialClick("instagram")} className="w-5 hover:text-pink-500 cursor-pointer h-5" />
+                            <FaFacebookSquare onPointerDown={() => handleSocialClick("facebook")} className="w-5 hover:text-blue-500 cursor-pointer h-5" />
+                            <BsTwitterX onPointerDown={() => handleSocialClick("twitter")} className="w-5 hover:text-gray-500 cursor-pointer h-5" />
+                            <AiFillTikTok onPointerDown={() => handleSocialClick("tiktok")} className="w-5 hover:text-gray-500 cursor-pointer h-5" />
                         </div>
 
                     </div>
@@ -78,7 +78,7 @@ function Footer() {
                     ©{new Date().getFullYear()} All rights reserved by Divan Dione.
                 </div>
                 <div
-                    onClick={() => {
+                    onPointerDown={() => {
                         if (window !== undefined) {
                             window.scrollTo({
                                 top: 0,

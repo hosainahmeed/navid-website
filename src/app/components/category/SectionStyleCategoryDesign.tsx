@@ -35,7 +35,7 @@ const SectionStyleCategoryDesign: React.FC<CategoryItemProps> = ({
                    border border-[var(--border-color)] rounded-none 
                    bg-white hover:bg-[#EDEDED] cursor-pointer hover:text-[#cc83ee] 
                    min-w-[140px] transition-all duration-300"
-        onClick={handleClick}
+        onPointerDown={handleClick}
       >
         <Image
           src={imageUrl({ image: item.img })}

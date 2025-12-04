@@ -195,7 +195,7 @@ const CartPage = () => {
                 >
 
                   <button
-                    onClick={() => removeItem(item?._id)}
+                    onPointerDown={() => removeItem(item?._id)}
                     className="absolute top-2 right-2 p-2 rounded-full bg-gray-900 hover:bg-[var(--color-primary)] transition"
                   >
                     {deleteLoading ? <Loader2 className="text-white w-4 h-4 animate-spin" /> : <X className="text-white w-4 h-4" />}
@@ -231,7 +231,7 @@ const CartPage = () => {
 
                     <div className="flex items-center gap-3 mt-2">
                       <button
-                        onClick={() => decreaseQuantity(item?._id)}
+                        onPointerDown={() => decreaseQuantity(item?._id)}
                         className="p-1 rounded-full border-[0.2px] border-[var(--border-color)] hover:bg-gray-200"
                       >
                         <Minus className="w-4 h-4" />
@@ -240,7 +240,7 @@ const CartPage = () => {
                         {item?.quantity}
                       </span>
                       <button
-                        onClick={() => increaseQuantity(item?._id)}
+                        onPointerDown={() => increaseQuantity(item?._id)}
                         className="p-1 rounded-full border-[0.2px] border-[var(--border-color)] hover:bg-gray-200"
                       >
                         <Plus className="w-4 h-4" />
@@ -306,7 +306,7 @@ const CartPage = () => {
           </div>
 
           <button
-            onClick={handleCheckout}
+            onPointerDown={handleCheckout}
             className="mt-6 w-full rounded-none !bg-[#cc83ee] hover:!bg-[var(--color-primary)] cursor-pointer !text-white !font-bold py-3 uppercase transition"
           >
             Proceed to Checkout

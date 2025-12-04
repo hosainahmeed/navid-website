@@ -41,7 +41,7 @@ const CategoryPage = () => {
           <Button
             className="!border-[0.2px] !border-[var(--border-color)] !bg-[#cc83ee] !text-white !cursor-pointer !rounded-none"
             variant="outline"
-            onClick={() => setSelectedCategory(null)}
+            onPointerDown={() => setSelectedCategory(null)}
           >
             ← Back to Categories
           </Button>

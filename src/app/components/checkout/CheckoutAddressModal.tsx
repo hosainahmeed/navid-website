@@ -164,7 +164,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
               <div className="grid grid-cols-2 gap-3">
                 <Button
                   variant={addressType === "shipping" ? "default" : "outline"}
-                  onClick={() => {
+                  onPointerDown={() => {
                     setAddressType("shipping");
                     setSelectedAddressId("");
                   }}
@@ -174,7 +174,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
                 </Button>
                 <Button
                   variant={addressType === "pickup" ? "default" : "outline"}
-                  onClick={() => {
+                  onPointerDown={() => {
                     setAddressType("pickup");
                     setSelectedAddressId("");
                     setShowCreateForm(false);
@@ -219,7 +219,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
 
                         <Button
                           variant="outline"
-                          onClick={() => setShowCreateForm(true)}
+                          onPointerDown={() => setShowCreateForm(true)}
                           className="w-full !h-12 !rounded-none mt-4"
                         >
                           + Add New Shipping Address
@@ -275,7 +275,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
 
                         <div className="flex gap-3">
                           <Button
-                            onClick={handleCreateAddress}
+                            onPointerDown={handleCreateAddress}
                             disabled={createLoading}
                             className="flex-1 !rounded-none !h-12"
                           >
@@ -290,7 +290,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
                           </Button>
                           <Button
                             variant="outline"
-                            onClick={() => {
+                            onPointerDown={() => {
                               setShowCreateForm(false);
                               setNewAddress({ name: "", phone: "", address: "" });
                             }}
@@ -340,7 +340,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
             {/* Action Buttons */}
             <div className="flex gap-3 pt-4">
               <Button
-                onClick={handleProceed}
+                onPointerDown={handleProceed}
                 disabled={!selectedAddressId || orderLoading}
                 className="flex-1 !h-12 !rounded-none !bg-[#cc83ee] hover:!bg-[var(--color-primary)]"
               >
@@ -355,7 +355,7 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
               </Button>
               <Button
                 variant="outline"
-                onClick={onClose}
+                onPointerDown={onClose}
                 className="flex-1 !h-12 !rounded-none"
               >
                 Cancel

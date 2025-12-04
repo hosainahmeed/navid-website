@@ -70,7 +70,7 @@ function ProfileSidebar({
 
 
             <Button
-                onClick={() => setShowLogoutModal(true)}
+                onPointerDown={() => setShowLogoutModal(true)}
                 size="large"
                 icon={<LogOut size={16} />}
                 style={{
@@ -95,7 +95,7 @@ function ProfileSidebar({
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            onClick={() => setShowLogoutModal(false)}
+                            onPointerDown={() => setShowLogoutModal(false)}
                             className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[998]"
                         />
 
@@ -120,7 +120,7 @@ function ProfileSidebar({
 
                             <div className="flex justify-end gap-3">
                                 <Button
-                                    onClick={() => setShowLogoutModal(false)}
+                                    onPointerDown={() => setShowLogoutModal(false)}
                                     style={{
                                         borderRadius: "0px",
                                         padding: "0.5rem 1rem",
@@ -131,7 +131,7 @@ function ProfileSidebar({
                                     Cancel
                                 </Button>
                                 <Button
-                                    onClick={() => {
+                                    onPointerDown={() => {
                                         Cookies.remove("accessToken")
                                         router.push("/")
                                         if (window !== undefined) {
@@ -160,7 +160,7 @@ function ProfileSidebar({
                 {sideBarItem.map((item) => (
                     <div
                         key={item.label}
-                        onClick={() => setActiveItem(item.label)}
+                        onPointerDown={() => setActiveItem(item.label)}
                         className={`flex items-center gap-3 py-3 px-4 cursor-pointer transition ${activeItem === item.label
                             ? "!bg-[#cc83ee] !text-white !font-semibold"
                             : "hover:!bg-gray-50"

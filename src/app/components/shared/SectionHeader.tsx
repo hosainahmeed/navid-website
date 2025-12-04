@@ -38,7 +38,7 @@ function SectionHeader(
                 </div>
                 {button && (
                     <motion.h1
-                        onClick={() => {
+                        onPointerDown={() => {
                             if (routes && typeof routes === 'string') {
                                 router.push(routes)
                             }

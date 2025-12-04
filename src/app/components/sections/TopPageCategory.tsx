@@ -158,7 +158,7 @@ const TopPageCategory = () => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
               className="fixed inset-0 bg-black/50 z-40"
-              onClick={() => setSelectedCategory(null)}
+              onPointerDown={() => setSelectedCategory(null)}
             />
           )}
         </AnimatePresence>
@@ -200,7 +200,7 @@ const TopPageCategory = () => {
                           className="flex hover:underline items-start gap-3 p-1 cursor-pointer transition-all"
                         >
                           <span
-                            onClick={() => {
+                            onPointerDown={() => {
                               router.push(`/shop?subCategory=${sub?._id}`)
                             }}
                             className="text-2xl uppercase px-2 line-clamp-1 font-medium text-center text-gray-700">

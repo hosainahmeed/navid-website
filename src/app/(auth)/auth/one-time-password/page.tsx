@@ -120,7 +120,7 @@ function OneTimePassword() {
                     </Form.Item>
                 </Form>
                 <span
-                    onClick={handleResend}
+                    onPointerDown={handleResend}
                     className='text-[#cc83ee] hover:underline cursor-pointer'>{isVerificationCreating ? 'Resending...' : 'Resend code'}</span>
             </div>
         </div>

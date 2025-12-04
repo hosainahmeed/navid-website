@@ -22,7 +22,7 @@ function ProductCardClientSide({ id, isHovered, className }: { id: string, isHov
                     exit={{ opacity: 0, y: 10 }}
                 >
                     <PrimaryButton
-                        onClick={() => router.push(`/product/${id}`)}
+                        onPointerDown={() => router.push(`/product/${id}`)}
                         title='View Details'
                         icon={<IoMdEye />}
                         iconClassName='md:block hidden'

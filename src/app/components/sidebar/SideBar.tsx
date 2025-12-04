@@ -25,7 +25,7 @@ function SideBar() {
             <PrimaryButton
                 className='rounded-full absolute top-8 left-4 animate-pulse w-12 h-12'
                 icon={<IoMdMenu />}
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                onPointerDown={() => setIsMenuOpen(!isMenuOpen)}
             />
 
             <AnimatePresence>
@@ -38,7 +38,7 @@ function SideBar() {
                             exit={{ opacity: 0 }}
                             transition={{ duration: 0.3 }}
                             className='fixed inset-0 bg-black/50 backdrop-blur-sm'
-                            onClick={() => setIsMenuOpen(false)}
+                            onPointerDown={() => setIsMenuOpen(false)}
                         />
 
                         {/* Sidebar with curved effect */}
@@ -66,7 +66,7 @@ function SideBar() {
                             {/* Close Button */}
                             <div className='p-6'>
                                 <button
-                                    onClick={() => setIsMenuOpen(false)}
+                                    onPointerDown={() => setIsMenuOpen(false)}
                                     className='w-10 h-10 rounded-full bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/70 cursor-pointer flex items-center justify-center transition-colors'
                                 >
                                     <IoMdClose className='text-xl text-white' />

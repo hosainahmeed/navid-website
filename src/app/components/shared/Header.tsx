@@ -24,7 +24,7 @@ function Header() {
             className="sticky top-0 z-[999] border-b border-[var(--border-color)] bg-white">
             <div
                 className="max-w-screen-2xl  p-2 mx-auto flex h-16 items-center justify-between">
-                <div onClick={() => router.push('/')}
+                <div onPointerDown={() => router.push('/')}
                     className="flex  cursor-pointer items-center justify-center gap-2">
                     <Image
                         src={IMAGE.brand.src}
