@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, Spin } from "antd";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "antd";
@@ -33,7 +33,6 @@ interface CheckoutAddressModalProps {
 type AddressType = "shipping" | "pickup";
 
 export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: CheckoutAddressModalProps) {
-  console.log(cartItems)
   const [addressType, setAddressType] = useState<AddressType>("shipping");
   const [selectedAddressId, setSelectedAddressId] = useState<string>("");
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -122,8 +121,20 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
         throw new Error(res?.message);
       }
       toast.success(res?.message || "Order created successfully!");
+      const data = {
+        order_id: res?.order[0]?._id
+      }
+      const payment = await createPayment(data).unwrap()
+      if (isPaymentCreating) {
+        setSuccsessModal(true)
+      }
+      if (window !== undefined) {
+        window.location.href = payment?.url
+      } else {
+        router.push(payment?.url)
+      }
+
       onClose();
-      setSuccsessModal(true)
     } catch (error: any) {
       if (error?.status === 403) {
         toast.error("Session expired. Please login again.");
@@ -390,30 +401,13 @@ export function CheckoutAddressModal({ open, onClose, cartItems, totalAmount }: 
             <h2 className="text-2xl font-bold text-gray-900 mb-3">Order Placed Successfully!</h2>
 
             {/* Message */}
+            <Spin />
             <p className="text-gray-600 mb-6">
-              Your order has been received! The payment is currently pending. You can complete the payment from your order history.
+              please wait
             </p>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col gap-3 w-full">
-              <Button
-                type="button"
-                onClick={() => router.push('/shop')}
-                className="w-full bg-primary hover:bg-primary/90 text-white"
-              >
-                Continue Shopping
-              </Button>
-              <Button
-                type="button"
-                onClick={() => {
-                  setSuccsessModal(false);
-                  router.push('/profile?tab=Orders');
-                }}
-                className="w-full bg-primary hover:bg-primary/90 text-white"
-              >
-                View Order
-              </Button>
-            </div>
+            <p className="text-gray-600 mb-6">
+              Strip payment page navigation is about to happen!
+            </p>
           </div>
         </DialogContent>
       </Dialog>
