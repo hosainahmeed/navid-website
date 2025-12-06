@@ -22,3 +22,12 @@ export const colorOptions = [
   { value: 'gold', color: '#ffd700', label: 'Gold' },
   { value: 'darkgreen', color: '#006400', label: 'Dark Green' },
 ];
+
+
+export const optionForFilter = [
+  { value: null, label: 'All' },
+  { value: 'pending', label: 'Pending' },
+  { value: 'processing', label: 'Processing' },
+  { value: 'delivered', label: 'Delivered' },
+  { value: 'cancelled', label: 'Cancelled' },
+]
