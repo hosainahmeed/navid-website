@@ -16,7 +16,7 @@ const isVideoFile = (url: string | undefined): boolean => {
 const VideoThumbnail = ({ src, onClick }: { src: string; onClick: () => void }) => (
     <div className="relative w-full h-full group">
         <button
-            onClick={onClick}
+            onPointerDown={onClick}
             className="w-full h-full flex items-center justify-center bg-black/5"
             type="button"
         >
@@ -191,7 +191,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                                         {images.map((image, index) => (
                                             <button
                                                 key={index}
-                                                onClick={() => {
+                                                onPointerDown={() => {
                                                     const isVideo = isVideoFile(image);
                                                     setSelectedVariantImage(image);
                                                     setSelectedImage(index);

@@ -32,7 +32,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
 
   }
 
-
+  console.log(item?.img)
   const image = useMemo(() => {
     return (
       <Image
@@ -46,7 +46,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
         }}
       />
     )
-  }, [])
+  }, [item])
 
   return (
     <div className="w-full flex border items-center  justify-center flex-shrink-0">
@@ -193,22 +193,16 @@ const TopPageCategory = () => {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 max-h-[200px] xl:max-h-[400px] overflow-y-auto min-h-[200px]  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    {subcategories.map((sub) => {
-                      return (
-                        <div
-                          key={sub?._id}
-                          className="flex hover:underline items-start gap-3 p-1 cursor-pointer transition-all"
-                        >
-                          <span
-                            onPointerDown={() => {
-                              router.push(`/shop?subCategory=${sub?._id}`)
-                            }}
-                            className="text-2xl uppercase px-2 line-clamp-1 font-medium text-center text-gray-700">
-                            {sub?.name}
-                          </span>
-                        </div>
-                      )
-                    })}
+                    {subcategories.map((sub) => (
+                      <span
+                        key={sub?._id}
+                        onPointerDown={() => {
+                          router.push(`/shop?subCategory=${sub?._id}`)
+                        }}
+                        className="text-2xl w-fit uppercase px-2 line-clamp-1 font-medium  hover:underline text-gray-700">
+                        {sub?.name}
+                      </span>
+                    ))}
                   </div>
                 )}
               </motion.div>

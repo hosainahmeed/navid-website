@@ -45,7 +45,7 @@ function StatusAndAmountSection({ order, isProcessing, canPay, createPaymentLoad
                     className="pay-now-btn mt-4"
                     loading={isProcessing}
                     disabled={!canPay || isProcessing || createPaymentLoading}
-                    onClick={() => handlePayment(order?._id)}
+                    onPointerDown={() => handlePayment(order?._id)}
                     icon={<MdOutlinePayment />}
                     style={{ width: '100%' }}
                 >
