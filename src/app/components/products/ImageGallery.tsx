@@ -10,7 +10,8 @@ import { PlayCircle, Video as VideoIcon } from "lucide-react"
 const isVideoFile = (url: string | undefined): boolean => {
     if (!url) return false;
     const urlStr = String(url).toLowerCase();
-    return urlStr.endsWith('.mp4') || urlStr.endsWith('.webm') || urlStr.endsWith('.mov');
+    console.log(urlStr)
+    return urlStr.endsWith('.mp4') || urlStr.endsWith('.webm') || urlStr.endsWith('.mov') || urlStr.endsWith('.m3u8');
 };
 
 const VideoThumbnail = ({ src, onClick }: { src: string; onClick: () => void }) => (
@@ -41,13 +42,6 @@ interface ImageGalleryProps {
 }
 
 export function ImageGallery({ selectedVariantImage, images, productName, setSelectedVariantImage, isVideo, setIsVideo, isLoading }: ImageGalleryProps) {
-    const hasVideo = useMemo(() => {
-        return images.some(img => {
-            if (!img) return false;
-            const imgStr = String(img).toLowerCase();
-            return imgStr.includes('.mp4') || imgStr.includes('.webm') || imgStr.includes('.mov');
-        });
-    }, [images]);
     const [selectedImage, setSelectedImage] = useState(0)
     const [showMagnifier, setShowMagnifier] = useState(false)
     const [magnifierPosition, setMagnifierPosition] = useState({ x: 0, y: 0 })
@@ -68,13 +62,13 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
         <div className="flex flex-col border border-[var(--border-color)] gap-4">
             {/* Main Image */}
             <div
-                ref={imageRef}
+                // ref={imageRef}
                 className={cn("relative border border-[var(--border-color)] aspect-square w-full overflow-hidden bg-white",
                     isVideo ? "cursor-auto" : "cursor-crosshair",
                 )}
-                onMouseEnter={() => !isVideo && setShowMagnifier(true)}
-                onMouseLeave={() => setShowMagnifier(false)}
-                onMouseMove={handleMouseMove}
+                // onMouseEnter={() => !isVideo && setShowMagnifier(true)}
+                // onMouseLeave={() => setShowMagnifier(false)}
+                // onMouseMove={handleMouseMove}
             >
                 {isVideo && !isLoading && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/5">
@@ -125,7 +119,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                             />
                         </div>}
 
-                {showMagnifier && !isVideo && !isLoading && (
+                {/* {showMagnifier && !isVideo && !isLoading && (
                     <div
                         className="absolute  pointer-events-none border-2 border-white shadow-lg rounded-full hidden md:block"
                         style={{
@@ -139,7 +133,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                             backgroundRepeat: "no-repeat",
                         }}
                     />
-                )}
+                )} */}
             </div>
 
             {/* Thumbnail Images */}
@@ -183,7 +177,7 @@ export function ImageGallery({ selectedVariantImage, images, productName, setSel
                             + {images.length - 3}
                             <Dialog>
                                 <DialogTrigger asChild>
-                                    <Button size="sm">View All</Button>
+                                    <Button className="cursor-pointer" size="sm">View All</Button>
                                 </DialogTrigger>
                                 <DialogContent className="max-w-4xl">
                                     <DialogHeader>All Media</DialogHeader>
