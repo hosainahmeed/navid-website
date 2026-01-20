@@ -26,14 +26,9 @@ function ResetPassword() {
 
             const res = await resetPassword(data).unwrap();
             if (!res?.success) throw new Error(res?.message)
-            if (res?.success) {
-                if (res?.data?.token) {
-                    Cookies.set('accessToken', res?.data?.token);
-                    toast.success(res.message || 'Password reset successful!');
-                    router.push('/');
-                }
-                return;
-            }
+                Cookies.set('accessToken', res?.token);
+                toast.success(res?.message || 'Password reset successful!');
+                router.push('/');
         } catch (error: any) {
             const message =
                 error?.data?.message ||
