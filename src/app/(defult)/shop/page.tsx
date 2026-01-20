@@ -1,9 +1,10 @@
+// src/app/(defult)/shop/page.tsx
 'use client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { Input, Radio, Select, Spin } from 'antd'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { Input, Layout, Spin, Button, Drawer, Badge, Result } from 'antd'
 import debounce from 'lodash.debounce'
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, FilterOutlined } from '@ant-design/icons'
 import SectionHeader from '@/app/components/shared/SectionHeader'
 import ProductCard from '@/app/components/products/ProductCard'
 import { Iproduct } from '@/app/types/product'
@@ -12,171 +13,225 @@ import { useGetAllCategoryQuery } from '@/app/redux/services/catrgoryApis'
 import Image from 'next/image'
 import { IMAGE } from '@/app/constants/Image.index'
 import { useProfileQuery } from '@/app/redux/services/profileApis'
-import TopPageCategory from '@/app/components/sections/TopPageCategory'
-import { useGetAllSubCategoryQuery } from '@/app/redux/services/subcategoryApis'
+import FiltersSidebar from '@/components/shop/FiltersSidebar'
+
+const { Content, Sider } = Layout
 
 const Page: React.FC = () => {
     const searchParams = useSearchParams()
-    const initialSearch = searchParams.get('productName') || ''
-    const initialWholeSale = searchParams.get('whole_sale') || ''
-    const initialSubCategory = searchParams.get('subCategory') || ''
-
-    const [searchQuery, setSearchQuery] = useState<string>(initialSearch)
-    const [selectedCategory, setSelectedCategory] = useState<string>('')
-    const [wholeSale, setWholeSale] = useState<boolean>(initialWholeSale === 'true')
-    const [subCategory, setSubCategory] = useState<string>(initialSubCategory)
+    const router = useRouter()
+    const pathname = usePathname()
+    const [mobileFilterVisible, setMobileFilterVisible] = useState(false)
+    const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000])
+    const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('search') || '')
+    const [selectedCategory, setSelectedCategory] = useState<string>(searchParams.get('category') || '')
+    const [subCategory, setSubCategory] = useState<string>(searchParams.get('subCategory') || '')
+    const [wholeSale, setWholeSale] = useState<boolean>(searchParams.get('wholeSale') === 'true')
 
     const { data: profileData } = useProfileQuery(undefined)
+    const { data: productData, isLoading: productLoading } = useGetAllProductQuery({
+        search: searchQuery,
+        ...(selectedCategory && { category: selectedCategory }),
+        ...(subCategory && { sub_category: subCategory }),
+        ...(wholeSale && { whole_sale: true }),
+        limit: 9999,
+    })
+
     const debouncedSearch = useMemo(
         () =>
             debounce((value: string) => {
-                setSearchQuery(value.trim())
+                const params = new URLSearchParams(searchParams.toString())
+                if (value) {
+                    params.set('search', value)
+                } else {
+                    params.delete('search')
+                }
+                router.push(`${pathname}?${params.toString()}`)
             }, 500),
-        []
+        [router, pathname, searchParams]
     )
 
-    const handleSearchChange = useCallback(
-        (e: React.ChangeEvent<HTMLInputElement>) => {
-            const value = e.target.value
-            debouncedSearch(value)
-        },
-        [debouncedSearch]
-    )
-    useEffect(() => {
-        if (profileData?.data?.tax_id === null || profileData?.data?.tax_id === '') {
-            setWholeSale(false)
-        }
-    }, [profileData])
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value
+        setSearchQuery(value)
+        debouncedSearch(value)
+    }
 
-    const { data: categoryData, isLoading: categoryLoading, isFetching } = useGetAllCategoryQuery(undefined)
-    const { data: subcategoryData, isLoading: subCategoryLoading } = useGetAllSubCategoryQuery({ category_id: selectedCategory }, { skip: !selectedCategory })
+    const updateUrlParams = (updates: Record<string, string | null>) => {
+        const params = new URLSearchParams(searchParams.toString())
+        Object.entries(updates).forEach(([key, value]) => {
+            if (value) {
+                params.set(key, value)
+            } else {
+                params.delete(key)
+            }
+        })
+        router.push(`${pathname}?${params.toString()}`)
+    }
 
-    const { data: productData, isLoading: productLoading } = useGetAllProductQuery({
-        search: searchQuery,
-        ...(selectedCategory !== '' && { category: selectedCategory }),
-        limit: 9999,
-        ...(wholeSale && { whole_sale: wholeSale }),
-        ...(subCategory !== '' && { sub_category: subCategory })
-    })
+    const handleCategoryChange = (categoryId: string) => {
+        setSelectedCategory(categoryId)
+        setSubCategory('')
+        updateUrlParams({
+            category: categoryId,
+            subCategory: null
+        })
+    }
 
-    const products = productData?.data || []
-    const categories =
-        categoryData?.data?.map((item: any) => ({
-            value: item?._id,
-            label: item?.name,
-        })) || []
-    const subCategories =
-        subcategoryData?.data?.map((item: any) => ({
-            value: item?._id,
-            label: item?.name,
-        })) || []
+    const handleSubCategoryChange = (subCategoryId: string) => {
+        setSubCategory(subCategoryId)
+        updateUrlParams({ subCategory: subCategoryId })
+    }
 
-    console.log(subCategories)
+    const handlePriceRangeChange = (range: [number, number]) => {
+        setPriceRange(range)
+    }
 
+    const handleWholeSaleChange = (value: boolean) => {
+        setWholeSale(value)
+        updateUrlParams({ wholeSale: value ? 'true' : null })
+    }
 
+    const filteredProducts = useMemo(() => {
+        if (!productData?.data) return []
+        return productData.data.filter((product: Iproduct) => {
+            const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1]
+            const matchesSearch = searchQuery
+                ? product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                (product.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false)
+                : true
+            return matchesPrice && matchesSearch
+        })
+    }, [productData, priceRange, searchQuery])
 
+    const activeFilterCount = [
+        searchQuery,
+        selectedCategory,
+        subCategory,
+        wholeSale,
+        priceRange[0] > 0 || priceRange[1] < 10000
+    ].filter(Boolean).length
 
     return (
-        <Spin spinning={productLoading || categoryLoading || isFetching}>
-            <div className='max-w-screen-2xl border-x-[0.2px] mx-auto p-2'>
-                <SectionHeader title='All Products' className='my-0 p-2' />
-                <div className='grid grid-cols-2 lg:grid-cols-3'>
-                    <div className='flex items-center col-span-2 md:col-span-1 border justify-center'>
-                        <Radio.Group onChange={(e) => {
-                            setSubCategory('')
-                            setWholeSale(e.target.value)
-                        }} value={wholeSale}>
-                            <Radio value={false}>All</Radio>
-                            <Radio disabled={profileData?.data?.tax_id === null || profileData?.data?.tax_id === ''} value={true}>Whole Sale</Radio>
-                        </Radio.Group>
-                    </div>
-                    <div className='relative w-full lg:order-2 order-3 lg:col-span-3 col-span-2 flex-1'>
-                        <Input
-                            prefix={isFetching ? <Spin size='small' /> : <SearchOutlined />}
-                            allowClear
-                            placeholder='Search products'
-                            onChange={handleSearchChange}
-                            defaultValue={searchQuery}
-                            className='border-[0.2px] border-[var(--border-color)] p-4 py-6 font-bold text-[28px] rounded-none'
-                            style={{ height: '64px' }}
-                        />
-                    </div>
-                    <div className='lg:order-1 w-full flex md:flex-row flex-col items-center justify-center order-2 col-span-2  flex-1'>
-                        <Select
-                            loading={categoryLoading || isFetching}
-                            options={categories}
-                            onChange={(value) => {
-                                setSubCategory('')
-                                setSelectedCategory(value)
-                            }}
-                            placeholder='Select category'
-                            style={{
-                                height: '64px',
-                                fontSize: '20px',
-                                width: '100%',
-                                fontWeight: 'bold',
-                            }}
-                            className=''
-                            allowClear
-                        />
-                        <Select
-                            loading={subCategoryLoading}
-                            disabled={selectedCategory === ''}
-                            options={subCategories}
-                            onChange={(value) => setSubCategory(value)}
-                            placeholder='Select sub category'
-                            style={{
-                                height: '64px',
-                                fontSize: '20px',
-                                width: '100%',
-                                fontWeight: 'bold',
-                            }}
-                            className=''
-                            allowClear
-                        />
-                    </div>
+        <Spin spinning={productLoading}>
+            <div className="max-w-screen-2xl border border-[var(--border-color)] mx-auto">
+                <SectionHeader title="All Products" className="my-0 p-2" />
+
+                <div className="lg:hidden p-2">
+                    <Button
+                        type="default"
+                        icon={<FilterOutlined />}
+                        onClick={() => setMobileFilterVisible(true)}
+                        className="w-full flex items-center justify-center"
+                    >
+                        Filters
+                        {activeFilterCount > 0 && (
+                            <Badge count={activeFilterCount} className="ml-2" />
+                        )}
+                    </Button>
                 </div>
 
-                <div >
-                    {productLoading || isFetching ? (
-                        <div className='w-full mx-auto grid grid-cols-2 border border-[var(--border-color)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 divide-x divide-y divide-gray-300'>
-                            {Array.from({ length: 8 }).map((_, index) => (
-                                <div className='w-full p-2 border-[0.2px] border-[var(--border-color)] min-h-64 bg-white' key={index} >
-                                    <Image
-                                        src={IMAGE.placeholderImg}
-                                        alt='placeholder'
-                                        placeholder='blur'
-                                        blurDataURL={IMAGE.placeholderImg.blurDataURL}
-                                        width={IMAGE.placeholderImg.width}
-                                        height={IMAGE.placeholderImg.height}
-                                        className='w-auto h-28 border-[0.2px] border-[var(--border-color)]'
-                                    />
-                                    <div className='flex flex-col items-start justify-center h-28'>
-                                        <div className='w-[90%] animate-pulse border-[0.2px] border-[var(--border-color)] h-4 bg-gray-200 mb-2' />
-                                        <div className='w-[80%] animate-pulse border-[0.2px] border-[var(--border-color)] h-4 bg-gray-200 mb-2' />
-                                        <div className='w-[20%] animate-pulse border-[0.2px] border-[var(--border-color)] h-6 mt-2 bg-gray-200 mb-2' />
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : products.length > 0 ? (
-                        <div className='w-full mx-auto grid grid-cols-2 border border-[var(--border-color)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 divide-x divide-y divide-gray-300'>
-                            {products.map((item: Iproduct) => <ProductCard key={item?._id} item={item} />)}
-                        </div>
-                    ) : (
-                        <div className='flex p-12 items-center justify-center'>
-                            <Image
-                                src={IMAGE.nodata}
-                                alt='nodata'
-                                placeholder='blur'
-                                blurDataURL={IMAGE.nodata.blurDataURL}
-                                width={IMAGE.nodata.width}
-                                height={IMAGE.nodata.height}
-                                className='w-xl'
+                <Layout className="bg-white">
+                    <Sider
+                        width={300}
+                        className="hidden lg:block h-full bg-white border-r"
+                        theme="light"
+                    >
+                        <div className="p-4 border-b">
+                            <Input
+                                prefix={<SearchOutlined />}
+                                placeholder="Search products..."
+                                value={searchQuery}
+                                onChange={handleSearchChange}
+                                allowClear
+                                size="large"
                             />
                         </div>
-                    )}
-                </div>
+                        <FiltersSidebar
+                            selectedCategory={selectedCategory}
+                            setSelectedCategory={handleCategoryChange}
+                            subCategory={subCategory}
+                            setSubCategory={handleSubCategoryChange}
+                            wholeSale={wholeSale}
+                            setWholeSale={handleWholeSaleChange}
+                            priceRange={priceRange}
+                            setPriceRange={handlePriceRangeChange}
+                        />
+                    </Sider>
+
+                    <Layout className="bg-white">
+                        <Content className="p-4">
+                            <div className="mb-4 lg:hidden">
+                                <Input
+                                    prefix={<SearchOutlined />}
+                                    placeholder="Search products..."
+                                    value={searchQuery}
+                                    onChange={handleSearchChange}
+                                    allowClear
+                                    size="large"
+                                />
+                            </div>
+
+                            {productLoading ? (
+                                <div className="w-full mx-auto grid grid-cols-2 border border-[var(--border-color)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 divide-x divide-y divide-gray-300">
+                                    {Array.from({ length: 8 }).map((_, index) => (
+                                        <div key={index} className="bg-gray-100 rounded-lg p-4 animate-pulse h-64" />
+                                    ))}
+                                </div>
+                            ) : filteredProducts.length > 0 ? (
+                                <div className="w-full mx-auto grid grid-cols-2 border border-[var(--border-color)] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 divide-x divide-y divide-gray-300">
+                                    {filteredProducts.map((item: Iproduct) => (
+                                        <ProductCard key={item?._id} item={item} />
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="flex flex-col items-center justify-center p-12 text-center">
+                                    <Result
+                                        status="404"
+                                        title="No products found"
+                                        subTitle="Try adjusting your search or filter criteria"
+                                    />
+                                </div>
+                            )}
+                        </Content>
+                    </Layout>
+                </Layout>
+
+                <Drawer
+                    title={
+                        <div className="flex items-center">
+                            <span>Filters</span>
+                            {activeFilterCount > 0 && (
+                                <Badge count={activeFilterCount} className="ml-2" />
+                            )}
+                        </div>
+                    }
+                    placement="left"
+                    onClose={() => setMobileFilterVisible(false)}
+                    open={mobileFilterVisible}
+                    width={300}
+                >
+                    <div className="mb-4">
+                        <Input
+                            prefix={<SearchOutlined />}
+                            placeholder="Search products..."
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                            allowClear
+                            size="large"
+                        />
+                    </div>
+                    <FiltersSidebar
+                        selectedCategory={selectedCategory}
+                        setSelectedCategory={handleCategoryChange}
+                        subCategory={subCategory}
+                        setSubCategory={handleSubCategoryChange}
+                        wholeSale={wholeSale}
+                        setWholeSale={handleWholeSaleChange}
+                        priceRange={priceRange}
+                        setPriceRange={handlePriceRangeChange}
+                    />
+                </Drawer>
             </div>
         </Spin>
     )
